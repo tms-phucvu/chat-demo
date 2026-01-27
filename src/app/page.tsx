@@ -1,12 +1,5 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div>
-      <Link href={"/login"}>
-        <Button>Hello world</Button>
-      </Link>
-    </div>
-  );
+  redirect("/dashboard");
 }
