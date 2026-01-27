@@ -22,7 +22,7 @@ export function ChatLayout() {
   const { isTyping } = useTypingIndicator(activeRoomId);
 
   return (
-    <div className="bg-muted/30 border-border grid h-full gap-4 rounded-xl border p-3 md:grid-cols-[280px_minmax(0,1fr)]">
+    <div className="bg-muted/30 border-border grid h-full gap-4 rounded-xl border p-3 md:grid-cols-[360px_minmax(0,1fr)]">
       <aside className="bg-background/80 flex flex-col rounded-lg border p-3">
         <div className="mb-3 flex items-center justify-between">
           <div>
