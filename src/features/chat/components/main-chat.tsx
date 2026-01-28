@@ -5,11 +5,11 @@ import { useChatRoom } from "../hooks/useChatRoom";
 import { useChatRooms } from "../hooks/useChatRooms";
 import { useSendMessage } from "../hooks/useSendMessage";
 import { useTypingIndicator } from "../hooks/useTypingIndicator";
-import { ChatRoomList } from "./sidebar/ChatRoomList";
-import { ChatMessageList } from "./room/ChatMessageList";
-import { ChatInput } from "./input/ChatInput";
+import { ChatRoomList } from "./sidebar/chat-room-list";
+import { ChatMessageList } from "./room/chat-message-list";
+import { ChatInput } from "./input/chat-input";
 
-export function ChatLayout() {
+export function MainChat() {
   const { rooms, loading: roomsLoading, activeRoomId, setActiveRoomId } =
     useChatRooms();
   const { room } = useChatRoom(rooms, activeRoomId);

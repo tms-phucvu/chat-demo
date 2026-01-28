@@ -1,3 +1,3 @@
-export * from "./components/ChatLayout";
+export * from "./components/main-chat";
 
 
