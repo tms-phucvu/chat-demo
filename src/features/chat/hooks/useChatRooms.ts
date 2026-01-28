@@ -9,14 +9,19 @@ type UseChatRoomsResult = {
   rooms: ChatRoom[];
   loading: boolean;
   activeRoomId: string | null;
-  setActiveRoomId: (roomId: string) => void;
+  setActiveRoomId: (roomId: string | null) => void;
 };
 
-export function useChatRooms(initialRoomId?: string): UseChatRoomsResult {
+export function useChatRooms(options?: {
+  initialRoomId?: string;
+  autoSelectFirst?: boolean;
+}): UseChatRoomsResult {
+  const initialRoomId = options?.initialRoomId;
+  const autoSelectFirst = options?.autoSelectFirst ?? true;
   const [rooms, setRooms] = useState<ChatRoom[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeRoomId, setActiveRoomId] = useState<string | null>(
-    initialRoomId ?? null
+    initialRoomId ?? null,
   );
 
   useEffect(() => {
@@ -24,13 +29,13 @@ export function useChatRooms(initialRoomId?: string): UseChatRoomsResult {
       const data = chatMock.getRooms();
       setRooms(data);
       setLoading(false);
-      if (!activeRoomId && data.length > 0) {
+      if (autoSelectFirst && !activeRoomId && data.length > 0) {
         setActiveRoomId(data[0].id);
       }
     }, CHAT_LOADING_MS);
 
     return () => clearTimeout(timeout);
-  }, [activeRoomId]);
+  }, [activeRoomId, autoSelectFirst]);
 
   return {
     rooms,
@@ -39,5 +44,3 @@ export function useChatRooms(initialRoomId?: string): UseChatRoomsResult {
     setActiveRoomId,
   };
 }
-
-

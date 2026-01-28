@@ -61,7 +61,7 @@ export function ChatRoomList({
             className={cn(
               "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors",
               "hover:bg-accent hover:text-accent-foreground",
-              isActive && "bg-accent text-accent-foreground"
+              isActive && "bg-accent text-accent-foreground",
             )}
           >
             <Avatar size="lg">
@@ -72,7 +72,7 @@ export function ChatRoomList({
                 <p className="truncate text-sm font-medium">{room.title}</p>
                 <div className="flex items-center gap-2">
                   {room.lastMessageAt && (
-                    <span className="text-[10px] text-muted-foreground">
+                    <span className="text-[10px] text-muted-foreground whitespace-nowrap">
                       {formatTime(room.lastMessageAt)}
                     </span>
                   )}
@@ -83,12 +83,12 @@ export function ChatRoomList({
                   <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
                     {room.lastMessagePreview}
                   </p>
-                )}     
+                )}
                 {room.unreadCount > 0 && (
                   <span className="bg-primary/90 text-primary-foreground inline-flex min-w-6 items-center justify-center rounded-full px-1 text-[10px] font-semibold">
                     {room.unreadCount}
                   </span>
-                )}      
+                )}
               </div>
             </div>
           </button>
@@ -97,5 +97,3 @@ export function ChatRoomList({
     </div>
   );
 }
-
-

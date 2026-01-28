@@ -3,16 +3,14 @@
 import { useEffect, useRef } from "react";
 
 export function useChatScroll(deps: unknown[] = []) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const endRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const el = containerRef.current;
+    const el = endRef.current;
     if (!el) return;
-    el.scrollTop = el.scrollHeight;
+    el.scrollIntoView({ block: "end" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
-  return { containerRef };
+  return { endRef };
 }
-
-
