@@ -3,6 +3,7 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import type { ChatRoom } from "../../types/chat.types";
+import { ChatUserAvatar } from "../avatar/chat-user-avatar";
 
 type ChatRoomListProps = {
   rooms: ChatRoom[];
@@ -46,12 +47,6 @@ export function ChatRoomList({
     <div className="space-y-1">
       {rooms.map((room) => {
         const isActive = room.id === activeRoomId;
-        const initials = room.title
-          .split(" ")
-          .map((part) => part[0])
-          .join("")
-          .slice(0, 2)
-          .toUpperCase();
 
         return (
           <button
@@ -64,9 +59,7 @@ export function ChatRoomList({
               isActive && "bg-accent text-accent-foreground",
             )}
           >
-            <Avatar size="lg">
-              <AvatarFallback>{initials}</AvatarFallback>
-            </Avatar>
+            <ChatUserAvatar name={room.title} status={"offline"}/>
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-2">
                 <p className="truncate text-sm font-medium">{room.title}</p>
