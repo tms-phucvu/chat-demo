@@ -1,9 +1,9 @@
-import Chat from "@/features/chat/components/chat";
+import { MainChat } from "@/features/chat";
 
 export default function ChatPage() {
   return (
-    <div className="flex gap-4 p-4 pt-0 h-full">
-      <Chat />
+    <div className="h-[calc(100svh-4rem)] px-4 pb-4">
+      <MainChat />
     </div>
   );
 }
