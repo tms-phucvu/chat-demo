@@ -59,7 +59,7 @@ export function ChatRoomList({
               isActive && "bg-accent text-accent-foreground",
             )}
           >
-            <ChatUserAvatar name={room.title} status={"offline"}/>
+            <ChatUserAvatar name={room.title} status={"online"} />
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-2">
                 <p className="truncate text-sm font-medium">{room.title}</p>
