@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
-import { auth, googleProvider } from "@/lib/firebase/config";
+import { auth, googleProvider } from "@/lib/firebase";
 import { FirebaseError } from "firebase/app";
+import { offlinePresence } from "@/services/presence.service";
 
 interface UseGoogleAuthReturn {
   signInWithGoogle: () => Promise<void>;
@@ -47,6 +48,7 @@ export function useGoogleAuth(): UseGoogleAuthReturn {
   const logout = async () => {
     setIsLoading(true);
     setError(null);
+    await offlinePresence();
     try {
       await signOut(auth);
       // Navigation will be handled by auth-provider listening to auth state

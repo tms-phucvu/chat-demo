@@ -10,7 +10,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import GoogleSignInButton from "@/features/login/components/google-sign-in-button";
+import GoogleSignInButton from "@/features/auth/components/login/google-sign-in-button";
 
 export function LoginForm({
   className,
