@@ -1,5 +1,6 @@
 "use client";
-import { useAuth } from "@/providers/auth-provider";
+
+import { useAuth } from "@/hooks/use-auth";
 
 export default function Dashboard() {
   const { user, loading } = useAuth();

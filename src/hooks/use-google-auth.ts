@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
-import { auth, googleProvider } from "@/lib/firebase/config";
+import { auth, googleProvider } from "@/lib/firebase";
 import { FirebaseError } from "firebase/app";
 
 interface UseGoogleAuthReturn {
