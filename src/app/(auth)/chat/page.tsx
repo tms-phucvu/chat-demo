@@ -1,4 +1,4 @@
-import { MainChat } from "@/features/chat";
+import MainChat from "@/features/chat/components/main-chat";
 
 export default function ChatPage() {
   return (
