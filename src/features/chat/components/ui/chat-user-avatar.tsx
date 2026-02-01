@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { AvatarStatus } from '@/features/chat/components/avatar/avatar-status'
+import { AvatarStatus } from '@/features/chat/components/ui/avatar-status'
 import { AvatarStatusType } from '@/features/chat/types/avatar-status.types'
 import { getInitials } from '@/features/chat/utils/get-initials'
 

@@ -7,23 +7,51 @@ import {
   serverTimestamp,
   FirestoreDataConverter,
   QueryDocumentSnapshot,
+  collection,
+  query,
+  where,
+  getDocs,
+  limit,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { UserProfile } from "@/types/user.type";
 
+/**
+ * =========================
+ * Firestore Converter
+ * =========================
+ */
 const userConverter: FirestoreDataConverter<UserProfile> = {
-  toFirestore: (user) => user,
-  fromFirestore: (snap: QueryDocumentSnapshot) => snap.data() as UserProfile,
+  toFirestore: (user) => {
+    const { uid, ...data } = user;
+    return data;
+  },
+  fromFirestore: (snap: QueryDocumentSnapshot) => ({
+    uid: snap.id,
+    ...(snap.data() as Omit<UserProfile, "uid">),
+  }),
 };
+
+/**
+ * =========================
+ * References
+ * =========================
+ */
+const usersCol = collection(db, "users").withConverter(userConverter);
 
 const userRef = (uid: string) =>
   doc(db, "users", uid).withConverter(userConverter);
 
+/**
+ * =========================
+ * Basic CRUD
+ * =========================
+ */
 export const getUserProfile = async (
   uid: string,
 ): Promise<UserProfile | null> => {
-  const userSnap = await getDoc(userRef(uid));
-  return userSnap.exists() ? userSnap.data() : null;
+  const snap = await getDoc(userRef(uid));
+  return snap.exists() ? snap.data() : null;
 };
 
 export const createUserProfile = async (user: User): Promise<UserProfile> => {
@@ -31,9 +59,11 @@ export const createUserProfile = async (user: User): Promise<UserProfile> => {
     uid: user.uid,
     displayName: user.displayName,
     email: user.email,
+    emailLowercase: user.email?.toLowerCase() ?? null,
     avatarURL: user.photoURL,
     createdAt: serverTimestamp(),
   };
+
   await setDoc(userRef(user.uid), profile);
   return profile;
 };
@@ -50,3 +80,51 @@ export const syncUserProfile = async (user: User): Promise<UserProfile> => {
   if (existing) return existing;
   return await createUserProfile(user);
 };
+
+/**
+ * =========================
+ * Search helpers
+ * =========================
+ */
+async function searchExactEmail(email: string): Promise<UserProfile[]> {
+  const q = query(usersCol, where("emailLowercase", "==", email), limit(1));
+
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => d.data());
+}
+
+async function searchEmailPrefix(prefix: string): Promise<UserProfile[]> {
+  const q = query(
+    usersCol,
+    where("emailLowercase", ">=", prefix),
+    where("emailLowercase", "<=", prefix + "\uf8ff"),
+    limit(5),
+  );
+
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => d.data());
+}
+
+/**
+ * =========================
+ * Public search API
+ * =========================
+ */
+export async function searchUserByEmailSmart(
+  input: string,
+): Promise<UserProfile[]> {
+  const value = input.trim().toLowerCase();
+  if (!value) return [];
+
+  // exact email
+  if (value.includes("@") && value.includes(".")) {
+    return searchExactEmail(value);
+  }
+
+  // prefix search
+  if (value.length >= 3) {
+    return searchEmailPrefix(value);
+  }
+
+  return [];
+}

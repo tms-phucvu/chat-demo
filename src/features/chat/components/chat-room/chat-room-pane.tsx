@@ -1,8 +1,8 @@
 import { ChatMessage, ChatRoom } from "@/features/chat/types/chat.types";
-import { ChatInput } from "@/features/chat/components/input/chat-input";
-import { ChatMessageList } from "@/features/chat/components/room/chat-message-list";
-import { ChatRoomEmpty } from "@/features/chat/components/room/chat-room-empty";
-import { ChatRoomHeader } from "@/features/chat/components/room/chat-room-header";
+import { ChatInput } from "@/features/chat/components/ui/chat-input";
+import { ChatMessageList } from "@/features/chat/components/chat-room/chat-message-list";
+import { ChatRoomEmpty } from "@/features/chat/components/chat-room/chat-room-empty";
+import { ChatRoomHeader } from "@/features/chat/components/chat-room/chat-room-header";
 
 interface ChatRoomPaneProps {
   room: ChatRoom | null;

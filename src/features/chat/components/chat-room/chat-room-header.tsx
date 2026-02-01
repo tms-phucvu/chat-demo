@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon } from "lucide-react";
 import { ChatRoom } from "@/features/chat/types/chat.types";
-import { ChatUserAvatar } from "../avatar/chat-user-avatar";
+import { ChatUserAvatar } from "../ui/chat-user-avatar";
 
 interface ChatRoomHeaderProps {
   room: ChatRoom;

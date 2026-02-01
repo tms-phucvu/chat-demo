@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import type { ChatRoom } from "../../types/chat.types";
-import { ChatUserAvatar } from "../avatar/chat-user-avatar";
+import { ChatUserAvatar } from "../ui/chat-user-avatar";
 
 type ChatRoomListProps = {
   rooms: ChatRoom[];
