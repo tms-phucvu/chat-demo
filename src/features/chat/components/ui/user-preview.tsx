@@ -1,11 +1,10 @@
-
 import { UserProfile } from "@/types/user.type";
-import { ChatUserAvatar } from "./chat-user-avatar";
+import { AvatarUser } from "@/features/chat/components/ui/avatar-user";
 
-export default function UserPreview({user}: {user: UserProfile}) {
+export default function UserPreview({ user }: { user: UserProfile }) {
   return (
     <div className="flex justify-center items-center gap-2">
-      <ChatUserAvatar
+      <AvatarUser
         name={user.displayName ?? "Unnamed"}
         avatarUrl={user.avatarURL ?? undefined}
       />

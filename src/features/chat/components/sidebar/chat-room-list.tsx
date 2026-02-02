@@ -2,13 +2,13 @@
 
 import { cn } from "@/lib/utils";
 import type { ChatRoomListItem } from "@/features/chat/types/room.types";
-import { ChatUserAvatar } from "../ui/chat-user-avatar";
 import { useAuth } from "@/hooks/use-auth";
 import {
   getOtherParticipants,
   getUnreadCount,
 } from "@/features/chat/utils/room.utils";
 import { formatTime } from "@/features/chat/utils/date.utils";
+import { AvatarUser } from "@/features/chat/components/ui/avatar-user";
 
 type ChatRoomListProps = {
   rooms: ChatRoomListItem[];
@@ -61,7 +61,7 @@ export function ChatRoomList({
               isActive && "bg-accent text-accent-foreground",
             )}
           >
-            <ChatUserAvatar
+            <AvatarUser
               name={
                 getOtherParticipants(room.participantsInfo, uid)[0].name ??
                 "Unknown"

@@ -5,8 +5,8 @@ import {
   ParticipantPreview,
   ParticipantsInfo,
 } from "@/features/chat/types/room.types";
-import { ChatUserAvatar } from "../ui/chat-user-avatar";
 import { useAuth } from "@/hooks/use-auth";
+import { AvatarUser } from "@/features/chat/components/ui/avatar-user";
 
 interface ChatRoomHeaderProps {
   room: ChatRoom;
@@ -42,7 +42,7 @@ export const ChatRoomHeader = ({
         </Button>
       )}
       <div className="flex gap-4">
-        <ChatUserAvatar
+        <AvatarUser
           name={
             getOtherParticipants(room.participantsInfo, uid)[0].name ??
             "Unknown"
