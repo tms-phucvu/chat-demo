@@ -3,8 +3,8 @@
 import { useChatScroll } from "@/features/chat/hooks/useChatScroll";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAuth } from "@/hooks/use-auth";
-import { FieldValue, Timestamp } from "firebase/firestore";
 import { useMessages } from "@/features/chat/hooks/useMessages";
+import { formatTime } from "@/features/chat/utils/date.utils";
 
 type ChatMessageListProps = {
   activeRoomId: string | null;
@@ -19,16 +19,6 @@ export function ChatMessageList({
   const { endRef } = useChatScroll([messages.length, isTyping]);
   const { user } = useAuth();
   const uid = user?.uid ?? null;
-
-  const formatTime = (value?: Timestamp | FieldValue) => {
-    if (!value) return "";
-    if (!(value instanceof Timestamp)) return "";
-    const date = value.toDate();
-    return date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
 
   return (
     <ScrollArea className="min-h-0 flex-1">

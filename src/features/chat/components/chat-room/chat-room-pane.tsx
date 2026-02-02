@@ -1,4 +1,4 @@
-import { ChatInput } from "@/features/chat/components/ui/chat-input";
+import { ChatInput } from "@/features/chat/components/chat-room/chat-input";
 import { ChatMessageList } from "@/features/chat/components/chat-room/chat-message-list";
 import { NoRoomSelected } from "@/features/chat/components/chat-room/no-room-selected";
 import { ChatRoomHeader } from "@/features/chat/components/chat-room/chat-room-header";

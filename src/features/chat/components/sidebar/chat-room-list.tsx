@@ -1,14 +1,14 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import type {
-  ChatRoomListItem,
-  ParticipantPreview,
-  ParticipantsInfo,
-} from "@/features/chat/types/room.types";
+import type { ChatRoomListItem } from "@/features/chat/types/room.types";
 import { ChatUserAvatar } from "../ui/chat-user-avatar";
-import { FieldValue, Timestamp } from "firebase/firestore";
 import { useAuth } from "@/hooks/use-auth";
+import {
+  getOtherParticipants,
+  getUnreadCount,
+} from "@/features/chat/utils/room.utils";
+import { formatTime } from "@/features/chat/utils/date.utils";
 
 type ChatRoomListProps = {
   rooms: ChatRoomListItem[];
@@ -25,35 +25,6 @@ export function ChatRoomList({
 }: ChatRoomListProps) {
   const { user } = useAuth();
   const uid = user?.uid ?? null;
-  const formatTime = (value?: Timestamp | FieldValue) => {
-    if (!value) return "";
-    if (!(value instanceof Timestamp)) return "";
-    const date = value.toDate();
-    return date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  const getOtherParticipants = (
-    participantsInfo: ParticipantsInfo,
-    myUid: string | null,
-  ): ParticipantPreview[] => {
-    if (!myUid) {
-      return Object.values(participantsInfo);
-    }
-    return Object.entries(participantsInfo)
-      .filter(([uid]) => uid !== myUid)
-      .map(([, info]) => info);
-  };
-
-  const getUnreadCount = (room: ChatRoomListItem, uid: string | null) => {
-    if (!uid) {
-      return 0;
-    }
-    const count = room.unreadCounts?.[uid];
-    return count ?? 0;
-  };
 
   if (loading) {
     return (
