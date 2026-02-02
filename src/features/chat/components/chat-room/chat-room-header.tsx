@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon } from "lucide-react";
-import { ChatRoom } from "@/features/chat/types/chat.types";
+import { ChatRoom, ChatRoomListItem } from "@/features/chat/types/room.types";
 import { ChatUserAvatar } from "../ui/chat-user-avatar";
 
 interface ChatRoomHeaderProps {
-  room: ChatRoom;
+  room: ChatRoomListItem;
   isTyping: boolean;
   onBack?: () => void;
 }

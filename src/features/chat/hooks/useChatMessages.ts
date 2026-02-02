@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { CHAT_LOADING_MS } from "../constants/chat.constants";
 import { chatMock } from "../services/chat.mock";
-import type { ChatMessage } from "../types/chat.types";
+import type { ChatMessage } from "../types/room.types";
 
 type UseChatMessagesResult = {
   messages: ChatMessage[];

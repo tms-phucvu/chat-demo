@@ -1,10 +1,11 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatRoomList } from "@/features/chat/components/sidebar/chat-room-list";
-import { ChatRoom } from "@/features/chat/types/chat.types";
+import { ChatRoom, ChatRoomListItem } from "@/features/chat/types/room.types";
 import RoomCreateButton from "./room-create-button";
+import EmptyRoomList from "./empty-room-list";
 
 interface ChatSidebarProps {
-  rooms: ChatRoom[];
+  rooms: ChatRoomListItem[];
   activeRoomId: string | null;
   loading: boolean;
   onSelectRoom: (roomId: string) => void;
@@ -26,20 +27,24 @@ export const ChatSidebar = ({
           <p className="text-sm text-muted-foreground">
             {rooms.length} conversations
           </p>
-        </div>    
-        <RoomCreateButton />    
+        </div>
+        <RoomCreateButton />
       </div>
 
-      <ScrollArea className="min-h-0 flex-1 pr-1">
-        <div className="pb-2">
-          <ChatRoomList
-            rooms={rooms}
-            activeRoomId={activeRoomId}
-            loading={loading}
-            onSelectRoom={onSelectRoom}
-          />
-        </div>
-      </ScrollArea>
+      {rooms.length > 0 ? (
+        <ScrollArea className="min-h-0 flex-1 pr-1">
+          <div className="pb-2">
+            <ChatRoomList
+              rooms={rooms}
+              activeRoomId={activeRoomId}
+              loading={loading}
+              onSelectRoom={onSelectRoom}
+            />
+          </div>
+        </ScrollArea>
+      ) : (
+        <EmptyRoomList />
+      )}
     </aside>
   );
 };

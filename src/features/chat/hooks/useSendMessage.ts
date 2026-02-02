@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import { CHAT_CURRENT_USER_ID } from "../constants/chat.constants";
-import type { ChatMessage } from "../types/chat.types";
+import type { ChatMessage } from "../types/room.types";
 
 type UseSendMessageArgs = {
   roomId: string | null;

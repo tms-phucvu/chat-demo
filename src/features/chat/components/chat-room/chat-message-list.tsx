@@ -1,7 +1,7 @@
 "use client";
 
 import { CHAT_CURRENT_USER_ID } from "../../constants/chat.constants";
-import type { ChatMessage } from "../../types/chat.types";
+import type { ChatMessage } from "../../types/room.types";
 import { useChatScroll } from "../../hooks/useChatScroll";
 import { ScrollArea } from "@/components/ui/scroll-area";
 

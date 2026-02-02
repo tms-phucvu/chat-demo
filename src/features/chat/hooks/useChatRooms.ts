@@ -1,46 +1,48 @@
-"use client";
-
 import { useEffect, useState } from "react";
-import { CHAT_LOADING_MS } from "../constants/chat.constants";
-import { chatMock } from "../services/chat.mock";
-import type { ChatRoom } from "../types/chat.types";
+import { ChatRoomListItem } from "@/features/chat/types/room.types";
+import { subscribeRoomsByUser } from "@/features/chat/services/rooms.service";
+import { useAuth } from "@/hooks/use-auth";
 
 type UseChatRoomsResult = {
-  rooms: ChatRoom[];
-  loading: boolean;
-  activeRoomId: string | null;
-  setActiveRoomId: (roomId: string | null) => void;
+  rooms: ChatRoomListItem[];
+  isLoading: boolean;
+  error: Error | null;
 };
 
-export function useChatRooms(options?: {
-  initialRoomId?: string;
-  autoSelectFirst?: boolean;
-}): UseChatRoomsResult {
-  const initialRoomId = options?.initialRoomId;
-  const autoSelectFirst = options?.autoSelectFirst ?? true;
-  const [rooms, setRooms] = useState<ChatRoom[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [activeRoomId, setActiveRoomId] = useState<string | null>(
-    initialRoomId ?? null,
-  );
+export const useChatRooms = (): UseChatRoomsResult => {
+  const { user } = useAuth();
+  const uid = user?.uid;
+
+  const [rooms, setRooms] = useState<ChatRoomListItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      const data = chatMock.getRooms();
-      setRooms(data);
-      setLoading(false);
-      if (autoSelectFirst && !activeRoomId && data.length > 0) {
-        setActiveRoomId(data[0].id);
-      }
-    }, CHAT_LOADING_MS);
+    if (!uid) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setRooms([]);
+      setIsLoading(false);
+      return;
+    }
 
-    return () => clearTimeout(timeout);
-  }, [activeRoomId, autoSelectFirst]);
+    setIsLoading(true);
+    let unsubscribe: (() => void) | undefined;
 
-  return {
-    rooms,
-    loading,
-    activeRoomId,
-    setActiveRoomId,
-  };
-}
+    try {
+      unsubscribe = subscribeRoomsByUser(uid, (updatedRooms) => {
+        setRooms(updatedRooms);
+        setIsLoading(false);
+        setError(null);
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("Failed to subscribe"));
+      setIsLoading(false);
+    }
+
+    return () => {
+      unsubscribe?.();
+    };
+  }, [uid]);
+
+  return { rooms, isLoading, error };
+};

@@ -9,16 +9,17 @@ import { useTypingIndicator } from "@/features/chat/hooks/useTypingIndicator";
 import { ChatRoomPane } from "@/features/chat/components/chat-room/chat-room-pane";
 import { ChatSidebar } from "@/features/chat/components/sidebar/chat-sidebar";
 import { SearchUserDialog } from "@/features/chat/components/dialog/search-user-dialog";
+import { useState } from "react";
 
 export default function MainChat() {
   const isTablet = useIsTablet();
+  const [activeRoomId, setActiveRoomId] = useState<string | null>(null);
 
   const {
     rooms,
-    loading: roomsLoading,
-    activeRoomId,
-    setActiveRoomId,
-  } = useChatRooms({ autoSelectFirst: !isTablet });
+    isLoading: roomsLoading,
+    error: roomsError,
+  } = useChatRooms();
 
   const { room } = useChatRoom(rooms, activeRoomId);
 
@@ -40,14 +41,15 @@ export default function MainChat() {
       <div className="bg-muted/30 border-border grid h-full min-h-0 gap-4 rounded-xl border p-3 lg:grid-cols-[360px_minmax(0,1fr)] grid-cols-1">
         {isTablet ? (
           room ? (
-            <ChatRoomPane
-              room={room}
-              messages={messages}
-              loading={messagesLoading}
-              isTyping={isTyping}
-              onSend={sendMessage}
-              onBack={() => setActiveRoomId(null)}
-            />
+            // <ChatRoomPane
+            //   room={room}
+            //   messages={messages}
+            //   loading={messagesLoading}
+            //   isTyping={isTyping}
+            //   onSend={sendMessage}
+            //   onBack={() => setActiveRoomId(null)}
+            // />
+            <section className="bg-background/80 flex min-h-0 flex-col rounded-lg border"></section>
           ) : (
             <ChatSidebar
               rooms={rooms}
@@ -65,13 +67,14 @@ export default function MainChat() {
               onSelectRoom={setActiveRoomId}
             />
 
-            <ChatRoomPane
+            {/* <ChatRoomPane
               room={room ?? null}
               messages={messages}
               loading={messagesLoading}
               isTyping={isTyping}
               onSend={sendMessage}
-            />
+            /> */}
+            <section className="bg-background/80 flex min-h-0 flex-col rounded-lg border"></section>
           </>
         )}
       </div>

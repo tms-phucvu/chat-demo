@@ -1,11 +1,11 @@
-import { ChatMessage, ChatRoom } from "@/features/chat/types/chat.types";
+import { ChatMessage, ChatRoom, ChatRoomListItem } from "@/features/chat/types/room.types";
 import { ChatInput } from "@/features/chat/components/ui/chat-input";
 import { ChatMessageList } from "@/features/chat/components/chat-room/chat-message-list";
-import { ChatRoomEmpty } from "@/features/chat/components/chat-room/chat-room-empty";
+import { NoRoomSelected } from "@/features/chat/components/chat-room/no-room-selected";
 import { ChatRoomHeader } from "@/features/chat/components/chat-room/chat-room-header";
 
 interface ChatRoomPaneProps {
-  room: ChatRoom | null;
+  room: ChatRoomListItem | null;
   messages: ChatMessage[];
   loading: boolean;
   isTyping: boolean;
@@ -21,7 +21,7 @@ export const ChatRoomPane = ({
   onSend,
   onBack,
 }: ChatRoomPaneProps) => {
-  if (!room) return <ChatRoomEmpty />;
+  if (!room) return <NoRoomSelected />;
 
   return (
     <section className="bg-background/80 flex min-h-0 flex-col rounded-lg border">
