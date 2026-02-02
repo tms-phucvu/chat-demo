@@ -1,39 +1,30 @@
-import { ChatMessage, ChatRoom } from "@/features/chat/types/chat.types";
 import { ChatInput } from "@/features/chat/components/ui/chat-input";
 import { ChatMessageList } from "@/features/chat/components/chat-room/chat-message-list";
-import { ChatRoomEmpty } from "@/features/chat/components/chat-room/chat-room-empty";
+import { NoRoomSelected } from "@/features/chat/components/chat-room/no-room-selected";
 import { ChatRoomHeader } from "@/features/chat/components/chat-room/chat-room-header";
+import { useRoom } from "@/features/chat/hooks/useRoom";
 
 interface ChatRoomPaneProps {
-  room: ChatRoom | null;
-  messages: ChatMessage[];
-  loading: boolean;
+  activeRoomId: string | null;
   isTyping: boolean;
-  onSend: (content: string) => void;
   onBack?: () => void;
 }
 
 export const ChatRoomPane = ({
-  room,
-  messages,
-  loading,
+  activeRoomId,
   isTyping,
-  onSend,
   onBack,
 }: ChatRoomPaneProps) => {
-  if (!room) return <ChatRoomEmpty />;
+  const { room, isLoading, error } = useRoom(activeRoomId);
+  if (!room) return <NoRoomSelected />;
 
   return (
     <section className="bg-background/80 flex min-h-0 flex-col rounded-lg border">
       <ChatRoomHeader room={room} isTyping={isTyping} onBack={onBack} />
 
-      <ChatMessageList
-        messages={messages}
-        loading={loading}
-        isTyping={isTyping}
-      />
+      <ChatMessageList activeRoomId={activeRoomId} isTyping={isTyping} />
 
-      <ChatInput disabled={!room} onSend={onSend} />
+      <ChatInput activeRoomId={activeRoomId} disabled={!room} />
     </section>
   );
 };

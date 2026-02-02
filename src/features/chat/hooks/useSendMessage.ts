@@ -1,43 +1,35 @@
-"use client";
-
-import { useCallback } from "react";
-import { CHAT_CURRENT_USER_ID } from "../constants/chat.constants";
-import type { ChatMessage } from "../types/chat.types";
-
-type UseSendMessageArgs = {
-  roomId: string | null;
-  setMessages: (updater: (prev: ChatMessage[]) => ChatMessage[]) => void;
-};
+import { useState, useCallback } from "react";
+import { sendMessage } from "@/features/chat/services/messages.service";
+import { MessageType, SendMessageInput } from "@/features/chat/types/message.types";
 
 type UseSendMessageResult = {
-  sendMessage: (text: string) => void;
+  send: (input: SendMessageInput) => Promise<void>;
+  isSending: boolean;
+  error: Error | null;
 };
 
-export function useSendMessage({
-  roomId,
-  setMessages,
-}: UseSendMessageArgs): UseSendMessageResult {
-  const sendMessage = useCallback(
-    (text: string) => {
-      const trimmed = text.trim();
-      if (!roomId || !trimmed) return;
+export const useSendMessage = (): UseSendMessageResult => {
+  const [isSending, setIsSending] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
-      const now = new Date().toISOString();
-      const newMessage: ChatMessage = {
-        id: `local-${now}`,
-        kind: "user",
-        roomId,
-        senderId: CHAT_CURRENT_USER_ID,
-        text: trimmed,
-        createdAt: now,
-      };
+  const send = useCallback(async (input: SendMessageInput) => {
+    const { roomId, ...payload } = input;
 
-      setMessages((prev) => [...prev, newMessage]);
-    },
-    [roomId, setMessages]
-  );
+    try {
+      setIsSending(true);
+      setError(null);
 
-  return { sendMessage };
-}
+      await sendMessage(roomId, payload);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("Send message failed"));
+    } finally {
+      setIsSending(false);
+    }
+  }, []);
 
-
+  return {
+    send,
+    isSending,
+    error,
+  };
+};

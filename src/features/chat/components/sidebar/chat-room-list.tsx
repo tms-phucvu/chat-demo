@@ -1,12 +1,17 @@
 "use client";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import type { ChatRoom } from "../../types/chat.types";
+import type {
+  ChatRoomListItem,
+  ParticipantPreview,
+  ParticipantsInfo,
+} from "@/features/chat/types/room.types";
 import { ChatUserAvatar } from "../ui/chat-user-avatar";
+import { FieldValue, Timestamp } from "firebase/firestore";
+import { useAuth } from "@/hooks/use-auth";
 
 type ChatRoomListProps = {
-  rooms: ChatRoom[];
+  rooms: ChatRoomListItem[];
   activeRoomId: string | null;
   loading: boolean;
   onSelectRoom: (roomId: string) => void;
@@ -18,10 +23,36 @@ export function ChatRoomList({
   loading,
   onSelectRoom,
 }: ChatRoomListProps) {
-  const formatTime = (value?: string) => {
+  const { user } = useAuth();
+  const uid = user?.uid ?? null;
+  const formatTime = (value?: Timestamp | FieldValue) => {
     if (!value) return "";
-    const date = new Date(value);
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    if (!(value instanceof Timestamp)) return "";
+    const date = value.toDate();
+    return date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  const getOtherParticipants = (
+    participantsInfo: ParticipantsInfo,
+    myUid: string | null,
+  ): ParticipantPreview[] => {
+    if (!myUid) {
+      return Object.values(participantsInfo);
+    }
+    return Object.entries(participantsInfo)
+      .filter(([uid]) => uid !== myUid)
+      .map(([, info]) => info);
+  };
+
+  const getUnreadCount = (room: ChatRoomListItem, uid: string | null) => {
+    if (!uid) {
+      return 0;
+    }
+    const count = room.unreadCounts?.[uid];
+    return count ?? 0;
   };
 
   if (loading) {
@@ -59,27 +90,41 @@ export function ChatRoomList({
               isActive && "bg-accent text-accent-foreground",
             )}
           >
-            <ChatUserAvatar name={room.title} status={"online"} />
+            <ChatUserAvatar
+              name={
+                getOtherParticipants(room.participantsInfo, uid)[0].name ??
+                "Unknown"
+              }
+              avatarUrl={
+                getOtherParticipants(room.participantsInfo, uid)[0].avatar ??
+                undefined
+              }
+              status={"online"}
+            />
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-2">
-                <p className="truncate text-sm font-medium">{room.title}</p>
+                <p className="truncate text-sm font-medium">
+                  {getOtherParticipants(room.participantsInfo, uid)[0].name ??
+                    "Unknown"}
+                </p>
                 <div className="flex items-center gap-2">
-                  {room.lastMessageAt && (
+                  {room.lastMessage.createdAt && (
                     <span className="text-[10px] text-muted-foreground whitespace-nowrap">
-                      {formatTime(room.lastMessageAt)}
+                      {formatTime(room.lastMessage.createdAt)}
                     </span>
                   )}
                 </div>
               </div>
               <div className="flex items-center justify-between gap-2">
-                {room.lastMessagePreview && (
+                {room.lastMessage.text && (
                   <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
-                    {room.lastMessagePreview}
+                    {room.lastMessage.senderId === uid && "You: "}
+                    {room.lastMessage.text}
                   </p>
                 )}
-                {room.unreadCount > 0 && (
+                {getUnreadCount(room, uid) > 0 && (
                   <span className="bg-primary/90 text-primary-foreground inline-flex min-w-6 items-center justify-center rounded-full px-1 text-[10px] font-semibold">
-                    {room.unreadCount}
+                    {getUnreadCount(room, uid)}
                   </span>
                 )}
               </div>

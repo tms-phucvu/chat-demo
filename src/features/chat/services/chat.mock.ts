@@ -1,4 +1,4 @@
-import type { ChatMessage, ChatRoom, ChatUser } from "../types/chat.types";
+import type { ChatMessage, ChatRoom, ChatUser } from "../types/room.types";
 import { CHAT_CURRENT_USER_ID } from "../constants/chat.constants";
 
 const users: ChatUser[] = [

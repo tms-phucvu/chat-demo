@@ -1,4 +1,4 @@
-export const ChatRoomEmpty = () => {
+export const NoRoomSelected = () => {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-2 p-4 text-center text-sm text-muted-foreground">
       <p className="font-medium">Select a conversation to get started</p>

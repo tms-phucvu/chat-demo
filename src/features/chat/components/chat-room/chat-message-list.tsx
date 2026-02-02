@@ -1,25 +1,29 @@
 "use client";
 
-import { CHAT_CURRENT_USER_ID } from "../../constants/chat.constants";
-import type { ChatMessage } from "../../types/chat.types";
-import { useChatScroll } from "../../hooks/useChatScroll";
+import { useChatScroll } from "@/features/chat/hooks/useChatScroll";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useAuth } from "@/hooks/use-auth";
+import { FieldValue, Timestamp } from "firebase/firestore";
+import { useMessages } from "@/features/chat/hooks/useMessages";
 
 type ChatMessageListProps = {
-  messages: ChatMessage[];
-  loading: boolean;
+  activeRoomId: string | null;
   isTyping: boolean;
 };
 
 export function ChatMessageList({
-  messages,
-  loading,
+  activeRoomId,
   isTyping,
 }: ChatMessageListProps) {
+  const { messages, isLoading, error } = useMessages(activeRoomId);
   const { endRef } = useChatScroll([messages.length, isTyping]);
+  const { user } = useAuth();
+  const uid = user?.uid ?? null;
 
-  const formatTime = (value: string) => {
-    const date = new Date(value);
+  const formatTime = (value?: Timestamp | FieldValue) => {
+    if (!value) return "";
+    if (!(value instanceof Timestamp)) return "";
+    const date = value.toDate();
     return date.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
@@ -29,7 +33,7 @@ export function ChatMessageList({
   return (
     <ScrollArea className="min-h-0 flex-1">
       <div className="space-y-4 px-4 py-4">
-        {loading && (
+        {isLoading && (
           <div className="space-y-3">
             {Array.from({ length: 4 }).map((_, index) => (
               <div key={index} className="flex justify-start">
@@ -42,20 +46,9 @@ export function ChatMessageList({
           </div>
         )}
 
-        {!loading &&
+        {!isLoading &&
           messages.map((message) => {
-            if (message.kind === "system") {
-              return (
-                <div key={message.id} className="flex justify-center">
-                  <div className="bg-muted text-muted-foreground rounded-full px-3 py-1 text-xs font-medium">
-                    {message.text}
-                  </div>
-                </div>
-              );
-            }
-
-            const isMe = message.senderId === CHAT_CURRENT_USER_ID;
-
+            const isMe = message.senderId === uid;
             return (
               <div
                 key={message.id}
@@ -70,7 +63,7 @@ export function ChatMessageList({
                         : "bg-muted text-foreground rounded-bl-sm",
                     ].join(" ")}
                   >
-                    <p className="whitespace-pre-line break-words">
+                    <p className="whitespace-pre-line wrap-break-word">
                       {message.text}
                     </p>
                   </div>

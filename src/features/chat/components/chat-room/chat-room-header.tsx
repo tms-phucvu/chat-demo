@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon } from "lucide-react";
-import { ChatRoom } from "@/features/chat/types/chat.types";
+import {
+  ChatRoom,
+  ParticipantPreview,
+  ParticipantsInfo,
+} from "@/features/chat/types/room.types";
 import { ChatUserAvatar } from "../ui/chat-user-avatar";
+import { useAuth } from "@/hooks/use-auth";
 
 interface ChatRoomHeaderProps {
   room: ChatRoom;
@@ -14,6 +19,20 @@ export const ChatRoomHeader = ({
   isTyping,
   onBack,
 }: ChatRoomHeaderProps) => {
+  const { user } = useAuth();
+  const uid = user?.uid ?? null;
+  const getOtherParticipants = (
+    participantsInfo: ParticipantsInfo,
+    myUid: string | null,
+  ): ParticipantPreview[] => {
+    if (!myUid) {
+      return Object.values(participantsInfo);
+    }
+    return Object.entries(participantsInfo)
+      .filter(([uid]) => uid !== myUid)
+      .map(([, info]) => info);
+  };
+
   return (
     <header className="border-border flex items-center gap-2 border-b px-4 py-3">
       {onBack && (
@@ -23,9 +42,22 @@ export const ChatRoomHeader = ({
         </Button>
       )}
       <div className="flex gap-4">
-        <ChatUserAvatar name={room.title} status={"online"} />
+        <ChatUserAvatar
+          name={
+            getOtherParticipants(room.participantsInfo, uid)[0].name ??
+            "Unknown"
+          }
+          avatarUrl={
+            getOtherParticipants(room.participantsInfo, uid)[0].avatar ??
+            undefined
+          }
+          status={"online"}
+        />
         <div className="min-w-0">
-          <h2 className="truncate text-sm font-semibold">{room.title}</h2>
+          <h2 className="truncate text-sm font-semibold">
+            {getOtherParticipants(room.participantsInfo, uid)[0].name ??
+              "Unknown"}
+          </h2>
           <p className="text-xs text-muted-foreground">
             {isTyping ? "Typing…" : "Active now"}
           </p>

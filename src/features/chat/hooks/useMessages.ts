@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react";
-import { ChatRoomListItem } from "@/features/chat/types/room.types";
-import { subscribeRoomsByUser } from "@/features/chat/services/rooms.service";
-import { useAuth } from "@/hooks/use-auth";
+import { Message } from "@/features/chat/types/message.types";
+import { subscribeMessagesByRoomId } from "@/features/chat/services/messages.service";
 
-type UseChatRoomsResult = {
-  rooms: ChatRoomListItem[];
+type UseMessagesResult = {
+  messages: Message[];
   isLoading: boolean;
   error: Error | null;
 };
 
-export const useChatRooms = (): UseChatRoomsResult => {
-  const { user } = useAuth();
-  const uid = user?.uid;
-
-  const [rooms, setRooms] = useState<ChatRoomListItem[]>([]);
+export const useMessages = (roomId: string | null): UseMessagesResult => {
+  const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (!uid) {
+    if (!roomId) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setRooms([]);
+      setMessages([]);
       setIsLoading(false);
       return;
     }
@@ -29,8 +25,8 @@ export const useChatRooms = (): UseChatRoomsResult => {
     let unsubscribe: (() => void) | undefined;
 
     try {
-      unsubscribe = subscribeRoomsByUser(uid, (updatedRooms) => {
-        setRooms(updatedRooms);
+      unsubscribe = subscribeMessagesByRoomId(roomId, (updatedMessages) => {
+        setMessages(updatedMessages);
         setIsLoading(false);
         setError(null);
       });
@@ -42,7 +38,7 @@ export const useChatRooms = (): UseChatRoomsResult => {
     return () => {
       unsubscribe?.();
     };
-  }, [uid]);
+  }, [roomId]);
 
-  return { rooms, isLoading, error };
+  return { messages, isLoading, error };
 };
