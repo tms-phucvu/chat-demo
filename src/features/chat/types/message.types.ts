@@ -17,3 +17,13 @@ export interface Message {
   type: MessageType;
   createdAt: Timestamp | FieldValue;
 }
+
+export interface SendMessagePayload {
+  text: string;
+  senderId: string;
+  type?: MessageType;
+}
+
+export type SendMessageInput = SendMessagePayload & {
+  roomId: string;
+};

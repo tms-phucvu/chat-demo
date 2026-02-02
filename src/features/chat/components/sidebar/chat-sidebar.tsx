@@ -1,22 +1,20 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatRoomList } from "@/features/chat/components/sidebar/chat-room-list";
-import { ChatRoom, ChatRoomListItem } from "@/features/chat/types/room.types";
-import RoomCreateButton from "./room-create-button";
-import EmptyRoomList from "./empty-room-list";
+import RoomCreateButton from "@/features/chat/components/sidebar/room-create-button";
+import EmptyRoomList from "@/features/chat/components/sidebar/empty-room-list";
+import { useChatRooms } from "@/features/chat/hooks/useChatRooms";
 
 interface ChatSidebarProps {
-  rooms: ChatRoomListItem[];
   activeRoomId: string | null;
-  loading: boolean;
   onSelectRoom: (roomId: string) => void;
 }
 
 export const ChatSidebar = ({
-  rooms,
   activeRoomId,
-  loading,
   onSelectRoom,
 }: ChatSidebarProps) => {
+  const { rooms, isLoading, error: roomsError } = useChatRooms();
+
   return (
     <aside className="bg-background/80 min-h-0 flex-col rounded-lg border p-3 md:flex">
       <div className="flex justify-between">
@@ -37,7 +35,7 @@ export const ChatSidebar = ({
             <ChatRoomList
               rooms={rooms}
               activeRoomId={activeRoomId}
-              loading={loading}
+              loading={isLoading}
               onSelectRoom={onSelectRoom}
             />
           </div>

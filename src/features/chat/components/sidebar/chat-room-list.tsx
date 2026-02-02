@@ -27,10 +27,7 @@ export function ChatRoomList({
   const uid = user?.uid ?? null;
   const formatTime = (value?: Timestamp | FieldValue) => {
     if (!value) return "";
-
-    // FieldValue (serverTimestamp) chưa resolve
     if (!(value instanceof Timestamp)) return "";
-
     const date = value.toDate();
     return date.toLocaleTimeString([], {
       hour: "2-digit",
@@ -121,6 +118,7 @@ export function ChatRoomList({
               <div className="flex items-center justify-between gap-2">
                 {room.lastMessage.text && (
                   <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
+                    {room.lastMessage.senderId === uid && "You: "}
                     {room.lastMessage.text}
                   </p>
                 )}
