@@ -2,7 +2,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatRoomList } from "@/features/chat/components/sidebar/chat-room-list";
 import RoomCreateButton from "@/features/chat/components/sidebar/room-create-button";
 import EmptyRoomList from "@/features/chat/components/sidebar/empty-room-list";
-import { useChatRooms } from "@/features/chat/hooks/useChatRooms";
+import { useRoomList } from "@/features/chat/hooks/useRoomList";
 
 interface ChatSidebarProps {
   activeRoomId: string | null;
@@ -13,7 +13,7 @@ export const ChatSidebar = ({
   activeRoomId,
   onSelectRoom,
 }: ChatSidebarProps) => {
-  const { rooms, isLoading, error: roomsError } = useChatRooms();
+  const { rooms, isLoading, error: roomsError } = useRoomList();
 
   return (
     <aside className="bg-background/80 min-h-0 flex-col rounded-lg border p-3 md:flex">

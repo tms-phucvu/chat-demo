@@ -6,7 +6,9 @@ import {
   ParticipantsInfo,
 } from "@/features/chat/types/room.types";
 import { useAuth } from "@/hooks/use-auth";
-import { AvatarUser } from "@/features/chat/components/ui/avatar-user";
+import { UserAvatar } from "@/features/chat/components/ui/user-avatar";
+import { GroupAvatar } from "@/features/chat/components/ui/group-avatar";
+import { getGroupDisplayName } from "@/features/chat/utils/room.utils";
 
 interface ChatRoomHeaderProps {
   room: ChatRoom;
@@ -42,22 +44,37 @@ export const ChatRoomHeader = ({
         </Button>
       )}
       <div className="flex gap-4">
-        <AvatarUser
-          name={
-            getOtherParticipants(room.participantsInfo, uid)[0].name ??
-            "Unknown"
-          }
-          avatarUrl={
-            getOtherParticipants(room.participantsInfo, uid)[0].avatar ??
-            undefined
-          }
-          status={"online"}
-        />
+        {room.type === "private" ? (
+          <UserAvatar
+            name={
+              getOtherParticipants(room.participantsInfo, uid)[0].name ??
+              "Unknown"
+            }
+            avatarUrl={
+              getOtherParticipants(room.participantsInfo, uid)[0].avatar ??
+              undefined
+            }
+            status={"online"}
+          />
+        ) : (
+          <GroupAvatar
+            participants={getOtherParticipants(room.participantsInfo, uid)}
+            count={room.participantsCount - 2}
+          />
+        )}
         <div className="min-w-0">
-          <h2 className="truncate text-sm font-semibold">
-            {getOtherParticipants(room.participantsInfo, uid)[0].name ??
-              "Unknown"}
-          </h2>
+          {room.type === "private" ? (
+            <h2 className="truncate text-sm font-semibold">
+              {getOtherParticipants(room.participantsInfo, uid)[0].name ??
+                "Unknown"}
+            </h2>
+          ) : (
+            <h2 className="truncate text-sm font-semibold">
+              {getGroupDisplayName(
+                getOtherParticipants(room.participantsInfo, uid),
+              )}
+            </h2>
+          )}
           <p className="text-xs text-muted-foreground">
             {isTyping ? "Typing…" : "Active now"}
           </p>

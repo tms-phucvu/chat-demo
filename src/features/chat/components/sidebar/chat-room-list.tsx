@@ -4,11 +4,13 @@ import { cn } from "@/lib/utils";
 import type { ChatRoomListItem } from "@/features/chat/types/room.types";
 import { useAuth } from "@/hooks/use-auth";
 import {
+  getGroupDisplayName,
   getOtherParticipants,
   getUnreadCount,
 } from "@/features/chat/utils/room.utils";
 import { formatTime } from "@/features/chat/utils/date.utils";
-import { AvatarUser } from "@/features/chat/components/ui/avatar-user";
+import { UserAvatar } from "@/features/chat/components/ui/user-avatar";
+import { GroupAvatar } from "@/features/chat/components/ui/group-avatar";
 
 type ChatRoomListProps = {
   rooms: ChatRoomListItem[];
@@ -61,23 +63,39 @@ export function ChatRoomList({
               isActive && "bg-accent text-accent-foreground",
             )}
           >
-            <AvatarUser
-              name={
-                getOtherParticipants(room.participantsInfo, uid)[0].name ??
-                "Unknown"
-              }
-              avatarUrl={
-                getOtherParticipants(room.participantsInfo, uid)[0].avatar ??
-                undefined
-              }
-              status={"online"}
-            />
+            {room.type === "private" ? (
+              <UserAvatar
+                name={
+                  getOtherParticipants(room.participantsInfo, uid)[0].name ??
+                  "Unknown"
+                }
+                avatarUrl={
+                  getOtherParticipants(room.participantsInfo, uid)[0].avatar ??
+                  undefined
+                }
+                status={"online"}
+              />
+            ) : (
+              <GroupAvatar
+                participants={getOtherParticipants(room.participantsInfo, uid)}
+                count={room.participantsCount - 2}
+              />
+            )}
+
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-2">
-                <p className="truncate text-sm font-medium">
-                  {getOtherParticipants(room.participantsInfo, uid)[0].name ??
-                    "Unknown"}
-                </p>
+                {room.type === "private" ? (
+                  <p className="truncate text-sm font-medium">
+                    {getOtherParticipants(room.participantsInfo, uid)[0].name ??
+                      "Unknown"}
+                  </p>
+                ) : (
+                  <p className="truncate text-sm font-medium">
+                    {getGroupDisplayName(
+                      getOtherParticipants(room.participantsInfo, uid),
+                    )}
+                  </p>
+                )}
                 <div className="flex items-center gap-2">
                   {room.lastMessage.createdAt && (
                     <span className="text-[10px] text-muted-foreground whitespace-nowrap">

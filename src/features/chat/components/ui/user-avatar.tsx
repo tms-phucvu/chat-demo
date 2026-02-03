@@ -8,24 +8,22 @@ import { AvatarStatusType } from "@/features/chat/types/avatar-status.types";
 import { getInitials } from "@/features/chat/utils/string.utils";
 import { AVATAR_STATUS_STYLES } from "@/features/chat/constants/avatar-status.constants";
 
-interface AvatarUserProps {
+interface UserAvatarProps {
   name: string;
   avatarUrl?: string;
   status?: AvatarStatusType;
-  fallback?: string;
 }
 
-export const AvatarUser = ({
+export const UserAvatar = ({
   name,
   avatarUrl,
   status,
-  fallback,
-}: AvatarUserProps) => {
+}: UserAvatarProps) => {
   return (
-    <Avatar>
+    <Avatar size="lg">
       <AvatarImage src={avatarUrl} alt={name} />
       <AvatarFallback className="text-xs">
-        {fallback ?? getInitials(name)}
+        {getInitials(name)}
       </AvatarFallback>
       {status && <AvatarBadge className={AVATAR_STATUS_STYLES[status]} />}
     </Avatar>

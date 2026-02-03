@@ -3,13 +3,13 @@ import { ChatRoomListItem } from "@/features/chat/types/room.types";
 import { subscribeRoomsByUser } from "@/features/chat/services/rooms.service";
 import { useAuth } from "@/hooks/use-auth";
 
-type UseChatRoomsResult = {
+type UseRoomListResult = {
   rooms: ChatRoomListItem[];
   isLoading: boolean;
   error: Error | null;
 };
 
-export const useChatRooms = (): UseChatRoomsResult => {
+export const useRoomList = (): UseRoomListResult => {
   const { user } = useAuth();
   const uid = user?.uid;
 

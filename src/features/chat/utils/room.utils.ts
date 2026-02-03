@@ -23,3 +23,11 @@ export const getUnreadCount = (room: ChatRoomListItem, uid: string | null) => {
   const count = room.unreadCounts?.[uid];
   return count ?? 0;
 };
+
+export function getGroupDisplayName(
+  participants: ParticipantPreview[],
+  max = 2,
+) {
+  const names = participants.map((p) => p.name).filter(Boolean) as string[];
+  return `${names.slice(0, max).join(", ")}, ...`;
+}
