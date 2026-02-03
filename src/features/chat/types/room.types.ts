@@ -19,7 +19,6 @@ export type ChatRoom = {
   createdBy: string;
   createdAt: Timestamp | FieldValue;
   lastMessage: LastMessage;
-  //lastMessageAt: Timestamp | FieldValue;
 };
 
 export type ChatRoomListItem = Omit<ChatRoom, "createdBy" | "createdAt">;

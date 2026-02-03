@@ -1,9 +1,6 @@
 import { FieldValue, Timestamp } from "firebase/firestore";
-import { serverTimestamp } from "firebase/database";
 
 export type UserStatusType = "online" | "offline";
-
-type RealtimeTimestamp = ReturnType<typeof serverTimestamp>;
 
 export interface UserProfile {
   uid: string;
@@ -16,5 +13,5 @@ export interface UserProfile {
 
 export interface UserPresence {
   status: UserStatusType;
-  updatedAt: number | RealtimeTimestamp;
+  updatedAt: number;
 }

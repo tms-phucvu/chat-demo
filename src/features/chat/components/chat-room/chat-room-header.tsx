@@ -9,6 +9,7 @@ import {
   getOtherParticipants,
 } from "@/features/chat/utils/room.utils";
 import { useInterestedUsersStore } from "@/stores/interested-users.store";
+import { formatLastActive } from "@/features/chat/utils/date.utils";
 
 interface ChatRoomHeaderProps {
   room: ChatRoom;
@@ -31,8 +32,9 @@ export const ChatRoomHeader = ({
     room.type === "private"
       ? room.participants.find((pId) => pId !== uid)
       : null;
-  const status =
-    partnerId && presences[partnerId] ? presences[partnerId].status : "offline";
+  const partnerPresence = partnerId ? presences[partnerId] : null;
+  const status = partnerPresence ? partnerPresence.status : "offline";
+  const updatedAt = partnerPresence ? partnerPresence.updatedAt : null;
 
   return (
     <header className="border-border flex items-center gap-2 border-b px-4 py-3">
@@ -55,19 +57,21 @@ export const ChatRoomHeader = ({
             count={room.participantsCount - 2}
           />
         )}
-        <div className="min-w-0">
+        <div className="min-w-0 flex flex-col justify-center">
           {room.type === "private" ? (
-            <h2 className="truncate text-sm font-semibold">
-              {otherParticipant.name ?? "Unknown"}
-            </h2>
+            <>
+              <h2 className="truncate text-sm font-semibold">
+                {otherParticipant.name ?? "Unknown"}
+              </h2>
+              <p className="text-xs text-muted-foreground">
+                {updatedAt ? formatLastActive(updatedAt) : "Offline"}
+              </p>
+            </>
           ) : (
-            <h2 className="truncate text-sm font-semibold">
+            <h2 className="truncate text-md font-semibold">
               {getGroupDisplayName(otherParticipants)}
             </h2>
           )}
-          <p className="text-xs text-muted-foreground">
-            {isTyping ? "Typing…" : "Active now"}
-          </p>
         </div>
       </div>
     </header>

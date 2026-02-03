@@ -9,3 +9,46 @@ export const formatTime = (value?: Timestamp | FieldValue) => {
     minute: "2-digit",
   });
 };
+
+export function formatLastActive(lastActive: number): string {
+  console.log(new Date(lastActive).toLocaleString());
+  if (!lastActive) return "";
+
+  const diffMs = Date.now() - lastActive;
+
+  const minute = 60 * 1000;
+  const hour = 60 * minute;
+  const day = 24 * hour;
+  const week = 7 * day;
+
+  if (diffMs < minute) {
+    return "Active now";
+  }
+
+  if (diffMs < hour) {
+    const mins = Math.floor(diffMs / minute);
+    return `Active ${mins} minute${mins > 1 ? "s" : ""} ago`;
+  }
+
+  if (diffMs < day) {
+    const hours = Math.floor(diffMs / hour);
+    return `Active ${hours} hour${hours > 1 ? "s" : ""} ago`;
+  }
+
+  if (diffMs < week) {
+    const days = Math.floor(diffMs / day);
+
+    if (days === 1) {
+      return "Active yesterday";
+    }
+
+    return `Active ${days} days ago`;
+  }
+
+  const date = new Date(lastActive);
+
+  return `Active ${date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  })}`;
+}
