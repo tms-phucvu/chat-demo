@@ -13,7 +13,7 @@ export const ChatSidebar = ({
   activeRoomId,
   onSelectRoom,
 }: ChatSidebarProps) => {
-  const { rooms, isLoading, error: roomsError } = useRoomList();
+  const { rooms, isLoading, error } = useRoomList();
 
   return (
     <aside className="bg-background/80 min-h-0 flex-col rounded-lg border p-3 md:flex">

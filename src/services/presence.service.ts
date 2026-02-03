@@ -1,5 +1,5 @@
 import { auth, rtdb } from "@/lib/firebase";
-import { UserPresence } from "@/types/user.type";
+import { UserPresence, UserPresenceWrite } from "@/types/user.type";
 import {
   ref,
   set,
@@ -25,7 +25,7 @@ export const setupPresence = (uid: string) => {
     const isConnected = snap.val() as boolean | null;
 
     if (isConnected === true) {
-      const onlinePresence: UserPresence = {
+      const onlinePresence: UserPresenceWrite = {
         status: "online",
         updatedAt: serverTimestamp(),
       };
@@ -36,7 +36,7 @@ export const setupPresence = (uid: string) => {
         .set({
           status: "offline",
           updatedAt: serverTimestamp(),
-        } satisfies UserPresence)
+        } satisfies UserPresenceWrite)
         .catch((err) => {
           console.error("onDisconnect queue failed:", err);
         });
@@ -59,7 +59,7 @@ export const offlinePresence = async () => {
 
   cleanupPresence();
 
-  const offlineData: UserPresence = {
+  const offlineData: UserPresenceWrite = {
     status: "offline",
     updatedAt: serverTimestamp(),
   };

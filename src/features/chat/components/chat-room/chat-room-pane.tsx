@@ -20,7 +20,7 @@ export const ChatRoomPane = ({
 
   return (
     <section className="bg-background/80 flex min-h-0 flex-col rounded-lg border">
-      <ChatRoomHeader room={room} isTyping={isTyping} onBack={onBack} />
+      <ChatRoomHeader room={room} onBack={onBack} />
 
       <ChatMessageList activeRoomId={activeRoomId} isTyping={isTyping} />
 

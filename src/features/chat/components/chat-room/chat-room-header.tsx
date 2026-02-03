@@ -13,13 +13,11 @@ import { formatLastActive } from "@/features/chat/utils/date.utils";
 
 interface ChatRoomHeaderProps {
   room: ChatRoom;
-  isTyping: boolean;
   onBack?: () => void;
 }
 
 export const ChatRoomHeader = ({
   room,
-  isTyping,
   onBack,
 }: ChatRoomHeaderProps) => {
   const { user } = useAuth();
