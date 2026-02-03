@@ -16,10 +16,7 @@ interface ChatRoomHeaderProps {
   onBack?: () => void;
 }
 
-export const ChatRoomHeader = ({
-  room,
-  onBack,
-}: ChatRoomHeaderProps) => {
+export const ChatRoomHeader = ({ room, onBack }: ChatRoomHeaderProps) => {
   const { user } = useAuth();
   const uid = user?.uid ?? null;
   const presences = useInterestedUsersStore((s) => s.presences);
@@ -62,7 +59,11 @@ export const ChatRoomHeader = ({
                 {otherParticipant.name ?? "Unknown"}
               </h2>
               <p className="text-xs text-muted-foreground">
-                {updatedAt ? formatLastActive(updatedAt) : "Offline"}
+                {status === "online"
+                  ? "Active now"
+                  : updatedAt
+                    ? formatLastActive(updatedAt)
+                    : "Offline"}
               </p>
             </>
           ) : (
