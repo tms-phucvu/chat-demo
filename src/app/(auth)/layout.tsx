@@ -13,6 +13,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import PresenceSyncProvider from "@/providers/presence-sync-provider";
 
 export default function AuthLayout({
   children,
@@ -45,7 +46,9 @@ export default function AuthLayout({
             </Breadcrumb>
           </div>
         </header>
-        <div className="h-full">{children}</div>
+        <div className="h-full">
+          <PresenceSyncProvider>{children}</PresenceSyncProvider>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

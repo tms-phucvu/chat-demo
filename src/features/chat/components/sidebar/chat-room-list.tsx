@@ -11,6 +11,9 @@ import {
 import { formatTime } from "@/features/chat/utils/date.utils";
 import { UserAvatar } from "@/features/chat/components/ui/user-avatar";
 import { GroupAvatar } from "@/features/chat/components/ui/group-avatar";
+import { useInterestedUsersStore } from "@/stores/interested-users.store";
+import { useEffect } from "react";
+import ChatRoomListSkeleton from "./chat-room-list-skeleton";
 
 type ChatRoomListProps = {
   rooms: ChatRoomListItem[];
@@ -28,30 +31,45 @@ export function ChatRoomList({
   const { user } = useAuth();
   const uid = user?.uid ?? null;
 
+  const addIds = useInterestedUsersStore((s) => s.addIds);
+  const presences = useInterestedUsersStore((s) => s.presences);
+
+  useEffect(() => {
+    if (rooms.length > 0 && uid) {
+      const partnerIds = rooms
+        .filter((room) => room.type === "private")
+        .map((room) => {
+          return room.participants.find((pId) => pId !== uid);
+        })
+        .filter(Boolean) as string[];
+
+      if (partnerIds.length > 0) {
+        addIds(partnerIds);
+      }
+    }
+  }, [rooms, uid, addIds]);
+
   if (loading) {
-    return (
-      <div className="space-y-2">
-        {Array.from({ length: 6 }).map((_, index) => (
-          <div
-            key={index}
-            className="flex items-center gap-3 rounded-lg bg-muted/60 px-3 py-2 animate-pulse"
-          >
-            <div className="h-8 w-8 rounded-full bg-muted-foreground/20" />
-            <div className="flex-1 space-y-1">
-              <div className="h-3 w-24 rounded bg-muted-foreground/20" />
-              <div className="h-3 w-32 rounded bg-muted-foreground/10" />
-            </div>
-          </div>
-        ))}
-      </div>
-    );
+    return <ChatRoomListSkeleton />;
   }
 
   return (
     <div className="space-y-1">
       {rooms.map((room) => {
         const isActive = room.id === activeRoomId;
-
+        const otherParticipants = getOtherParticipants(
+          room.participantsInfo,
+          uid,
+        );
+        const otherParticipant = otherParticipants[0];
+        const partnerId =
+          room.type === "private"
+            ? room.participants.find((pId) => pId !== uid)
+            : null;
+        const status =
+          partnerId && presences[partnerId]
+            ? presences[partnerId].status
+            : "offline";
         return (
           <button
             key={room.id}
@@ -65,35 +83,25 @@ export function ChatRoomList({
           >
             {room.type === "private" ? (
               <UserAvatar
-                name={
-                  getOtherParticipants(room.participantsInfo, uid)[0].name ??
-                  "Unknown"
-                }
-                avatarUrl={
-                  getOtherParticipants(room.participantsInfo, uid)[0].avatar ??
-                  undefined
-                }
-                status={"online"}
+                name={otherParticipant.name ?? "Unknown"}
+                avatarUrl={otherParticipant.avatar ?? undefined}
+                status={status}
               />
             ) : (
               <GroupAvatar
-                participants={getOtherParticipants(room.participantsInfo, uid)}
+                participants={otherParticipants}
                 count={room.participantsCount - 2}
               />
             )}
-
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-2">
                 {room.type === "private" ? (
                   <p className="truncate text-sm font-medium">
-                    {getOtherParticipants(room.participantsInfo, uid)[0].name ??
-                      "Unknown"}
+                    {otherParticipant.name ?? "Unknown"}
                   </p>
                 ) : (
                   <p className="truncate text-sm font-medium">
-                    {getGroupDisplayName(
-                      getOtherParticipants(room.participantsInfo, uid),
-                    )}
+                    {getGroupDisplayName(otherParticipants)}
                   </p>
                 )}
                 <div className="flex items-center gap-2">

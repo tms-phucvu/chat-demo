@@ -1,14 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon } from "lucide-react";
-import {
-  ChatRoom,
-  ParticipantPreview,
-  ParticipantsInfo,
-} from "@/features/chat/types/room.types";
+import { ChatRoom } from "@/features/chat/types/room.types";
 import { useAuth } from "@/hooks/use-auth";
 import { UserAvatar } from "@/features/chat/components/ui/user-avatar";
 import { GroupAvatar } from "@/features/chat/components/ui/group-avatar";
-import { getGroupDisplayName } from "@/features/chat/utils/room.utils";
+import {
+  getGroupDisplayName,
+  getOtherParticipants,
+} from "@/features/chat/utils/room.utils";
+import { useInterestedUsersStore } from "@/stores/interested-users.store";
 
 interface ChatRoomHeaderProps {
   room: ChatRoom;
@@ -23,17 +23,16 @@ export const ChatRoomHeader = ({
 }: ChatRoomHeaderProps) => {
   const { user } = useAuth();
   const uid = user?.uid ?? null;
-  const getOtherParticipants = (
-    participantsInfo: ParticipantsInfo,
-    myUid: string | null,
-  ): ParticipantPreview[] => {
-    if (!myUid) {
-      return Object.values(participantsInfo);
-    }
-    return Object.entries(participantsInfo)
-      .filter(([uid]) => uid !== myUid)
-      .map(([, info]) => info);
-  };
+  const presences = useInterestedUsersStore((s) => s.presences);
+
+  const otherParticipants = getOtherParticipants(room.participantsInfo, uid);
+  const otherParticipant = otherParticipants[0];
+  const partnerId =
+    room.type === "private"
+      ? room.participants.find((pId) => pId !== uid)
+      : null;
+  const status =
+    partnerId && presences[partnerId] ? presences[partnerId].status : "offline";
 
   return (
     <header className="border-border flex items-center gap-2 border-b px-4 py-3">
@@ -46,33 +45,24 @@ export const ChatRoomHeader = ({
       <div className="flex gap-4">
         {room.type === "private" ? (
           <UserAvatar
-            name={
-              getOtherParticipants(room.participantsInfo, uid)[0].name ??
-              "Unknown"
-            }
-            avatarUrl={
-              getOtherParticipants(room.participantsInfo, uid)[0].avatar ??
-              undefined
-            }
-            status={"online"}
+            name={otherParticipant.name ?? "Unknown"}
+            avatarUrl={otherParticipant.avatar ?? undefined}
+            status={status}
           />
         ) : (
           <GroupAvatar
-            participants={getOtherParticipants(room.participantsInfo, uid)}
+            participants={otherParticipants}
             count={room.participantsCount - 2}
           />
         )}
         <div className="min-w-0">
           {room.type === "private" ? (
             <h2 className="truncate text-sm font-semibold">
-              {getOtherParticipants(room.participantsInfo, uid)[0].name ??
-                "Unknown"}
+              {otherParticipant.name ?? "Unknown"}
             </h2>
           ) : (
             <h2 className="truncate text-sm font-semibold">
-              {getGroupDisplayName(
-                getOtherParticipants(room.participantsInfo, uid),
-              )}
+              {getGroupDisplayName(otherParticipants)}
             </h2>
           )}
           <p className="text-xs text-muted-foreground">
