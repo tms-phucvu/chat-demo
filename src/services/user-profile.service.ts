@@ -5,27 +5,10 @@ import {
   setDoc,
   updateDoc,
   serverTimestamp,
-  FirestoreDataConverter,
-  QueryDocumentSnapshot,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { UserProfile } from "@/types/user.type";
-
-/**
- * =========================
- * Firestore Converter
- * =========================
- */
-const userConverter: FirestoreDataConverter<UserProfile> = {
-  toFirestore: (user) => {
-    const { uid, ...data } = user;
-    return data;
-  },
-  fromFirestore: (snap: QueryDocumentSnapshot) => ({
-    uid: snap.id,
-    ...(snap.data() as Omit<UserProfile, "uid">),
-  }),
-};
+import { userConverter } from "@/lib/user.utils";
 
 /**
  * =========================

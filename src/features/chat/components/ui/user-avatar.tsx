@@ -5,8 +5,8 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { getInitials } from "@/features/chat/utils/string.utils";
-import { AVATAR_STATUS_STYLES } from "@/features/chat/constants/avatar-status.constants";
 import { UserStatusType } from "@/types/user.type";
+import { AVATAR_STATUS_STYLES } from "@/features/chat/constants/chat.constants";
 
 interface UserAvatarProps {
   name: string;

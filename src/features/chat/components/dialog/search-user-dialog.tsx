@@ -18,8 +18,8 @@ import { useAuth } from "@/hooks/use-auth";
 export function SearchUserDialog() {
   const { isSearchUserOpen, closeSearchUser, searchUserMode } =
     useChatDialogStore();
-  const [selectedUsers, setSelectedUsers] = useState<UserInfo[]>([]);
   const { profile } = useAuth();
+  const [selectedUsers, setSelectedUsers] = useState<UserInfo[]>([]);
 
   return (
     <Dialog

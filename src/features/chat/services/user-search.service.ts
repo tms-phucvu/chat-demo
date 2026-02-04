@@ -1,14 +1,14 @@
 import { collection, query, where, getDocs, limit } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { UserInfo, UserProfile } from "@/types/user.type";
-import { toUserInfo } from "@/features/chat/utils/user.utils";
+import { toUserInfo, userConverter } from "@/lib/user.utils";
 
 /**
  * =========================
  * References
  * =========================
  */
-const usersCol = collection(db, "users");
+const usersCol = collection(db, "users").withConverter(userConverter);
 
 /**
  * =========================
