@@ -7,5 +7,7 @@ export const AVATAR_STATUS_STYLES: Record<UserStatusType, string> = {
 
 export const SEARCH_DEBOUNCE_MS = 500;
 
+export const TYPING_TIMEOUT_MS = 5000;
+
 export const CHAT_TYPING_MIN_MS = 800;
 export const CHAT_TYPING_MAX_MS = 2200;

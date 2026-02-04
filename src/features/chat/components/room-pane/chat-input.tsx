@@ -1,10 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSendMessage } from "@/features/chat/hooks/use-send-message";
 import { useAuth } from "@/hooks/use-auth";
+import {
+  clearTyping,
+  handleTyping,
+} from "@/features/chat/services/typing.service";
 
 type ChatInputProps = {
   disabled?: boolean;
@@ -17,20 +21,35 @@ export function ChatInput({ disabled, activeRoomId }: ChatInputProps) {
   const uid = user?.uid ?? null;
   const { send, isSending } = useSendMessage();
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const val = event.target.value;
+    setValue(val);
+
+    if (activeRoomId && uid && val.trim()) {
+      handleTyping(activeRoomId, uid);
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (!value.trim()) return;
-    if (!activeRoomId || !uid) return;
+    if (!value.trim() || !activeRoomId || !uid) return;
 
     await send({
       roomId: activeRoomId,
       text: value,
       senderId: uid,
     });
-
     setValue("");
+    clearTyping(activeRoomId, uid);
   };
+
+  useEffect(() => {
+    return () => {
+      if (activeRoomId && uid) {
+        clearTyping(activeRoomId, uid);
+      }
+    };
+  }, [activeRoomId, uid]);
 
   return (
     <form
@@ -39,7 +58,7 @@ export function ChatInput({ disabled, activeRoomId }: ChatInputProps) {
     >
       <Input
         value={value}
-        onChange={(event) => setValue(event.target.value)}
+        onChange={handleChange}
         placeholder="Type a message..."
         disabled={disabled || isSending}
       />
