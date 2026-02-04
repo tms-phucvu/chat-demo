@@ -18,20 +18,20 @@ export function GroupAvatar({ participants, count }: GroupAvatarProps) {
     <AvatarGroup className="grid grid-cols-2 -space-y-1">
       <Avatar className="col-span-2 mx-auto" size="sm">
         <AvatarImage
-          src={participants[0].avatar ?? undefined}
-          alt={participants[0].avatar ?? undefined}
+          src={participants[0]?.avatar ?? undefined}
+          alt={participants[0]?.avatar ?? undefined}
         />
         <AvatarFallback>
-          {getInitials(participants[0].avatar ?? "")}
+          {getInitials(participants[0]?.avatar ?? "")}
         </AvatarFallback>
       </Avatar>
       <Avatar size="sm">
         <AvatarImage
-          src={participants[1].avatar ?? undefined}
-          alt={participants[1].avatar ?? undefined}
+          src={participants[1]?.avatar ?? undefined}
+          alt={participants[1]?.avatar ?? undefined}
         />
         <AvatarFallback>
-          {getInitials(participants[1].avatar ?? "")}
+          {getInitials(participants[1]?.avatar ?? "")}
         </AvatarFallback>
       </Avatar>
       <AvatarGroupCount className="-ml-1">+{count}</AvatarGroupCount>

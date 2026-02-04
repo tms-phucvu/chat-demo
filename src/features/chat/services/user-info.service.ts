@@ -1,6 +1,6 @@
+import { toUserInfo } from "@/lib/user.utils";
 import { getUserProfile } from "@/services/user-profile.service";
 import { UserInfo } from "@/types/user.type";
-import { toUserInfo } from "@/features/chat/utils/user.utils";
 
 /**
  * =========================

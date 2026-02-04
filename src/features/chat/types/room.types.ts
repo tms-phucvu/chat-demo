@@ -13,7 +13,6 @@ export type ChatRoom = {
   id: string;
   type: RoomType;
   participants: string[];
-  participantsInfo: ParticipantsInfo;
   participantsCount: number;
   unreadCounts: Record<string, number>;
   createdBy: string;

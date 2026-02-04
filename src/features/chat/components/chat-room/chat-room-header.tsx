@@ -6,10 +6,14 @@ import { UserAvatar } from "@/features/chat/components/ui/user-avatar";
 import { GroupAvatar } from "@/features/chat/components/ui/group-avatar";
 import {
   getGroupDisplayName,
-  getOtherParticipants,
+  getOtherParticipantIds,
+  toParticipantPreview,
+  toParticipantPreviews,
 } from "@/features/chat/utils/room.utils";
 import { useInterestedUsersStore } from "@/stores/interested-users.store";
 import { formatLastActive } from "@/features/chat/utils/date.utils";
+import { useUserInfo } from "@/features/chat/hooks/use-user-info";
+import { useParticipants } from "@/features/chat/hooks/use-participants";
 
 interface ChatRoomHeaderProps {
   room: ChatRoom;
@@ -21,12 +25,16 @@ export const ChatRoomHeader = ({ room, onBack }: ChatRoomHeaderProps) => {
   const uid = user?.uid ?? null;
   const presences = useInterestedUsersStore((s) => s.presences);
 
-  const otherParticipants = getOtherParticipants(room.participantsInfo, uid);
-  const otherParticipant = otherParticipants[0];
-  const partnerId =
-    room.type === "private"
-      ? room.participants.find((pId) => pId !== uid)
-      : null;
+  const otherParticipantIds = getOtherParticipantIds(room.participants, uid);
+  const partnerId = otherParticipantIds[0];
+
+  const { participants } = useParticipants(otherParticipantIds);
+  const otherParticipants = toParticipantPreviews(participants);
+  const { data } = useUserInfo(partnerId);
+  const partner = toParticipantPreview(data);
+  
+  console.log("partner", partner)
+      
   const partnerPresence = partnerId ? presences[partnerId] : null;
   const status = partnerPresence ? partnerPresence.status : "offline";
   const updatedAt = partnerPresence ? partnerPresence.updatedAt : null;
@@ -42,8 +50,8 @@ export const ChatRoomHeader = ({ room, onBack }: ChatRoomHeaderProps) => {
       <div className="flex gap-4">
         {room.type === "private" ? (
           <UserAvatar
-            name={otherParticipant.name ?? "Unknown"}
-            avatarUrl={otherParticipant.avatar ?? undefined}
+            name={partner.name ?? "Unknown"}
+            avatarUrl={partner.avatar ?? undefined}
             status={status}
           />
         ) : (
@@ -56,7 +64,7 @@ export const ChatRoomHeader = ({ room, onBack }: ChatRoomHeaderProps) => {
           {room.type === "private" ? (
             <>
               <h2 className="truncate text-sm font-semibold">
-                {otherParticipant.name ?? "Unknown"}
+                {partner.name ?? "Unknown"}
               </h2>
               <p className="text-xs text-muted-foreground">
                 {status === "online"
