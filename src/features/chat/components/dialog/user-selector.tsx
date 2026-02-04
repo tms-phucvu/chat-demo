@@ -9,16 +9,16 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { searchUserByEmailSmart } from "@/services/user.service";
-import { UserProfile } from "@/types/user.type";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { UserInfo } from "@/types/user.type";
+import { Dispatch, SetStateAction, useMemo, useRef, useState } from "react";
 import UserPreview from "@/features/chat/components/ui/user-preview";
 
 const SEARCH_DEBOUNCE_MS = 500;
 
 interface UserSelectorProps {
   currentUid: string;
-  selectedUsers: UserProfile[];
-  setSelectedUsers: Dispatch<SetStateAction<UserProfile[]>>;
+  selectedUsers: UserInfo[];
+  setSelectedUsers: Dispatch<SetStateAction<UserInfo[]>>;
 }
 
 export function UserSelector({
@@ -27,8 +27,7 @@ export function UserSelector({
   setSelectedUsers,
 }: UserSelectorProps) {
   const [query, setQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<UserProfile[]>([]);
-  const [matchedUsers, setMatchedUsers] = useState<UserProfile[]>([]);
+  const [searchResults, setSearchResults] = useState<UserInfo[]>([]);
   const [loading, setLoading] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -38,7 +37,7 @@ export function UserSelector({
       clearTimeout(timerRef.current);
     }
     if (!value.trim()) {
-      setMatchedUsers([]);
+      setSearchResults([]);
       return;
     }
     setLoading(true);
@@ -49,13 +48,12 @@ export function UserSelector({
     }, SEARCH_DEBOUNCE_MS);
   };
 
-  useEffect(() => {
-    const filtered = searchResults.filter(
+  const matchedUsers = useMemo(() => {
+    return searchResults.filter(
       (user) =>
         user.uid !== currentUid &&
         !selectedUsers.some((u) => u.uid === user.uid),
     );
-    setMatchedUsers(filtered);
   }, [searchResults, selectedUsers, currentUid]);
 
   const showList = query.trim().length > 0;
@@ -89,7 +87,6 @@ export function UserSelector({
                         : [...prev, user],
                     );
                     setQuery("");
-                    setMatchedUsers([]);
                   }}
                 >
                   <UserPreview user={user} />

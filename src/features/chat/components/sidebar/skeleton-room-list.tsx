@@ -1,4 +1,4 @@
-export default function ChatRoomListSkeleton() {
+export default function SkeletonRoomList() {
   return (
     <div className="space-y-2">
       {Array.from({ length: 6 }).map((_, i) => (

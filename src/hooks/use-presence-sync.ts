@@ -32,9 +32,9 @@ export const usePresenceSync = () => {
       });
     });
 
-    const currentActiveUids = getActiveTrackers();
+    const currentActiveIds = getActiveTrackers();
 
-    currentActiveUids.forEach((uid) => {
+    currentActiveIds.forEach((uid) => {
       if (!interestedIds.includes(uid)) {
         unsubscribeFromUserPresence(uid);
         removePresence([uid]);

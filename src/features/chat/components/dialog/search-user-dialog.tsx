@@ -10,24 +10,27 @@ import {
 } from "@/components/ui/dialog";
 import { useChatDialogStore } from "@/features/chat/stores/dialog.store";
 import { UserSelector } from "@/features/chat/components/dialog/user-selector";
-import { useEffect, useState } from "react";
-import { UserProfile } from "@/types/user.type";
+import { useState } from "react";
+import { UserInfo } from "@/types/user.type";
 import SelectedUserPreview from "@/features/chat/components/dialog/selected-user-preview";
 import { useAuth } from "@/hooks/use-auth";
 
 export function SearchUserDialog() {
   const { isSearchUserOpen, closeSearchUser, searchUserMode } =
     useChatDialogStore();
-  const [selectedUsers, setSelectedUsers] = useState<UserProfile[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<UserInfo[]>([]);
   const { profile } = useAuth();
-  useEffect(() => {
-    if (!isSearchUserOpen) {
-      setSelectedUsers([]);
-    }
-  }, [isSearchUserOpen]);
 
   return (
-    <Dialog open={isSearchUserOpen} onOpenChange={closeSearchUser}>
+    <Dialog
+      open={isSearchUserOpen}
+      onOpenChange={(open) => {
+        if (!open) {
+          setSelectedUsers([]);
+        }
+        closeSearchUser();
+      }}
+    >
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>{searchUserMode}</DialogTitle>

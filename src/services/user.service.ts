@@ -14,7 +14,22 @@ import {
   limit,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
-import { UserProfile } from "@/types/user.type";
+import { UserInfo, UserProfile } from "@/types/user.type";
+
+/**
+ * =========================
+ * Convert UserProfile to UserInfo
+ * =========================
+ */
+function toUserInfo(user: UserProfile): UserInfo {
+  return {
+    uid: user.uid,
+    displayName: user.displayName,
+    email: user.email,
+    emailLowercase: user.emailLowercase,
+    avatarURL: user.avatarURL,
+  };
+}
 
 /**
  * =========================
@@ -86,14 +101,14 @@ export const syncUserProfile = async (user: User): Promise<UserProfile> => {
  * Search helpers
  * =========================
  */
-async function searchExactEmail(email: string): Promise<UserProfile[]> {
+async function searchExactEmail(email: string): Promise<UserInfo[]> {
   const q = query(usersCol, where("emailLowercase", "==", email), limit(1));
 
   const snap = await getDocs(q);
-  return snap.docs.map((d) => d.data());
+  return snap.docs.map((d) => toUserInfo(d.data()));
 }
 
-async function searchEmailPrefix(prefix: string): Promise<UserProfile[]> {
+async function searchEmailPrefix(prefix: string): Promise<UserInfo[]> {
   const q = query(
     usersCol,
     where("emailLowercase", ">=", prefix),
@@ -102,7 +117,7 @@ async function searchEmailPrefix(prefix: string): Promise<UserProfile[]> {
   );
 
   const snap = await getDocs(q);
-  return snap.docs.map((d) => d.data());
+  return snap.docs.map((d) => toUserInfo(d.data()));
 }
 
 /**
@@ -112,7 +127,7 @@ async function searchEmailPrefix(prefix: string): Promise<UserProfile[]> {
  */
 export async function searchUserByEmailSmart(
   input: string,
-): Promise<UserProfile[]> {
+): Promise<UserInfo[]> {
   const value = input.trim().toLowerCase();
   if (!value) return [];
 
@@ -128,3 +143,16 @@ export async function searchUserByEmailSmart(
 
   return [];
 }
+
+/**
+ * =========================
+ * Get user info by id
+ * =========================
+ */
+export const getUserById = async (
+  uid: string
+): Promise<UserInfo | null> => {
+  const profile = await getUserProfile(uid);
+
+  return profile ? toUserInfo(profile) : null;
+};

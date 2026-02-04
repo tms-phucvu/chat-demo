@@ -12,6 +12,11 @@ export interface UserProfile {
   createdAt: Timestamp | FieldValue;
 }
 
+export type UserInfo = Pick<
+  UserProfile,
+  "uid" | "displayName" | "email" | "emailLowercase" | "avatarURL"
+>;
+
 export type RealtimeTimestamp = ReturnType<typeof serverTimestamp>;
 
 export interface UserPresenceWrite {
