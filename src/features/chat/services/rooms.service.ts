@@ -12,16 +12,13 @@ import { ChatRoom, ChatRoomListItem } from "@/features/chat/types/room.types";
 /**
  * Convert Firestore doc -> ChatRoomListItem
  */
-const mapRoomDoc = (
-  doc: QueryDocumentSnapshot
-): ChatRoomListItem => {
+const mapRoomDoc = (doc: QueryDocumentSnapshot): ChatRoomListItem => {
   const data = doc.data() as ChatRoom;
 
   return {
     id: doc.id,
     type: data.type,
     participants: data.participants,
-    participantsInfo: data.participantsInfo,
     participantsCount: data.participantsCount,
     unreadCounts: data.unreadCounts,
     lastMessage: data.lastMessage,
@@ -33,12 +30,12 @@ const mapRoomDoc = (
  */
 export const subscribeRoomsByUser = (
   uid: string,
-  onChange: (rooms: ChatRoomListItem[]) => void
+  onChange: (rooms: ChatRoomListItem[]) => void,
 ) => {
   const q = query(
     collection(db, "rooms"),
     where("participants", "array-contains", uid),
-    orderBy("lastMessage.createdAt", "desc")
+    orderBy("lastMessage.createdAt", "desc"),
   );
 
   return onSnapshot(q, (snap) => {

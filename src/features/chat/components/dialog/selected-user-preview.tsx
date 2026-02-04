@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { UserProfile } from "@/types/user.type";
+import { UserInfo } from "@/types/user.type";
 import { Dispatch, SetStateAction } from "react";
 import { X } from "lucide-react";
 import UserPreview from "@/features/chat/components/ui/user-preview";
 
 interface SelectedUserPreviewProps {
-  selectedUsers: UserProfile[];
-  setSelectedUsers: Dispatch<SetStateAction<UserProfile[]>>;
+  selectedUsers: UserInfo[];
+  setSelectedUsers: Dispatch<SetStateAction<UserInfo[]>>;
 }
 
 export default function SelectedUserPreview({

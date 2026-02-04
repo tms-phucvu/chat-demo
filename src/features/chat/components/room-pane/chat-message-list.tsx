@@ -1,9 +1,9 @@
 "use client";
 
-import { useChatScroll } from "@/features/chat/hooks/useChatScroll";
+import { useChatScroll } from "@/features/chat/hooks/use-chat-scroll";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAuth } from "@/hooks/use-auth";
-import { useMessages } from "@/features/chat/hooks/useMessages";
+import { useMessages } from "@/features/chat/hooks/use-messages";
 import { formatTime } from "@/features/chat/utils/date.utils";
 
 type ChatMessageListProps = {

@@ -1,7 +1,7 @@
-import { UserProfile } from "@/types/user.type";
+import { UserInfo } from "@/types/user.type";
 import { UserAvatar } from "@/features/chat/components/ui/user-avatar";
 
-export default function UserPreview({ user }: { user: UserProfile }) {
+export default function UserPreview({ user }: { user: UserInfo }) {
   return (
     <div className="flex justify-center items-center gap-2">
       <UserAvatar

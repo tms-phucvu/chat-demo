@@ -13,13 +13,11 @@ export type ChatRoom = {
   id: string;
   type: RoomType;
   participants: string[];
-  participantsInfo: ParticipantsInfo;
   participantsCount: number;
   unreadCounts: Record<string, number>;
   createdBy: string;
   createdAt: Timestamp | FieldValue;
   lastMessage: LastMessage;
-  //lastMessageAt: Timestamp | FieldValue;
 };
 
 export type ChatRoomListItem = Omit<ChatRoom, "createdBy" | "createdAt">;

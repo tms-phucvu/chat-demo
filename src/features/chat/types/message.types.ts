@@ -5,7 +5,6 @@ export type MessageType = "text" | "image" | "file" | "system";
 export interface LastMessage {
   text: string;
   senderId: string;
-  //senderName: string;
   createdAt: Timestamp | FieldValue;
   type: MessageType;
 }

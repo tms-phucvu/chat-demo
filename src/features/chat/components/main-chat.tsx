@@ -1,9 +1,9 @@
 "use client";
 
 import { useIsTablet } from "@/hooks/use-device";
-import { useTypingIndicator } from "@/features/chat/hooks/useTypingIndicator";
-import { ChatRoomPane } from "@/features/chat/components/chat-room/chat-room-pane";
-import { ChatSidebar } from "@/features/chat/components/sidebar/chat-sidebar";
+import { useTypingIndicator } from "@/features/chat/hooks/use-typing-indicator";
+import { ChatRoomPane } from "@/features/chat/components/layout/chat-room-pane";
+import { ChatSidebar } from "@/features/chat/components/layout/chat-sidebar";
 import { SearchUserDialog } from "@/features/chat/components/dialog/search-user-dialog";
 import { useState } from "react";
 

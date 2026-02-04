@@ -3,6 +3,7 @@ import {
   ParticipantPreview,
   ParticipantsInfo,
 } from "@/features/chat/types/room.types";
+import { UserInfo } from "@/types/user.type";
 
 export const getOtherParticipants = (
   participantsInfo: ParticipantsInfo,
@@ -15,6 +16,35 @@ export const getOtherParticipants = (
     .filter(([uid]) => uid !== myUid)
     .map(([, info]) => info);
 };
+
+export const getOtherParticipantIds = (
+  participantIds: string[],
+  myUid: string | null,
+): string[] => {
+  if (!myUid) {
+    return participantIds;
+  }
+  return participantIds.filter((id) => id !== myUid);
+};
+
+export function toParticipantPreviews(
+  users: (UserInfo | null | undefined)[],
+): ParticipantPreview[] {
+  if (!users) return [];
+  return users.map((user) => ({
+    name: user?.displayName ?? "Unknown",
+    avatar: user?.avatarURL ?? null,
+  }));
+}
+
+export function toParticipantPreview(
+  user: UserInfo | null | undefined,
+): ParticipantPreview {
+  return {
+    name: user?.displayName ?? "Unknown",
+    avatar: user?.avatarURL ?? null,
+  };
+}
 
 export const getUnreadCount = (room: ChatRoomListItem, uid: string | null) => {
   if (!uid) {

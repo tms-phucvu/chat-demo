@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { sendMessage } from "@/features/chat/services/messages.service";
-import { MessageType, SendMessageInput } from "@/features/chat/types/message.types";
+import { SendMessageInput } from "@/features/chat/types/message.types";
 
 type UseSendMessageResult = {
   send: (input: SendMessageInput) => Promise<void>;
