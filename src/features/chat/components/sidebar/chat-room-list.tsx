@@ -5,7 +5,8 @@ import { useAuth } from "@/hooks/use-auth";
 import { useInterestedUsersStore } from "@/stores/interested-users.store";
 import { useEffect } from "react";
 import SkeletonRoomList from "@/features/chat/components/sidebar/skeleton-room-list";
-import ChatRoomItem from "@/features/chat/components/sidebar/chat-room-item";
+import { GroupRoomItem } from "../chat-room-item/group-room-item";
+import { PrivateRoomItem } from "../chat-room-item/private-room-item";
 
 type ChatRoomListProps = {
   rooms: ChatRoomListItem[];
@@ -48,17 +49,34 @@ export function ChatRoomList({
   return (
     <div className="space-y-1">
       {rooms.map((room) => {
-        const isActive = room.id === activeRoomId;
-        return (
-          <ChatRoomItem
-            key={room.id}
-            room={room}
-            isActive={isActive}
-            uid={uid}
-            presences={presences}
-            onSelectRoom={onSelectRoom}
-          />
-        );
+        const isActive = activeRoomId === room.id;
+
+        if (room.type === "private") {
+          return (
+            <PrivateRoomItem
+              key={room.id}
+              room={room}
+              isActive={isActive}
+              uid={uid}
+              presences={presences}
+              onSelectRoom={onSelectRoom}
+            />
+          );
+        }
+
+        if (room.type === "group") {
+          return (
+            <GroupRoomItem
+              key={room.id}
+              room={room}
+              isActive={isActive}
+              uid={uid}
+              onSelectRoom={onSelectRoom}
+            />
+          );
+        }
+
+        return null;
       })}
     </div>
   );

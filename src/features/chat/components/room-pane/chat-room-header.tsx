@@ -32,8 +32,6 @@ export const ChatRoomHeader = ({ room, onBack }: ChatRoomHeaderProps) => {
   const otherParticipants = toParticipantPreviews(participants);
   const { data } = useUserInfo(partnerId);
   const partner = toParticipantPreview(data);
-  
-  console.log("partner", partner)
       
   const partnerPresence = partnerId ? presences[partnerId] : null;
   const status = partnerPresence ? partnerPresence.status : "offline";
