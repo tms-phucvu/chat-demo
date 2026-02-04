@@ -2,7 +2,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatRoomList } from "@/features/chat/components/sidebar/chat-room-list";
 import RoomCreateButton from "@/features/chat/components/sidebar/room-create-button";
 import EmptyRoomList from "@/features/chat/components/sidebar/empty-room-list";
-import { useRoomList } from "@/features/chat/hooks/useRoomList";
+import { useRoomList } from "@/features/chat/hooks/use-room-list";
 
 interface ChatSidebarProps {
   activeRoomId: string | null;

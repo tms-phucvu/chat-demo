@@ -8,10 +8,10 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { searchUserByEmailSmart } from "@/services/user.service";
 import { UserInfo } from "@/types/user.type";
 import { Dispatch, SetStateAction, useMemo, useRef, useState } from "react";
 import UserPreview from "@/features/chat/components/ui/user-preview";
+import { searchUserByEmailSmart } from "@/features/chat/services/user-search.service";
 
 const SEARCH_DEBOUNCE_MS = 500;
 

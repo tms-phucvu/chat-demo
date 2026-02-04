@@ -5,7 +5,7 @@ import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { setupPresence } from "@/services/presence.service";
 import { useAuthStore } from "@/stores/auth.store";
-import { syncUserProfile } from "@/services/user.service";
+import { syncUserProfile } from "@/services/user-profile.service";
 import { usePathname, useRouter } from "next/navigation";
 import { isPublicPath } from "@/lib/auth-path-utils";
 

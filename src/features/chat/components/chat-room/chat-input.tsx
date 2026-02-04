@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useSendMessage } from "@/features/chat/hooks/useSendMessage";
+import { useSendMessage } from "@/features/chat/hooks/use-send-message";
 import { useAuth } from "@/hooks/use-auth";
 
 type ChatInputProps = {

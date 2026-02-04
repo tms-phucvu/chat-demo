@@ -2,7 +2,7 @@ import { ChatInput } from "@/features/chat/components/chat-room/chat-input";
 import { ChatMessageList } from "@/features/chat/components/chat-room/chat-message-list";
 import { NoRoomSelected } from "@/features/chat/components/chat-room/no-room-selected";
 import { ChatRoomHeader } from "@/features/chat/components/chat-room/chat-room-header";
-import { useRoom } from "@/features/chat/hooks/useRoom";
+import { useRoom } from "@/features/chat/hooks/use-room";
 
 interface ChatRoomPaneProps {
   activeRoomId: string | null;
