@@ -11,7 +11,6 @@ export const formatTime = (value?: Timestamp | FieldValue) => {
 };
 
 export function formatLastActive(lastActive: number): string {
-  console.log(new Date(lastActive).toLocaleString());
   if (!lastActive) return "";
 
   const diffMs = Date.now() - lastActive;
@@ -22,7 +21,7 @@ export function formatLastActive(lastActive: number): string {
   const week = 7 * day;
 
   if (diffMs < minute) {
-    return "Active now";
+    return "Active 1 minute ago";
   }
 
   if (diffMs < hour) {
