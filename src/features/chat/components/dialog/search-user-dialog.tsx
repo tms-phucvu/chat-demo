@@ -14,7 +14,10 @@ import { useState } from "react";
 import { UserInfo } from "@/types/user.type";
 import SelectedUserPreview from "@/features/chat/components/dialog/selected-user-preview";
 import { useAuth } from "@/hooks/use-auth";
-import { ensureCreatePrivateChat } from "@/features/chat/services/room.service";
+import {
+  createGroupChat,
+  ensureCreatePrivateChat,
+} from "@/features/chat/services/room.service";
 
 interface SearchUserDialogProps {
   onSelectRoom: (roomId: string) => void;
@@ -37,6 +40,18 @@ export function SearchUserDialog({ onSelectRoom }: SearchUserDialogProps) {
     const roomId = await ensureCreatePrivateChat(
       profile.uid,
       selectedUsers[0].uid,
+    );
+    onSelectRoom(roomId);
+    handleCloseDialog();
+  };
+
+  const handleCreateGroup = async () => {
+    if (!profile || !selectedUsers) {
+      return null;
+    }
+    const roomId = await createGroupChat(
+      profile.uid,
+      selectedUsers.map((users) => users.uid),
     );
     onSelectRoom(roomId);
     handleCloseDialog();
@@ -88,7 +103,12 @@ export function SearchUserDialog({ onSelectRoom }: SearchUserDialogProps) {
               Start Chat
             </Button>
           ) : (
-            <Button disabled={selectedUsers.length < 2}>Create Group</Button>
+            <Button
+              onClick={handleCreateGroup}
+              disabled={selectedUsers.length < 2}
+            >
+              Create Group
+            </Button>
           )}
         </DialogFooter>
       </DialogContent>

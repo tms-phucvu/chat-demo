@@ -33,8 +33,8 @@ export function GroupRoomItem({
   );
 
   const lastMessagePreview = isMe
-    ? `You: ${room.lastMessage?.text}`
-    : `${lastSender?.displayName}: ${room.lastMessage?.text}`;
+    ? `You${room.lastMessage?.type === "system" ? "" : ":"} ${room.lastMessage?.text}`
+    : `${lastSender?.displayName}${room.lastMessage?.type === "system" ? "" : ":"} ${room.lastMessage?.text}`;
 
   const title = (
     <p className="truncate text-sm font-medium">

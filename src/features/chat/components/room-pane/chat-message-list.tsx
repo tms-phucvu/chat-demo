@@ -36,7 +36,7 @@ export function ChatMessageList({
           </div>
         )}
 
-        {!isLoading && messages.length === 0 && !isTyping && (
+        {!isLoading && messages.length === 0 && (
           <div className="flex justify-center py-10">
             <div className="max-w-xs text-center text-sm text-muted-foreground">
               <p className="text-6xl mb-6">👋</p>

@@ -12,6 +12,8 @@ export type ParticipantsInfo = Record<string, ParticipantPreview>;
 export type ChatRoom = {
   id: string;
   type: RoomType;
+  groupName?: string | null;
+  groupAvatarURL?: string | null; 
   participants: string[];
   participantsCount: number;
   unreadCounts: Record<string, number>;
