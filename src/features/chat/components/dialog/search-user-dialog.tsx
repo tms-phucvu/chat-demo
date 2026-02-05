@@ -18,47 +18,45 @@ import {
   createGroupChat,
   ensureCreatePrivateChat,
 } from "@/features/chat/services/room.service";
+import { useChatStore } from "@/features/chat/stores/chat.store";
+import { DIALOG_MODE_CONFIG } from "@/features/chat/constants/chat.constants";
 
-interface SearchUserDialogProps {
-  onSelectRoom: (roomId: string) => void;
-}
-
-export function SearchUserDialog({ onSelectRoom }: SearchUserDialogProps) {
+export function SearchUserDialog() {
+  const { profile } = useAuth();
   const { isSearchUserOpen, closeSearchUser, searchUserMode } =
     useChatDialogStore();
-  const { profile } = useAuth();
+  const { setActiveRoomId } = useChatStore();
+  const config =
+    DIALOG_MODE_CONFIG[searchUserMode as keyof typeof DIALOG_MODE_CONFIG] ||
+    DIALOG_MODE_CONFIG.NEW_CHAT;
   const [selectedUsers, setSelectedUsers] = useState<UserInfo[]>([]);
 
   const handleCloseDialog = () => {
     setSelectedUsers([]);
     closeSearchUser();
   };
-  const handleStartChat = async () => {
-    if (!profile || !selectedUsers[0]) {
-      return null;
+
+  const handleSubmit = async () => {
+    if (!profile || selectedUsers.length === 0) return;
+
+    let roomId = "";
+    const selectedUserIds = selectedUsers.map((u) => u.uid);
+    switch (searchUserMode) {
+      case "NEW_CHAT":
+        roomId = await ensureCreatePrivateChat(profile.uid, selectedUserIds[0]);
+        break;
+      case "CREATE_GROUP":
+        roomId = await createGroupChat(profile.uid, selectedUserIds);
+        break;
+      // case "ADD_MEMBERS":
+      //   roomId = await addMembersToExistingGroup(activeRoomId, uids);
+      //   break;
     }
-    const roomId = await ensureCreatePrivateChat(
-      profile.uid,
-      selectedUsers[0].uid,
-    );
-    onSelectRoom(roomId);
+    if (roomId) setActiveRoomId(roomId);
     handleCloseDialog();
   };
 
-  const handleCreateGroup = async () => {
-    if (!profile || !selectedUsers) {
-      return null;
-    }
-    const roomId = await createGroupChat(
-      profile.uid,
-      selectedUsers.map((users) => users.uid),
-    );
-    onSelectRoom(roomId);
-    handleCloseDialog();
-  };
-
-  const isNewChat = searchUserMode === "NEW_CHAT";
-  const hideUserSelector = isNewChat && selectedUsers.length > 0;
+  const isMaxReached = selectedUsers.length >= config.maxUsers;
 
   return (
     <Dialog
@@ -71,20 +69,14 @@ export function SearchUserDialog({ onSelectRoom }: SearchUserDialogProps) {
     >
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>
-            {isNewChat ? "New Chat" : "Create New Group"}
-          </DialogTitle>
-          <DialogDescription>
-            {isNewChat
-              ? "Search for a user and click the Start Chat button to begin a private conversation."
-              : "Search for people and click the Create Group button to start chatting together."}
-          </DialogDescription>
+          <DialogTitle>{config.title}</DialogTitle>
+          <DialogDescription>{config.desc}</DialogDescription>
         </DialogHeader>
         <SelectedUserPreview
           selectedUsers={selectedUsers}
           setSelectedUsers={setSelectedUsers}
         />
-        {!hideUserSelector && (
+        {!isMaxReached && (
           <UserSelector
             currentUid={profile?.uid ?? ""}
             selectedUsers={selectedUsers}
@@ -95,21 +87,15 @@ export function SearchUserDialog({ onSelectRoom }: SearchUserDialogProps) {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          {isNewChat ? (
-            <Button
-              onClick={handleStartChat}
-              disabled={selectedUsers.length === 0}
-            >
-              Start Chat
-            </Button>
-          ) : (
-            <Button
-              onClick={handleCreateGroup}
-              disabled={selectedUsers.length < 2}
-            >
-              Create Group
-            </Button>
-          )}
+          <Button
+            onClick={handleSubmit}
+            disabled={
+              selectedUsers.length < config.minUsers ||
+              selectedUsers.length > config.maxUsers
+            }
+          >
+            {config.buttonText}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

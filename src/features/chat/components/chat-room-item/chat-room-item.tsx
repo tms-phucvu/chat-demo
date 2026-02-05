@@ -4,12 +4,11 @@ import { cn } from "@/lib/utils";
 import type { ChatRoomListItem } from "@/features/chat/types/room.types";
 import { formatTime } from "@/features/chat/utils/date.utils";
 import { getUnreadCount } from "@/features/chat/utils/room.utils";
+import { useChatStore } from "@/features/chat/stores/chat.store";
 
 type ChatRoomItemProps = {
   room: ChatRoomListItem;
-  isActive: boolean;
   uid: string | null;
-  onSelectRoom: (roomId: string) => void;
   children: React.ReactNode;
   avatar: React.ReactNode;
   lastMessagePreview: string;
@@ -17,17 +16,17 @@ type ChatRoomItemProps = {
 
 export function ChatRoomItem({
   room,
-  isActive,
   uid,
-  onSelectRoom,
   children,
   avatar,
   lastMessagePreview,
 }: ChatRoomItemProps) {
+  const { activeRoomId, setActiveRoomId } = useChatStore();
+  const isActive = activeRoomId === room.id;
   return (
     <button
       type="button"
-      onClick={() => onSelectRoom(room.id)}
+      onClick={() => setActiveRoomId(room.id)}
       className={cn(
         "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors",
         "hover:bg-accent hover:text-accent-foreground",

@@ -4,15 +4,7 @@ import RoomCreateButton from "@/features/chat/components/sidebar/room-create-but
 import EmptyRoomList from "@/features/chat/components/sidebar/empty-room-list";
 import { useRoomList } from "@/features/chat/hooks/use-room-list";
 
-interface ChatSidebarProps {
-  activeRoomId: string | null;
-  onSelectRoom: (roomId: string) => void;
-}
-
-export const ChatSidebar = ({
-  activeRoomId,
-  onSelectRoom,
-}: ChatSidebarProps) => {
+export const ChatSidebar = () => {
   const { rooms, isLoading, error } = useRoomList();
 
   return (
@@ -32,12 +24,7 @@ export const ChatSidebar = ({
       {rooms.length > 0 ? (
         <ScrollArea className="min-h-0 flex-1 pr-1">
           <div className="pb-2">
-            <ChatRoomList
-              rooms={rooms}
-              activeRoomId={activeRoomId}
-              loading={isLoading}
-              onSelectRoom={onSelectRoom}
-            />
+            <ChatRoomList rooms={rooms} loading={isLoading} />
           </div>
         </ScrollArea>
       ) : (

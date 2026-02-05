@@ -11,3 +11,27 @@ export const TYPING_TIMEOUT_MS = 5000;
 
 export const CHAT_TYPING_MIN_MS = 800;
 export const CHAT_TYPING_MAX_MS = 2200;
+
+export const DIALOG_MODE_CONFIG = {
+  NEW_CHAT: {
+    title: "New Chat",
+    desc: "Search for a user to start a private conversation.",
+    buttonText: "Start Chat",
+    minUsers: 1,
+    maxUsers: 1,
+  },
+  CREATE_GROUP: {
+    title: "Create New Group",
+    desc: "Search and select at least 2 people to create a group chat.",
+    buttonText: "Create Group",
+    minUsers: 2,
+    maxUsers: 50,
+  },
+  ADD_MEMBERS: {
+    title: "Add Members",
+    desc: "Select new people to add to this group.",
+    buttonText: "Add to Group",
+    minUsers: 1,
+    maxUsers: 20,
+  },
+} as const;

@@ -3,26 +3,21 @@
 import { GroupAvatar } from "@/features/chat/components/ui/group-avatar";
 import {
   getGroupDisplayName,
-  toParticipantPreview,
   toParticipantPreviews,
 } from "@/features/chat/utils/room.utils";
 import { useParticipants } from "@/features/chat/hooks/use-participants";
 import type { ChatRoomListItem } from "@/features/chat/types/room.types";
 import { ChatRoomItem } from "@/features/chat/components/chat-room-item/chat-room-item";
-import { useUserInfo } from "../../hooks/use-user-info";
+import { useUserInfo } from "@/features/chat/hooks/use-user-info";
 
 type GroupRoomItemProps = {
   room: ChatRoomListItem;
-  isActive: boolean;
   uid: string | null;
-  onSelectRoom: (roomId: string) => void;
 };
 
 export function GroupRoomItem({
   room,
-  isActive,
   uid,
-  onSelectRoom,
 }: GroupRoomItemProps) {
   const otherParticipantIds = room.participants.filter((id) => id !== uid);
   const { participants } = useParticipants(otherParticipantIds);
@@ -52,9 +47,7 @@ export function GroupRoomItem({
   return (
     <ChatRoomItem
       room={room}
-      isActive={isActive}
       uid={uid}
-      onSelectRoom={onSelectRoom}
       avatar={avatar}
       lastMessagePreview={lastMessagePreview}
     >

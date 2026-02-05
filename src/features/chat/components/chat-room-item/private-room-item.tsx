@@ -9,18 +9,14 @@ import { ChatRoomItem } from "@/features/chat/components/chat-room-item/chat-roo
 
 type PrivateRoomItemProps = {
   room: ChatRoomListItem;
-  isActive: boolean;
   uid: string | null;
   presences: Record<string, UserPresence>;
-  onSelectRoom: (roomId: string) => void;
 };
 
 export function PrivateRoomItem({
   room,
-  isActive,
   uid,
   presences,
-  onSelectRoom,
 }: PrivateRoomItemProps) {
   const partnerId = room.participants.find((id) => id !== uid) || "";
   const { data } = useUserInfo(partnerId);
@@ -47,9 +43,7 @@ export function PrivateRoomItem({
   return (
     <ChatRoomItem
       room={room}
-      isActive={isActive}
       uid={uid}
-      onSelectRoom={onSelectRoom}
       avatar={avatar}
       lastMessagePreview={lastMessagePreview ?? ""}
     >

@@ -5,11 +5,11 @@ import { useTypingIndicator } from "@/features/chat/hooks/use-typing-indicator";
 import { ChatRoomPane } from "@/features/chat/components/layout/chat-room-pane";
 import { ChatSidebar } from "@/features/chat/components/layout/chat-sidebar";
 import { SearchUserDialog } from "@/features/chat/components/dialog/search-user-dialog";
-import { useState } from "react";
+import { useChatStore } from "@/features/chat/stores/chat.store";
 
 export default function MainChat() {
   const isTablet = useIsTablet();
-  const [activeRoomId, setActiveRoomId] = useState<string | null>(null);
+  const { activeRoomId, setActiveRoomId } = useChatStore();
   const { isTyping } = useTypingIndicator(activeRoomId);
 
   return (
@@ -23,22 +23,16 @@ export default function MainChat() {
               onBack={() => setActiveRoomId(null)}
             />
           ) : (
-            <ChatSidebar
-              activeRoomId={activeRoomId}
-              onSelectRoom={setActiveRoomId}
-            />
+            <ChatSidebar />
           )
         ) : (
           <>
-            <ChatSidebar
-              activeRoomId={activeRoomId}
-              onSelectRoom={setActiveRoomId}
-            />
+            <ChatSidebar />
             <ChatRoomPane activeRoomId={activeRoomId} isTyping={isTyping} />
           </>
         )}
       </div>
-      <SearchUserDialog onSelectRoom={setActiveRoomId} />
+      <SearchUserDialog />
     </>
   );
 }

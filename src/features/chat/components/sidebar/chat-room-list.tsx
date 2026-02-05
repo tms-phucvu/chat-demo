@@ -10,16 +10,12 @@ import { PrivateRoomItem } from "../chat-room-item/private-room-item";
 
 type ChatRoomListProps = {
   rooms: ChatRoomListItem[];
-  activeRoomId: string | null;
   loading: boolean;
-  onSelectRoom: (roomId: string) => void;
 };
 
 export function ChatRoomList({
   rooms,
-  activeRoomId,
   loading,
-  onSelectRoom,
 }: ChatRoomListProps) {
   const { user } = useAuth();
   const uid = user?.uid ?? null;
@@ -49,17 +45,14 @@ export function ChatRoomList({
   return (
     <div className="space-y-1">
       {rooms.map((room) => {
-        const isActive = activeRoomId === room.id;
-
+        
         if (room.type === "private") {
           return (
             <PrivateRoomItem
               key={room.id}
               room={room}
-              isActive={isActive}
               uid={uid}
               presences={presences}
-              onSelectRoom={onSelectRoom}
             />
           );
         }
@@ -69,9 +62,7 @@ export function ChatRoomList({
             <GroupRoomItem
               key={room.id}
               room={room}
-              isActive={isActive}
               uid={uid}
-              onSelectRoom={onSelectRoom}
             />
           );
         }
