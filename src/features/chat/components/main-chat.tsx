@@ -10,7 +10,6 @@ import { useChatStore } from "@/features/chat/stores/chat.store";
 export default function MainChat() {
   const isTablet = useIsTablet();
   const { activeRoomId, setActiveRoomId } = useChatStore();
-  const { isTyping } = useTypingIndicator(activeRoomId);
 
   return (
     <>
@@ -19,7 +18,6 @@ export default function MainChat() {
           activeRoomId ? (
             <ChatRoomPane
               activeRoomId={activeRoomId}
-              isTyping={isTyping}
               onBack={() => setActiveRoomId(null)}
             />
           ) : (
@@ -28,7 +26,7 @@ export default function MainChat() {
         ) : (
           <>
             <ChatSidebar />
-            <ChatRoomPane activeRoomId={activeRoomId} isTyping={isTyping} />
+            <ChatRoomPane activeRoomId={activeRoomId} />
           </>
         )}
       </div>

@@ -6,15 +6,10 @@ import { useRoom } from "@/features/chat/hooks/use-room";
 
 interface ChatRoomPaneProps {
   activeRoomId: string | null;
-  isTyping: boolean;
   onBack?: () => void;
 }
 
-export const ChatRoomPane = ({
-  activeRoomId,
-  isTyping,
-  onBack,
-}: ChatRoomPaneProps) => {
+export const ChatRoomPane = ({ activeRoomId, onBack }: ChatRoomPaneProps) => {
   const { room, isLoading, error } = useRoom(activeRoomId);
   if (!room) return <NoRoomSelected />;
 
@@ -22,7 +17,7 @@ export const ChatRoomPane = ({
     <section className="bg-background/80 flex min-h-0 flex-col rounded-lg border">
       <ChatRoomHeader room={room} onBack={onBack} />
 
-      <ChatMessageList activeRoomId={activeRoomId} isTyping={isTyping} />
+      <ChatMessageList activeRoomId={activeRoomId} />
 
       <ChatInput activeRoomId={activeRoomId} disabled={!room} />
     </section>

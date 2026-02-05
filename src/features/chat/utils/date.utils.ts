@@ -52,7 +52,17 @@ export function formatLastActive(lastActive: number): string {
   })}`;
 }
 
-export const isSameDay = (d1: Date, d2: Date) => {
+export const isSameDay = (
+  date1: Date | number | undefined,
+  date2: Date | number | undefined,
+) => {
+  if (!date1 || !date2) return false;
+
+  const d1 = new Date(date1);
+  const d2 = new Date(date2);
+
+  if (isNaN(d1.getTime()) || isNaN(d2.getTime())) return false;
+
   return (
     d1.getFullYear() === d2.getFullYear() &&
     d1.getMonth() === d2.getMonth() &&

@@ -13,17 +13,18 @@ import {
   formatDateSeparator,
   isSameDay,
 } from "@/features/chat/utils/date.utils";
+import { useTypingIndicator } from "@/features/chat/hooks/use-typing-indicator";
 
 type ChatMessageListProps = {
   activeRoomId: string | null;
-  isTyping: boolean;
 };
 
-export function ChatMessageList({
-  activeRoomId,
-  isTyping,
-}: ChatMessageListProps) {
+export function ChatMessageList({ activeRoomId }: ChatMessageListProps) {
   const { messages, isLoading, error } = useMessages(activeRoomId);
+
+  const typingIds = useTypingIndicator(activeRoomId);
+  const isTyping = typingIds.length > 0;
+  
   const { endRef } = useChatScroll([messages.length, isTyping]);
 
   return (

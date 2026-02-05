@@ -1,44 +1,24 @@
-"use client";
-
 import { useEffect, useState } from "react";
-import {
-  CHAT_TYPING_MAX_MS,
-  CHAT_TYPING_MIN_MS,
-} from "../constants/chat.constants";
+import { subscribeToTyping } from "@/features/chat/services/typing.service";
+import { useAuth } from "@/hooks/use-auth";
 
-type UseTypingIndicatorResult = {
-  isTyping: boolean;
-};
-
-export function useTypingIndicator(roomId: string | null): UseTypingIndicatorResult {
-  const [isTyping, setIsTyping] = useState(false);
+export function useTypingIndicator(roomId: string | null) {
+  const { user } = useAuth();
+  const currentUid = user?.uid;
+  const [typingIds, setTypingIds] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!roomId) {
-      setIsTyping(false);
-      return;
-    }
+    if (!roomId) return;
 
-    const startDelay = window.setTimeout(() => {
-      setIsTyping(true);
-      const duration =
-        Math.random() * (CHAT_TYPING_MAX_MS - CHAT_TYPING_MIN_MS) +
-        CHAT_TYPING_MIN_MS;
-
-      const stopTimeout = window.setTimeout(() => {
-        setIsTyping(false);
-      }, duration);
-
-      return () => window.clearTimeout(stopTimeout);
-    }, CHAT_TYPING_MIN_MS);
+    const unsubscribe = subscribeToTyping(roomId, (ids) => {
+      const filteredIds = ids.filter((id) => id !== currentUid);
+      setTypingIds(filteredIds);
+    });
 
     return () => {
-      window.clearTimeout(startDelay);
-      setIsTyping(false);
+      unsubscribe();
+      setTypingIds([]);
     };
-  }, [roomId]);
-
-  return { isTyping };
+  }, [roomId, currentUid]);
+  return roomId ? typingIds : [];
 }
-
-
