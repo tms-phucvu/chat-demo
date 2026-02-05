@@ -17,7 +17,7 @@ export type ChatRoom = {
   unreadCounts: Record<string, number>;
   createdBy: string;
   createdAt: Timestamp | FieldValue;
-  lastMessage: LastMessage;
+  lastMessage: LastMessage | null;
 };
 
 export type ChatRoomListItem = Omit<ChatRoom, "createdBy" | "createdAt">;

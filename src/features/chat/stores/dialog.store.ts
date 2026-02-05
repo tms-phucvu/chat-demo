@@ -22,6 +22,5 @@ export const useChatDialogStore = create<ChatDialogState>((set) => ({
   closeSearchUser: () =>
     set({
       isSearchUserOpen: false,
-      searchUserMode: null,
     }),
 }));

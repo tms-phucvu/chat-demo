@@ -26,11 +26,11 @@ export function PrivateRoomItem({
   const { data } = useUserInfo(partnerId);
   const partner = toParticipantPreview(data);
   const status = presences[partnerId]?.status ?? "offline";
-  const isMe = room.lastMessage.senderId === uid;
+  const isMe = room.lastMessage?.senderId === uid;
 
   const lastMessagePreview = isMe
-    ? `You: ${room.lastMessage.text}`
-    : room.lastMessage.text;
+    ? `You: ${room.lastMessage?.text}`
+    : room.lastMessage?.text;
 
   const title = (
     <p className="truncate text-sm font-medium">{partner.name ?? "Unknown"}</p>
@@ -51,7 +51,7 @@ export function PrivateRoomItem({
       uid={uid}
       onSelectRoom={onSelectRoom}
       avatar={avatar}
-      lastMessagePreview={lastMessagePreview}
+      lastMessagePreview={lastMessagePreview ?? ""}
     >
       {title}
     </ChatRoomItem>

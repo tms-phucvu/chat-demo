@@ -39,7 +39,7 @@ export function ChatRoomItem({
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between gap-2">
           {children}
-          {room.lastMessage.createdAt && (
+          {room.lastMessage?.createdAt && (
             <span className="text-[10px] text-muted-foreground whitespace-nowrap">
               {formatTime(room.lastMessage.createdAt)}
             </span>
@@ -47,7 +47,7 @@ export function ChatRoomItem({
         </div>
 
         <div className="flex items-center justify-between gap-2">
-          {room.lastMessage.text && (
+          {room.lastMessage?.text && (
             <p
               className={cn(
                 "mt-0.5 line-clamp-1 text-xs text-muted-foreground",

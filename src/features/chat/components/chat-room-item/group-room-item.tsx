@@ -27,14 +27,14 @@ export function GroupRoomItem({
   const otherParticipantIds = room.participants.filter((id) => id !== uid);
   const { participants } = useParticipants(otherParticipantIds);
   const otherParticipants = toParticipantPreviews(participants);
-  const isMe = room.lastMessage.senderId === uid;
+  const isMe = room.lastMessage?.senderId === uid;
   const { data: lastSender } = useUserInfo(
-    !isMe ? room.lastMessage.senderId : undefined,
+    !isMe ? room.lastMessage?.senderId : undefined,
   );
 
   const lastMessagePreview = isMe
-    ? `You: ${room.lastMessage.text}`
-    : `${lastSender?.displayName}: ${room.lastMessage.text}`;
+    ? `You: ${room.lastMessage?.text}`
+    : `${lastSender?.displayName}: ${room.lastMessage?.text}`;
 
   const title = (
     <p className="truncate text-sm font-medium">

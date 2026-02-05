@@ -38,7 +38,7 @@ export default function MainChat() {
           </>
         )}
       </div>
-      <SearchUserDialog />
+      <SearchUserDialog onSelectRoom={setActiveRoomId} />
     </>
   );
 }
