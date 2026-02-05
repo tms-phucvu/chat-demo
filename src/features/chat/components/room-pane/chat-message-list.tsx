@@ -14,6 +14,8 @@ import {
   isSameDay,
 } from "@/features/chat/utils/date.utils";
 import { useTypingIndicator } from "@/features/chat/hooks/use-typing-indicator";
+import { useParticipants } from "@/features/chat/hooks/use-participants";
+import { toParticipantPreviews } from "@/features/chat/utils/room.utils";
 
 type ChatMessageListProps = {
   activeRoomId: string | null;
@@ -24,7 +26,10 @@ export function ChatMessageList({ activeRoomId }: ChatMessageListProps) {
 
   const typingIds = useTypingIndicator(activeRoomId);
   const isTyping = typingIds.length > 0;
-  
+
+  const { participants: typingUsers } = useParticipants(typingIds);
+  const typingUserPreviews = toParticipantPreviews(typingUsers);
+
   const { endRef } = useChatScroll([messages.length, isTyping]);
 
   return (
@@ -70,7 +75,9 @@ export function ChatMessageList({ activeRoomId }: ChatMessageListProps) {
             );
           })}
 
-        {isTyping && <TypingIndicator />}
+        {isTyping && (
+          <TypingIndicator typingUserPreviews={typingUserPreviews} />
+        )}
 
         <div ref={endRef} />
       </div>
