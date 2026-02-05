@@ -15,17 +15,14 @@ type GroupRoomItemProps = {
   uid: string | null;
 };
 
-export function GroupRoomItem({
-  room,
-  uid,
-}: GroupRoomItemProps) {
+export function GroupRoomItem({ room, uid }: GroupRoomItemProps) {
   const otherParticipantIds = room.participants.filter((id) => id !== uid);
   const { participants } = useParticipants(otherParticipantIds);
   const otherParticipants = toParticipantPreviews(participants);
   const isMe = room.lastMessage?.senderId === uid;
-  const { data: lastSender } = useUserInfo(
-    !isMe ? room.lastMessage?.senderId : undefined,
-  );
+  const { data: lastSender } = useUserInfo(room.lastMessage?.senderId, {
+    enabled: !isMe,
+  });
 
   const lastMessagePreview = isMe
     ? `You${room.lastMessage?.type === "system" ? "" : ":"} ${room.lastMessage?.text}`

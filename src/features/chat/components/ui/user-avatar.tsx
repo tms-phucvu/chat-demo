@@ -12,11 +12,17 @@ interface UserAvatarProps {
   name: string;
   avatarUrl?: string;
   status?: UserStatusType;
+  size?: "lg" | "default" | "sm" | undefined;
 }
 
-export const UserAvatar = ({ name, avatarUrl, status }: UserAvatarProps) => {
+export const UserAvatar = ({
+  name,
+  avatarUrl,
+  status,
+  size = "lg",
+}: UserAvatarProps) => {
   return (
-    <Avatar size="lg">
+    <Avatar size={size}>
       <AvatarImage src={avatarUrl} alt={name} />
       <AvatarFallback className="text-xs">{getInitials(name)}</AvatarFallback>
       {status && <AvatarBadge className={AVATAR_STATUS_STYLES[status]} />}

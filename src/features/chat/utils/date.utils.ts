@@ -51,3 +51,32 @@ export function formatLastActive(lastActive: number): string {
     day: "numeric",
   })}`;
 }
+
+export const isSameDay = (d1: Date, d2: Date) => {
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  );
+};
+
+export const formatDateSeparator = (dateInput: Timestamp | FieldValue) => {
+  if (!dateInput) return "";
+
+  const date = (dateInput as Timestamp).toDate();
+  const now = new Date();
+
+  const isToday = date.toDateString() === now.toDateString();
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  const isYesterday = date.toDateString() === yesterday.toDateString();
+
+  if (isToday) return "Today";
+  if (isYesterday) return "Yesterday";
+
+  return new Intl.DateTimeFormat("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+};
