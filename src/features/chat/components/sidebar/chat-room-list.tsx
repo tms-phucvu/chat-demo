@@ -5,9 +5,9 @@ import { useAuth } from "@/hooks/use-auth";
 import { useInterestedUsersStore } from "@/stores/interested-users.store";
 import { useEffect } from "react";
 import SkeletonRoomList from "@/features/chat/components/sidebar/skeleton-room-list";
-import { GroupRoomItem } from "../chat-room-item/group-room-item";
-import { PrivateRoomItem } from "../chat-room-item/private-room-item";
-import ErrorRoomList from "./error-room-list";
+import { GroupRoomItem } from "@/features/chat/components/chat-room-item/group-room-item";
+import { PrivateRoomItem } from "@/features/chat/components/chat-room-item/private-room-item";
+import ErrorRoomList from "@/features/chat/components/sidebar/error-room-list";
 
 type ChatRoomListProps = {
   rooms: ChatRoomListItem[];
