@@ -1,7 +1,6 @@
 "use client";
 
 import { useIsTablet } from "@/hooks/use-device";
-import { useTypingIndicator } from "@/features/chat/hooks/use-typing-indicator";
 import { ChatRoomPane } from "@/features/chat/components/layout/chat-room-pane";
 import { ChatSidebar } from "@/features/chat/components/layout/chat-sidebar";
 import { SearchUserDialog } from "@/features/chat/components/dialog/search-user-dialog";

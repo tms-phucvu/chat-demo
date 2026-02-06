@@ -13,13 +13,13 @@ export const useSendMessage = (): UseSendMessageResult => {
   const [error, setError] = useState<Error | null>(null);
 
   const send = useCallback(async (input: SendMessageInput) => {
-    const { roomId, ...payload } = input;
+    const { roomId, unreadParticipants, ...payload } = input;
 
     try {
       setIsSending(true);
       setError(null);
 
-      await sendMessage(roomId, payload);
+      await sendMessage({ roomId, payload, unreadParticipants });
     } catch (err) {
       setError(err instanceof Error ? err : new Error("Send message failed"));
     } finally {

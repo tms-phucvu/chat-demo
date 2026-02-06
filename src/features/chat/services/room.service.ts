@@ -10,8 +10,7 @@ import {
 } from "firebase/firestore";
 import { ChatRoom } from "@/features/chat/types/room.types";
 import { db } from "@/lib/firebase";
-import { LastMessage } from "../types/message.types";
-import { UserProfile } from "@/types/user.type";
+import { LastMessage } from "@/features/chat/types/message.types";
 
 /**
  * Subscribe to a room by ID for realtime updates

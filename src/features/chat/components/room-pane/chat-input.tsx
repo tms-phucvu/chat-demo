@@ -9,17 +9,31 @@ import {
   clearTyping,
   handleTyping,
 } from "@/features/chat/services/typing.service";
+import { ChatRoom } from "@/features/chat/types/room.types";
 
 type ChatInputProps = {
-  disabled?: boolean;
+  room: ChatRoom | null;
   activeRoomId: string | null;
+  usersInRoom: string[];
+  disabled?: boolean;
 };
 
-export function ChatInput({ disabled, activeRoomId }: ChatInputProps) {
-  const [value, setValue] = useState("");
+export function ChatInput({
+  room,
+  activeRoomId,
+  usersInRoom,
+  disabled,
+}: ChatInputProps) {
   const { user } = useAuth();
   const uid = user?.uid ?? null;
+
+  const [value, setValue] = useState("");
   const { send, isSending } = useSendMessage();
+
+  const unreadParticipants = (room?.participants ?? []).filter(
+    (participantId) =>
+      participantId !== uid && !usersInRoom.includes(participantId),
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = event.target.value;
@@ -38,6 +52,7 @@ export function ChatInput({ disabled, activeRoomId }: ChatInputProps) {
       roomId: activeRoomId,
       text: value,
       senderId: uid,
+      unreadParticipants: unreadParticipants,
     });
     setValue("");
     clearTyping(activeRoomId, uid);

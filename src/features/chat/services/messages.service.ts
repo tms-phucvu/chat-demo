@@ -1,18 +1,22 @@
 import {
   collection,
   doc,
+  increment,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
+  UpdateData,
   writeBatch,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import {
   LastMessage,
   Message,
+  SendMessageParams,
   SendMessagePayload,
 } from "@/features/chat/types/message.types";
+import { ChatRoom } from "../types/room.types";
 
 /**
  * Subscribe messages of a room (sub-collection)
@@ -39,10 +43,11 @@ export const subscribeMessagesByRoomId = (
 /**
  * Send message & update room.lastMessage atomically
  */
-export const sendMessage = async (
-  roomId: string,
-  payload: SendMessagePayload,
-) => {
+export const sendMessage = async ({
+  roomId,
+  payload,
+  unreadParticipants,
+}: SendMessageParams) => {
   const { text, senderId, type = "text" } = payload;
 
   const batch = writeBatch(db);
@@ -65,10 +70,16 @@ export const sendMessage = async (
     createdAt: serverTimestamp(),
   };
 
-  batch.set(messageRef, messageData);
-  batch.update(roomRef, {
-    lastMessage: lastMessageData,
+  const updateData: UpdateData<Pick<ChatRoom, "lastMessage" | "unreadCounts">> =
+    {
+      lastMessage: lastMessageData,
+    };
+  unreadParticipants.forEach((uid) => {
+    updateData[`unreadCounts.${uid}`] = increment(1);
   });
+
+  batch.set(messageRef, messageData);
+  batch.update(roomRef, updateData);
 
   await batch.commit();
 };

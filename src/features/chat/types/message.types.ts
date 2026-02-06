@@ -23,6 +23,13 @@ export interface SendMessagePayload {
   type?: MessageType;
 }
 
-export type SendMessageInput = SendMessagePayload & {
+export type SendMessageBase = {
   roomId: string;
+  unreadParticipants: string[];
+};
+
+export type SendMessageInput = SendMessagePayload & SendMessageBase;
+
+export type SendMessageParams = SendMessageBase & {
+  payload: SendMessagePayload;
 };

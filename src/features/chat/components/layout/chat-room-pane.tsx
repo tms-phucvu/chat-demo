@@ -3,6 +3,7 @@ import { ChatMessageList } from "@/features/chat/components/room-pane/chat-messa
 import { NoRoomSelected } from "@/features/chat/components/room-pane/no-room-selected";
 import { ChatRoomHeader } from "@/features/chat/components/room-pane/chat-room-header";
 import { useRoom } from "@/features/chat/hooks/use-room";
+import { useRoomPresence } from "@/features/chat/hooks/use-room-presence";
 
 interface ChatRoomPaneProps {
   activeRoomId: string | null;
@@ -11,6 +12,9 @@ interface ChatRoomPaneProps {
 
 export const ChatRoomPane = ({ activeRoomId, onBack }: ChatRoomPaneProps) => {
   const { room, isLoading, error } = useRoom(activeRoomId);
+  const { usersInRoom } = useRoomPresence({
+    roomId: activeRoomId,
+  });
   if (!room) return <NoRoomSelected />;
 
   return (
@@ -19,7 +23,7 @@ export const ChatRoomPane = ({ activeRoomId, onBack }: ChatRoomPaneProps) => {
 
       <ChatMessageList activeRoomId={activeRoomId} />
 
-      <ChatInput activeRoomId={activeRoomId} disabled={!room} />
+      <ChatInput room={room} activeRoomId={activeRoomId} usersInRoom={usersInRoom} disabled={!room} />
     </section>
   );
 };
