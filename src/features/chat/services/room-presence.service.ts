@@ -22,7 +22,7 @@ export const leaveRoom = (uid: string, roomId: string) => {
  */
 export const subscribeToRoomPresence = (
   roomId: string, 
-  callback: (uids: string[]) => void
+  callback: (participantIds: string[]) => void
 ) => {
   const presenceRef = ref(rtdb, `room_presence/${roomId}`);
 

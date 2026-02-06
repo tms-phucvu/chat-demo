@@ -1,5 +1,8 @@
 import { UserInfo, UserProfile } from "@/types/user.type";
-import { FirestoreDataConverter, QueryDocumentSnapshot } from "firebase/firestore";
+import {
+  FirestoreDataConverter,
+  QueryDocumentSnapshot,
+} from "firebase/firestore";
 
 /**
  * =========================
@@ -8,6 +11,7 @@ import { FirestoreDataConverter, QueryDocumentSnapshot } from "firebase/firestor
  */
 export const userConverter: FirestoreDataConverter<UserProfile> = {
   toFirestore: (user) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { uid, ...data } = user;
     return data;
   },

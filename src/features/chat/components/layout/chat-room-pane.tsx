@@ -4,6 +4,8 @@ import { NoRoomSelected } from "@/features/chat/components/room-pane/no-room-sel
 import { ChatRoomHeader } from "@/features/chat/components/room-pane/chat-room-header";
 import { useRoom } from "@/features/chat/hooks/use-room";
 import { useRoomPresence } from "@/features/chat/hooks/use-room-presence";
+import LoadingRoomSelected from "@/features/chat/components/room-pane/loading-room-selected";
+import ErrorRoomSelected from "../room-pane/error-room-selected";
 
 interface ChatRoomPaneProps {
   activeRoomId: string | null;
@@ -17,13 +19,22 @@ export const ChatRoomPane = ({ activeRoomId, onBack }: ChatRoomPaneProps) => {
   });
   if (!room) return <NoRoomSelected />;
 
+  if (isLoading) return <LoadingRoomSelected />;
+
+  if (error) return <ErrorRoomSelected error={error} />;
+
   return (
     <section className="bg-background/80 flex min-h-0 flex-col rounded-lg border">
       <ChatRoomHeader room={room} onBack={onBack} />
 
       <ChatMessageList activeRoomId={activeRoomId} />
 
-      <ChatInput room={room} activeRoomId={activeRoomId} usersInRoom={usersInRoom} disabled={!room} />
+      <ChatInput
+        room={room}
+        activeRoomId={activeRoomId}
+        usersInRoom={usersInRoom}
+        disabled={!room}
+      />
     </section>
   );
 };

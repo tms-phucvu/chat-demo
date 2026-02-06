@@ -7,16 +7,15 @@ import { useEffect } from "react";
 import SkeletonRoomList from "@/features/chat/components/sidebar/skeleton-room-list";
 import { GroupRoomItem } from "../chat-room-item/group-room-item";
 import { PrivateRoomItem } from "../chat-room-item/private-room-item";
+import ErrorRoomList from "./error-room-list";
 
 type ChatRoomListProps = {
   rooms: ChatRoomListItem[];
   loading: boolean;
+  error: Error | null;
 };
 
-export function ChatRoomList({
-  rooms,
-  loading,
-}: ChatRoomListProps) {
+export function ChatRoomList({ rooms, loading, error }: ChatRoomListProps) {
   const { user } = useAuth();
   const uid = user?.uid ?? null;
 
@@ -42,10 +41,14 @@ export function ChatRoomList({
     return <SkeletonRoomList />;
   }
 
+  if (!loading && error)
+    return (
+      <ErrorRoomList error={error} onRetry={() => window.location.reload()} />
+    );
+
   return (
     <div className="space-y-1">
       {rooms.map((room) => {
-        
         if (room.type === "private") {
           return (
             <PrivateRoomItem
@@ -58,13 +61,7 @@ export function ChatRoomList({
         }
 
         if (room.type === "group") {
-          return (
-            <GroupRoomItem
-              key={room.id}
-              room={room}
-              uid={uid}
-            />
-          );
+          return <GroupRoomItem key={room.id} room={room} uid={uid} />;
         }
 
         return null;

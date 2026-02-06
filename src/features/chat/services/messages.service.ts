@@ -14,7 +14,6 @@ import {
   LastMessage,
   Message,
   SendMessageParams,
-  SendMessagePayload,
 } from "@/features/chat/types/message.types";
 import { ChatRoom } from "../types/room.types";
 

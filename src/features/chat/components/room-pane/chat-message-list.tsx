@@ -3,10 +3,10 @@
 import { useChatScroll } from "@/features/chat/hooks/use-chat-scroll";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMessages } from "@/features/chat/hooks/use-messages";
-import EmptyMessageList from "@/features/chat/components/room-pane/empty-message-list";
-import SkeletonMessageList from "@/features/chat/components/room-pane/skeleton-message-list";
+import EmptyMessageList from "@/features/chat/components/chat-message-item/empty-message-list";
+import SkeletonMessageList from "@/features/chat/components/chat-message-item/skeleton-message-list";
 import TypingIndicator from "@/features/chat/components//ui/typing-indicator";
-import { ChatMessageItem } from "@/features/chat/components/room-pane/chat-message-item";
+import { ChatMessageItem } from "@/features/chat/components/chat-message-item/chat-message-item";
 import { Timestamp } from "firebase/firestore";
 import { MESSAGE_TIME_GAP_LIMIT } from "@/features/chat/constants/chat.constants";
 import {
@@ -16,6 +16,7 @@ import {
 import { useTypingIndicator } from "@/features/chat/hooks/use-typing-indicator";
 import { useParticipants } from "@/features/chat/hooks/use-participants";
 import { toParticipantPreviews } from "@/features/chat/utils/room.utils";
+import ErrorMessageList from "@/features/chat/components/chat-message-item/error-message-list";
 
 type ChatMessageListProps = {
   activeRoomId: string | null;
@@ -37,7 +38,14 @@ export function ChatMessageList({ activeRoomId }: ChatMessageListProps) {
       <div className="space-y-4 px-4 py-4">
         {isLoading && <SkeletonMessageList />}
 
-        {!isLoading && messages.length === 0 && <EmptyMessageList />}
+        {!isLoading && error && (
+          <ErrorMessageList
+            error={error}
+            onRetry={() => window.location.reload()}
+          />
+        )}
+
+        {!isLoading && !error && messages.length === 0 && <EmptyMessageList />}
 
         {!isLoading &&
           messages.map((message, index) => {

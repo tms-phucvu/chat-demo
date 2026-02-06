@@ -24,7 +24,7 @@ export const ChatSidebar = () => {
       {rooms.length > 0 ? (
         <ScrollArea className="min-h-0 flex-1 pr-1">
           <div className="pb-2">
-            <ChatRoomList rooms={rooms} loading={isLoading} />
+            <ChatRoomList rooms={rooms} loading={isLoading} error={error} />
           </div>
         </ScrollArea>
       ) : (
