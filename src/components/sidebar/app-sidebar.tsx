@@ -1,12 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  BookOpen,
-  GalleryVerticalEnd,
-  LayoutDashboard,
-  MessageCircle,
-} from "lucide-react";
+import { BookOpen, LayoutDashboard, MessageCircle } from "lucide-react";
 
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavUser } from "@/components/sidebar/nav-user";
@@ -20,13 +15,14 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import Image from "next/image";
 
 // This is sample data.
 const data = {
   team: {
-    name: "Acme Inc",
-    logo: GalleryVerticalEnd,
-    plan: "Enterprise",
+    name: "TOMOSIA",
+    logo: "/logo.webp",
+    plan: "Company",
   },
   navMain: [
     {
@@ -67,8 +63,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                <data.team.logo className="size-4" />
+              <div className="bg-sidebar-primary flex aspect-square p-1.5 items-center justify-center rounded-sm">
+                <Image
+                  src={data.team.logo}
+                  alt="TOMOSIA logo"
+                  width={26}
+                  height={26}
+                  className="object-contain"
+                  priority
+                />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{data.team.name}</span>
