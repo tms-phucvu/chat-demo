@@ -20,8 +20,10 @@ import {
 import Link from "next/link";
 
 export function NavMain({
+  groupName,
   items,
 }: {
+  groupName: string;
   items: {
     title: string;
     url: string;
@@ -35,7 +37,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Project</SidebarGroupLabel>
+      <SidebarGroupLabel>{groupName}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
           if (!item.items || item.items.length === 0) {
