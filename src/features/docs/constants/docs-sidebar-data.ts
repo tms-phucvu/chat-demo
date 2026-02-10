@@ -48,8 +48,24 @@ export const DOCS_SIDEBAR = [
         isActive: true,
         items: [
           {
-            title: "Authentication",
-            url: "/docs/authentication",
+            title: "Chat Rooms",
+            url: "/docs/chat-rooms",
+          },
+          {
+            title: "Real-time Messaging",
+            url: "/docs/messaging",
+          },
+          {
+            title: "Presence",
+            url: "/docs/presence",
+          },
+          {
+            title: "Typing Indicators",
+            url: "/docs/typing-indicators",
+          },
+          {
+            title: "User Search",
+            url: "/docs/user-search",
           },
         ],
       },

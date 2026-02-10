@@ -43,4 +43,11 @@ export const BREADCRUMB_MAP: Record<string, string> = {
   docs: "Docs",
   introduction: "Introduction",
   firebase: "Firebase Setup",
+  "system-design": "System Design",
+  "data-models": "Data Models",
+  "chat-rooms": "Chat Rooms",
+  messaging: "Messaging",
+  presence: "Presence",
+  "typing-indicators": "Typing Indicators",
+  "user-search": "User Search",
 };
