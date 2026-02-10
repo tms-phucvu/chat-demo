@@ -11,7 +11,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { BREADCRUMB_MAP } from "@/constants/sidebar-data";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 
 export default function HeaderBreadcrumb() {
   const pathname = usePathname();

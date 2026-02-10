@@ -1,11 +1,13 @@
 "use client";
 
 import { useAuth } from "@/hooks/use-auth";
-import Link from "next/link";
 import { MessageSquare, Users, Zap, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 export default function Dashboard() {
+  const t = useTranslations("Dashboard");
   const { user, loading } = useAuth();
 
   if (loading)
@@ -28,11 +30,9 @@ export default function Dashboard() {
       <div className="relative bg-linear-to-r from-primary/10 to-primary/5 rounded-lg border p-8 overflow-hidden">
         <div className="relative z-10">
           <h1 className="text-3xl font-bold mb-2">
-            Welcome, {user.displayName}! 👋
+            {t("title")}, {user.displayName}! 👋
           </h1>
-          <p className="text-muted-foreground mb-4">
-            {user.email}
-          </p>
+          <p className="text-muted-foreground mb-4">{user.email}</p>
         </div>
       </div>
 
@@ -58,7 +58,8 @@ export default function Dashboard() {
               <div>
                 <h3 className="font-semibold mb-1">Private & Group Chats</h3>
                 <p className="text-sm text-muted-foreground">
-                  Create one-on-one conversations or group chats with multiple people
+                  Create one-on-one conversations or group chats with multiple
+                  people
                 </p>
               </div>
             </div>
@@ -105,7 +106,9 @@ export default function Dashboard() {
               className="border rounded-lg p-4 text-center bg-muted/30 hover:bg-muted/50 transition-colors"
             >
               <h3 className="font-semibold">{tech.name}</h3>
-              <p className="text-xs text-muted-foreground">{tech.description}</p>
+              <p className="text-xs text-muted-foreground">
+                {tech.description}
+              </p>
             </div>
           ))}
         </div>
@@ -115,10 +118,11 @@ export default function Dashboard() {
       <div className="border-l-4 border-primary bg-primary/5 rounded-lg p-6">
         <h3 className="font-semibold mb-2">📚 New to this template?</h3>
         <p className="text-sm text-muted-foreground mb-4">
-          Check out the comprehensive documentation to understand the architecture, features, and how to use this application.
+          Check out the comprehensive documentation to understand the
+          architecture, features, and how to use this application.
         </p>
         <Link href="/docs/introduction">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" className="cursor-pointer">
             Read Documentation
           </Button>
         </Link>

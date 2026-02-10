@@ -6,8 +6,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { setupPresence } from "@/services/presence.service";
 import { useAuthStore } from "@/stores/auth.store";
 import { syncUserProfile } from "@/services/user-profile.service";
-import { usePathname, useRouter } from "next/navigation";
 import { isPublicPath } from "@/lib/auth-path-utils";
+import { usePathname, useRouter } from "@/i18n/navigation";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { user, loading, setAuth, clearAuth } = useAuthStore();
