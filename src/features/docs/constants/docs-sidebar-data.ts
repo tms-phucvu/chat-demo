@@ -1,9 +1,4 @@
-import {
-  Blocks,
-  BookOpen,
-  PackageCheck,
-  Waypoints,
-} from "lucide-react";
+import { Blocks, BookOpen, PackageCheck, Waypoints } from "lucide-react";
 
 export const DOCS_SIDEBAR = [
   {
@@ -76,7 +71,7 @@ export const DOCS_SIDEBAR = [
     items: [
       {
         title: "Project demo",
-        url: "/",
+        url: "/dashboard",
         icon: PackageCheck,
       },
     ],
