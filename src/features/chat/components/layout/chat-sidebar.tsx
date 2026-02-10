@@ -3,8 +3,10 @@ import { ChatRoomList } from "@/features/chat/components/sidebar/chat-room-list"
 import RoomCreateButton from "@/features/chat/components/sidebar/room-create-button";
 import EmptyRoomList from "@/features/chat/components/sidebar/empty-room-list";
 import { useRoomList } from "@/features/chat/hooks/use-room-list";
+import { useTranslations } from "next-intl";
 
 export const ChatSidebar = () => {
+  const t = useTranslations("Chat");
   const { rooms, isLoading, error } = useRoomList();
 
   return (
@@ -12,7 +14,7 @@ export const ChatSidebar = () => {
       <div className="flex justify-between">
         <div className="mb-3">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            Chats
+            {t("title")}
           </p>
           <p className="text-sm text-muted-foreground">
             {rooms.length} conversations
