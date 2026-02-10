@@ -1,6 +1,6 @@
 import { FieldValue, Timestamp } from "firebase/firestore";
 
-export type MessageType = "text" | "image" | "file" | "system";
+export type MessageType = "text" | "system";
 
 export interface LastMessage {
   text: string;
