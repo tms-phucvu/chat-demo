@@ -4,7 +4,6 @@ export const TEAM = {
   name: "TOMOSIA",
   logo: "/logo.webp",
   desc: "TOMOSIA logo",
-  plan: "Company",
 };
 
 export const NAV_MAIN_GROUPS = [

@@ -10,6 +10,7 @@ import {
   handleTyping,
 } from "@/features/chat/services/typing.service";
 import { ChatRoom } from "@/features/chat/types/room.types";
+import { useTranslations } from "next-intl";
 
 type ChatInputProps = {
   room: ChatRoom | null;
@@ -24,6 +25,7 @@ export function ChatInput({
   usersInRoom,
   disabled,
 }: ChatInputProps) {
+  const t = useTranslations("chat.roomPane.chatInput");
   const { user } = useAuth();
   const uid = user?.uid ?? null;
 
@@ -74,7 +76,7 @@ export function ChatInput({
       <Input
         value={value}
         onChange={handleChange}
-        placeholder="Type a message..."
+        placeholder={t("placeholder")}
         disabled={disabled || isSending}
       />
       <Button
@@ -82,7 +84,7 @@ export function ChatInput({
         size="sm"
         disabled={disabled || isSending || !value.trim()}
       >
-        Send
+        {t("sendButton")}
       </Button>
     </form>
   );

@@ -6,6 +6,7 @@ import { useUserInfo } from "@/features/chat/hooks/use-user-info";
 import type { ChatRoomListItem } from "@/features/chat/types/room.types";
 import { UserPresence } from "@/types/user.type";
 import { ChatRoomItem } from "@/features/chat/components/chat-room-item/chat-room-item";
+import { useTranslations } from "next-intl";
 
 type PrivateRoomItemProps = {
   room: ChatRoomListItem;
@@ -18,15 +19,15 @@ export function PrivateRoomItem({
   uid,
   presences,
 }: PrivateRoomItemProps) {
+  const t = useTranslations("chat.sidebar.roomItem");
   const partnerId = room.participants.find((id) => id !== uid) || "";
   const { data } = useUserInfo(partnerId);
   const partner = toParticipantPreview(data);
   const status = presences[partnerId]?.status ?? "offline";
   const isMe = room.lastMessage?.senderId === uid;
 
-  const lastMessagePreview = isMe
-    ? `You: ${room.lastMessage?.text}`
-    : room.lastMessage?.text;
+  const content = room.lastMessage?.text || "";
+  const lastMessagePreview = `${isMe ? t("you") + ": " : ""}${content}`;
 
   const title = (
     <p className="truncate text-sm font-medium">{partner.name ?? "Unknown"}</p>

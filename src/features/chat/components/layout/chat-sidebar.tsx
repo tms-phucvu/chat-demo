@@ -6,7 +6,7 @@ import { useRoomList } from "@/features/chat/hooks/use-room-list";
 import { useTranslations } from "next-intl";
 
 export const ChatSidebar = () => {
-  const t = useTranslations("Chat");
+  const t = useTranslations("chat.sidebar.header");
   const { rooms, isLoading, error } = useRoomList();
 
   return (
@@ -17,7 +17,7 @@ export const ChatSidebar = () => {
             {t("title")}
           </p>
           <p className="text-sm text-muted-foreground">
-            {rooms.length} conversations
+            {t("count", { counts: rooms.length })}
           </p>
         </div>
         <RoomCreateButton />

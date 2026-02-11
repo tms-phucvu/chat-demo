@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 export default function Dashboard() {
-  const t = useTranslations("Dashboard");
+  const t = useTranslations("dashboard");
   const { user, loading } = useAuth();
 
   if (loading)
@@ -30,7 +30,7 @@ export default function Dashboard() {
       <div className="relative bg-linear-to-r from-primary/10 to-primary/5 rounded-lg border p-8 overflow-hidden">
         <div className="relative z-10">
           <h1 className="text-3xl font-bold mb-2">
-            {t("title")}, {user.displayName}! 👋
+            {t("welcome", { name: user.displayName ?? "Unknown" })} 👋
           </h1>
           <p className="text-muted-foreground mb-4">{user.email}</p>
         </div>

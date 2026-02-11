@@ -16,8 +16,11 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import { NAV_MAIN_GROUPS, TEAM } from "@/constants/sidebar-data";
+import { useTranslations } from "next-intl";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const t = useTranslations("common");
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -39,7 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{TEAM.name}</span>
-                <span className="truncate text-xs">{TEAM.plan}</span>
+                <span className="truncate text-xs">{t("team.type")}</span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>

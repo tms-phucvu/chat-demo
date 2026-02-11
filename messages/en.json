@@ -1,11 +1,101 @@
 {
-  "Common": {
-    "title": "Company"
+  "common": {
+    "team": {
+      "type": "Company"
+    }
   },
-  "Dashboard": {
-    "title": "Welcome"
+  "dashboard": {
+    "welcome": "Welcome, {name}!"
   },
-  "Chat": {
-    "title": "Chat"
+  "chat": {
+    "common": {
+      "lastActive": {
+        "offline": "Offline",
+        "now": "Active now",
+        "min": "Active 1 minute ago",
+        "mins": "Active {count} minutes ago",
+        "hour": "Active {count} hour{count, plural, =1 {} other {s}} ago",
+        "yesterday": "Active yesterday",
+        "days": "Active {count} days ago",
+        "date": "Active {date}"
+      },
+      "dateSeparator": {
+        "today": "Today",
+        "yesterday": "Yesterday"
+      }
+    },
+    "sidebar": {
+      "header": {
+        "title": "CHAT",
+        "count": "{counts} conversations"
+      },
+      "roomCreateButton": {
+        "newChat": "New chat",
+        "createGroup": "Create group",
+        "addContact": "Add contact"
+      },
+      "roomItem": {
+        "you": "You",
+        "createdGroupMessage": "{sender} created the group"
+      },
+      "emptyRoom": {
+        "title": "No conversations yet",
+        "desc": "Tap <icon></icon> above to find friends and start a conversation"
+      },
+      "errorRoom": {
+        "title": "Failed to load chats",
+        "desc": "Check your connection and try again.",
+        "retryButton": "Retry"
+      }
+    },
+    "roomPane": {
+      "header": {
+        "backButton": "Back to chats"
+      },
+      "chatInput": {
+        "placeholder": "Type a message...",
+        "sendButton": "Send"
+      },
+      "noRoom": {
+        "title": "Select a conversation to get started",
+        "desc": "Choose a chat from the list on the left to view messages and start replying."
+      },
+      "loadingRoom": {
+        "title": "Loading conversation..."
+      },
+      "errorRoom": {
+        "title": "An error occurred",
+        "desc": "Unable to load this chat room's information.",
+        "retryButton": "Retry"
+      },
+      "emptyMessage": {
+        "title": "No messages yet",
+        "desc": "Start the conversation by sending a message"
+      },
+      "errorMessage": {
+        "title": "Failed to load messages",
+        "desc": "Something went wrong while connecting to the chat server.",
+        "retryButton": "Try Again"
+      }
+    },
+    "dialog": {
+      "searchUser": {
+        "placeholder": "Type email to find people...",
+        "loading": "Searching...",
+        "emptyUser": "No users found."
+      },
+      "newChat": {
+        "title": "New Chat",
+        "desc": "Search for a user to start a private conversation.",
+        "submitButton": "Start Chat",
+        "cancelButton": "Cancel"
+      },
+      "createGroup": {
+        "title": "Create New Group",
+        "desc": "Search and select at least 2 people to create a group chat.",
+        "submitButton": "Create Group",
+        "cancelButton": "Cancel"
+      }
+    }
   }
 }

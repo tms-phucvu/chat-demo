@@ -20,15 +20,18 @@ import {
 } from "@/features/chat/services/room.service";
 import { useChatStore } from "@/features/chat/stores/chat.store";
 import { DIALOG_MODE_CONFIG } from "@/features/chat/constants/chat.constants";
+import { useTranslations } from "next-intl";
 
 export function SearchUserDialog() {
   const { profile } = useAuth();
   const { isSearchUserOpen, closeSearchUser, searchUserMode } =
     useChatDialogStore();
-  const { setActiveRoomId } = useChatStore();
   const config =
     DIALOG_MODE_CONFIG[searchUserMode as keyof typeof DIALOG_MODE_CONFIG] ||
     DIALOG_MODE_CONFIG.NEW_CHAT;
+  const t = useTranslations(config.i18nKey);
+
+  const { setActiveRoomId } = useChatStore();
   const [selectedUsers, setSelectedUsers] = useState<UserInfo[]>([]);
 
   const handleCloseDialog = () => {
@@ -69,8 +72,8 @@ export function SearchUserDialog() {
     >
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>{config.title}</DialogTitle>
-          <DialogDescription>{config.desc}</DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("desc")}</DialogDescription>
         </DialogHeader>
         <SelectedUserPreview
           selectedUsers={selectedUsers}
@@ -85,7 +88,7 @@ export function SearchUserDialog() {
         )}
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline">{t("cancelButton")}</Button>
           </DialogClose>
           <Button
             onClick={handleSubmit}
@@ -94,7 +97,7 @@ export function SearchUserDialog() {
               selectedUsers.length > config.maxUsers
             }
           >
-            {config.buttonText}
+            {t("submitButton")}
           </Button>
         </DialogFooter>
       </DialogContent>

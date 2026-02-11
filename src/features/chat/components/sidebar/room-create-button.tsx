@@ -8,8 +8,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Plus } from "lucide-react";
 import { useChatDialogStore } from "@/features/chat/stores/dialog.store";
+import { useTranslations } from "next-intl";
 
 export default function RoomCreateButton() {
+  const t = useTranslations("chat.sidebar.roomCreateButton");
   const { openSearchUser } = useChatDialogStore();
 
   return (
@@ -25,19 +27,19 @@ export default function RoomCreateButton() {
             className="cursor-pointer"
             onClick={() => openSearchUser("NEW_CHAT")}
           >
-            New chat
+            {t("newChat")}
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => openSearchUser("CREATE_GROUP")}
           >
-            Create group
+            {t("createGroup")}
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuGroup>
+        {/* <DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Add contact</DropdownMenuItem>
-        </DropdownMenuGroup>
+          <DropdownMenuItem>{t("addContact")}</DropdownMenuItem>
+        </DropdownMenuGroup> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );

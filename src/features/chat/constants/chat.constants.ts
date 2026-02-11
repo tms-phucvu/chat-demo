@@ -11,24 +11,13 @@ export const MESSAGE_TIME_GAP_LIMIT = 3 * 60 * 1000;
 export const SEARCH_DEBOUNCE_MS = 500;
 export const DIALOG_MODE_CONFIG = {
   NEW_CHAT: {
-    title: "New Chat",
-    desc: "Search for a user to start a private conversation.",
-    buttonText: "Start Chat",
+    i18nKey: "chat.dialog.newChat",
     minUsers: 1,
     maxUsers: 1,
   },
   CREATE_GROUP: {
-    title: "Create New Group",
-    desc: "Search and select at least 2 people to create a group chat.",
-    buttonText: "Create Group",
+    i18nKey: "chat.dialog.createGroup",
     minUsers: 2,
     maxUsers: 50,
-  },
-  ADD_MEMBERS: {
-    title: "Add Members",
-    desc: "Select new people to add to this group.",
-    buttonText: "Add to Group",
-    minUsers: 1,
-    maxUsers: 20,
   },
 } as const;
