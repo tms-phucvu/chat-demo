@@ -1,3 +1,4 @@
+import { NavMainProps } from "@/components/sidebar/nav-main";
 import { BookOpen, LayoutDashboard, MessageCircle } from "lucide-react";
 
 export const TEAM = {
@@ -6,27 +7,27 @@ export const TEAM = {
   desc: "TOMOSIA logo",
 };
 
-export const NAV_MAIN_GROUPS = [
+export const NAV_MAIN_GROUPS: NavMainProps[] = [
   {
-    groupName: "Project",
+    groupKey: "projectSection.title",
     items: [
       {
-        title: "Dashboard",
+        titleKey: "projectSection.dashboard",
         url: "/dashboard",
         icon: LayoutDashboard,
       },
       {
-        title: "Chat",
+        titleKey: "projectSection.chat",
         url: "/chat",
         icon: MessageCircle,
       },
     ],
   },
   {
-    groupName: "Docs",
+    groupKey: "docSection.title",
     items: [
       {
-        title: "Documentation",
+        titleKey: "docSection.documentation",
         url: "/docs/introduction",
         icon: BookOpen,
       },
@@ -34,10 +35,13 @@ export const NAV_MAIN_GROUPS = [
   },
 ];
 
-export const BREADCRUMB_MAP: Record<string, string> = {
+export const BREADCRUMB_KEY_MAP: Record<string, string> = {
   //project
-  chat: "Chats",
-  dashboard: "Dashboard",
+  chat: "chat",
+  dashboard: "dashboard",
+};
+
+export const BREADCRUMB_MAP: Record<string, string> = {
   //docs
   docs: "Docs",
   introduction: "Introduction",

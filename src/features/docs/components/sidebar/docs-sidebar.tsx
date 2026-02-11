@@ -2,7 +2,6 @@
 
 import * as React from "react";
 
-import { NavMain } from "@/components/sidebar/nav-main";
 import {
   Sidebar,
   SidebarContent,
@@ -15,10 +14,13 @@ import {
 import Image from "next/image";
 import { TEAM } from "@/constants/sidebar-data";
 import { DOCS_SIDEBAR } from "@/features/docs/constants/docs-sidebar-data";
+import { useTranslations } from "next-intl";
+import { DocsNav } from "@/features/docs/components/sidebar/docs-nav";
 
 export function DocsSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const t = useTranslations("common");
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -40,7 +42,7 @@ export function DocsSidebar({
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{TEAM.name}</span>
-                <span className="truncate text-xs">{TEAM.plan}</span>
+                <span className="truncate text-xs">{t("team.type")}</span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -48,7 +50,7 @@ export function DocsSidebar({
       </SidebarHeader>
       <SidebarContent>
         {DOCS_SIDEBAR.map((navMain) => (
-          <NavMain
+          <DocsNav
             key={navMain.groupName}
             groupName={navMain.groupName}
             items={navMain.items}

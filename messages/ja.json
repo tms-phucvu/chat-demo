@@ -2,6 +2,21 @@
   "common": {
     "team": {
       "type": "会社"
+    },
+    "sidebar": {
+      "projectSection": {
+        "title": "プロジェクト",
+        "dashboard": "ダッシュボード",
+        "chat": "チャット"
+      },
+      "docSection": {
+        "title": "ドキュメント",
+        "documentation": "ドキュメント"
+      }
+    },
+    "breadcrumb": {
+      "chat": "チャット",
+      "dashboard": "ダッシュボード"
     }
   },
   "auth": {
