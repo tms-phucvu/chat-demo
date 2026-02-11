@@ -5,7 +5,50 @@
     }
   },
   "dashboard": {
-    "welcome": "Welcome, {name}!"
+    "welcome": "Welcome, {name}!",
+    "keyFeatures": {
+      "title": "Key Features",
+      "messaging": {
+        "title": "Real-time Messaging",
+        "desc": "Send and receive messages instantly with Firebase Firestore"
+      },
+      "chats": {
+        "title": "Private & Group Chats",
+        "desc": "Create one-on-one conversations or group chats with multiple people"
+      },
+      "presence": {
+        "title": "Presence & Typing",
+        "desc": "See who's online and who's typing in real-time"
+      },
+      "search": {
+        "title": "Smart Search",
+        "desc": "Find and connect with other users instantly"
+      }
+    },
+    "techStack": {
+      "title": "Technology Stack",
+      "nextjs": {
+        "title": "Next.js",
+        "desc": "React Framework"
+      },
+      "firebase": {
+        "title": "Firebase",
+        "desc": "Backend & Database"
+      },
+      "typescript": {
+        "title": "TypeScript",
+        "desc": "Type Safety"
+      },
+      "tailwind": {
+        "title": "Tailwind CSS",
+        "desc": "Styling"
+      }
+    },
+    "cta": {
+      "title": "New to this template?",
+      "desc": "Check out the comprehensive documentation to understand the architecture, features, and how to use this application.",
+      "button": "Read Documentation"
+    }
   },
   "chat": {
     "common": {

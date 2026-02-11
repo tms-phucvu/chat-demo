@@ -5,7 +5,50 @@
     }
   },
   "dashboard": {
-    "welcome": "ようこそ、{name}さん"
+    "welcome": "{name}さん、ようこそ！",
+    "keyFeatures": {
+      "title": "主な機能",
+      "messaging": {
+        "title": "リアルタイムメッセージング",
+        "desc": "Firebase Firestore を使用して、メッセージを即時に送受信できます。"
+      },
+      "chats": {
+        "title": "プライベート＆グループチャット",
+        "desc": "1対1の会話や、複数人とのグループチャットを作成できます。"
+      },
+      "presence": {
+        "title": "オンライン状態＆入力表示",
+        "desc": "誰がオンライン中か、誰が入力中かをリアルタイムで確認できます。"
+      },
+      "search": {
+        "title": "スマート検索",
+        "desc": "他のユーザーをすばやく検索して、すぐにチャットを開始できます。"
+      }
+    },
+    "techStack": {
+      "title": "技術スタック",
+      "nextjs": {
+        "title": "Next.js",
+        "desc": "React フレームワーク"
+      },
+      "firebase": {
+        "title": "Firebase",
+        "desc": "バックエンド＆データベース"
+      },
+      "typescript": {
+        "title": "TypeScript",
+        "desc": "型安全"
+      },
+      "tailwind": {
+        "title": "Tailwind CSS",
+        "desc": "スタイリング"
+      }
+    },
+    "cta": {
+      "title": "このテンプレートを初めてお使いですか？",
+      "desc": "アーキテクチャや機能、アプリケーションの使い方については、詳細なドキュメントをご覧ください。",
+      "button": "ドキュメントを読む"
+    }
   },
   "chat": {
     "common": {
