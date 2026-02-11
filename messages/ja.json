@@ -4,6 +4,17 @@
       "type": "会社"
     }
   },
+  "auth": {
+    "login": {
+      "title": "TOMOSIA株式会社へようこそ",
+      "appName": "チャットデモテンプレート",
+      "loggingIn": "ログイン中...",
+      "googleButton": "Googleで続行",
+      "tos": {
+        "fullText": "「続行」をクリックすると、<tosLink>利用規約</tosLink>および<privacyLink>プライバシーポリシー</privacyLink>に同意したものとみなされます。"
+      }
+    }
+  },
   "dashboard": {
     "welcome": "{name}さん、ようこそ！",
     "keyFeatures": {

@@ -2,15 +2,17 @@
 
 import { Button } from "@/components/ui/button";
 import { useGoogleAuth } from "@/hooks/use-google-auth";
+import { useTranslations } from "next-intl";
 
 export default function GoogleSignInButton() {
+  const t = useTranslations("auth.login");
   const { signInWithGoogle, isLoading, error } = useGoogleAuth();
 
   return (
     <>
       <Button
         className="w-full"
-        variant="outline"
+        variant="default"
         type="button"
         onClick={signInWithGoogle}
         disabled={isLoading}
@@ -21,7 +23,7 @@ export default function GoogleSignInButton() {
             fill="currentColor"
           />
         </svg>
-        {isLoading ? "Logging in..." : "Continue with Google"}
+        {isLoading ? t("loggingIn") : t("googleButton")}
       </Button>
       {error && (
         <p className="text-sm text-red-500 text-center mt-2">{error}</p>

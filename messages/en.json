@@ -4,6 +4,17 @@
       "type": "Company"
     }
   },
+  "auth": {
+    "login": {
+      "title": "WELCOME TO TOMOSIA COMPANY",
+      "appName": "Chat demo template",
+      "loggingIn": "Logging in...",
+      "googleButton": "Continue with Google",
+      "tos": {
+        "fullText": "By clicking continue, you agree to our <tosLink>Terms of Service</tosLink> and <privacyLink>Privacy Policy</privacyLink>."
+      }
+    }
+  },
   "dashboard": {
     "welcome": "Welcome, {name}!",
     "keyFeatures": {
