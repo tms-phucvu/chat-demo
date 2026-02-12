@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
 import { auth, googleProvider } from "@/lib/firebase";
 import { FirebaseError } from "firebase/app";
 import { offlinePresence } from "@/services/presence.service";
+import { useRouter } from "@/i18n/navigation";
 
 interface UseGoogleAuthReturn {
   signInWithGoogle: () => Promise<void>;

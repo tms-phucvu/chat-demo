@@ -11,9 +11,10 @@ import {
   toParticipantPreviews,
 } from "@/features/chat/utils/room.utils";
 import { useInterestedUsersStore } from "@/stores/interested-users.store";
-import { formatLastActive } from "@/features/chat/utils/date.utils";
 import { useUserInfo } from "@/features/chat/hooks/use-user-info";
 import { useParticipants } from "@/features/chat/hooks/use-participants";
+import { useChatTimeFormatter } from "@/features/chat/hooks/use-chat-time-formatter";
+import { useTranslations } from "next-intl";
 
 interface ChatRoomHeaderProps {
   room: ChatRoom;
@@ -21,6 +22,9 @@ interface ChatRoomHeaderProps {
 }
 
 export const ChatRoomHeader = ({ room, onBack }: ChatRoomHeaderProps) => {
+  const t = useTranslations("chat.roomPane.header");
+  const { formatLastActive } = useChatTimeFormatter();
+
   const { user } = useAuth();
   const uid = user?.uid ?? null;
   const presences = useInterestedUsersStore((s) => s.presences);
@@ -32,7 +36,7 @@ export const ChatRoomHeader = ({ room, onBack }: ChatRoomHeaderProps) => {
   const otherParticipants = toParticipantPreviews(participants);
   const { data } = useUserInfo(partnerId);
   const partner = toParticipantPreview(data);
-      
+  
   const partnerPresence = partnerId ? presences[partnerId] : null;
   const status = partnerPresence ? partnerPresence.status : "offline";
   const updatedAt = partnerPresence ? partnerPresence.updatedAt : null;
@@ -42,7 +46,7 @@ export const ChatRoomHeader = ({ room, onBack }: ChatRoomHeaderProps) => {
       {onBack && (
         <Button variant="ghost" size="icon" className="-ml-2" onClick={onBack}>
           <ChevronLeftIcon className="size-4" />
-          <span className="sr-only">Back to chats</span>
+          <span className="sr-only">{t("backButton")}</span>
         </Button>
       )}
       <div className="flex gap-4">
@@ -65,11 +69,7 @@ export const ChatRoomHeader = ({ room, onBack }: ChatRoomHeaderProps) => {
                 {partner.name ?? "Unknown"}
               </h2>
               <p className="text-xs text-muted-foreground">
-                {status === "online"
-                  ? "Active now"
-                  : updatedAt
-                    ? formatLastActive(updatedAt)
-                    : "Offline"}
+                {formatLastActive(status, updatedAt)}
               </p>
             </>
           ) : (

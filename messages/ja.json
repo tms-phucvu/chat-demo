@@ -1,0 +1,176 @@
+{
+  "common": {
+    "team": {
+      "type": "会社"
+    },
+    "sidebar": {
+      "projectSection": {
+        "title": "プロジェクト",
+        "dashboard": "ダッシュボード",
+        "chat": "チャット"
+      },
+      "docSection": {
+        "title": "ドキュメント",
+        "documentation": "ドキュメント"
+      }
+    },
+    "breadcrumb": {
+      "chat": "チャット",
+      "dashboard": "ダッシュボード"
+    },
+    "navUser": {
+      "loading": "読み込み中...",
+      "upgrade": "Proプランにアップグレード",
+      "loggingOut": "ログアウト中...",
+      "logOut": "ログアウト"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "TOMOSIA株式会社へようこそ",
+      "appName": "チャットデモテンプレート",
+      "loggingIn": "ログイン中...",
+      "googleButton": "Googleで続行",
+      "tos": {
+        "fullText": "「続行」をクリックすると、<tosLink>利用規約</tosLink>および<privacyLink>プライバシーポリシー</privacyLink>に同意したものとみなされます。"
+      }
+    }
+  },
+  "dashboard": {
+    "welcome": "{name}さん、ようこそ！",
+    "keyFeatures": {
+      "title": "主な機能",
+      "messaging": {
+        "title": "リアルタイムメッセージング",
+        "desc": "Firebase Firestore を使用して、メッセージを即時に送受信できます。"
+      },
+      "chats": {
+        "title": "プライベート＆グループチャット",
+        "desc": "1対1の会話や、複数人とのグループチャットを作成できます。"
+      },
+      "presence": {
+        "title": "オンライン状態＆入力表示",
+        "desc": "誰がオンライン中か、誰が入力中かをリアルタイムで確認できます。"
+      },
+      "search": {
+        "title": "スマート検索",
+        "desc": "他のユーザーをすばやく検索して、すぐにチャットを開始できます。"
+      }
+    },
+    "techStack": {
+      "title": "技術スタック",
+      "nextjs": {
+        "title": "Next.js",
+        "desc": "React フレームワーク"
+      },
+      "firebase": {
+        "title": "Firebase",
+        "desc": "バックエンド＆データベース"
+      },
+      "typescript": {
+        "title": "TypeScript",
+        "desc": "型安全"
+      },
+      "tailwind": {
+        "title": "Tailwind CSS",
+        "desc": "スタイリング"
+      }
+    },
+    "cta": {
+      "title": "このテンプレートを初めてお使いですか？",
+      "desc": "アーキテクチャや機能、アプリケーションの使い方については、詳細なドキュメントをご覧ください。",
+      "button": "ドキュメントを読む"
+    }
+  },
+  "chat": {
+    "common": {
+      "lastActive": {
+        "offline": "オフライン",
+        "now": "現在オンライン",
+        "min": "1分前にオンライン",
+        "mins": "{count}分前にオンライン",
+        "hour": "{count}時間前にオンライン",
+        "yesterday": "昨日オンライン",
+        "days": "{count}日前にオンライン",
+        "date": "{date}にオンライン"
+      },
+      "dateSeparator": {
+        "today": "今日",
+        "yesterday": "昨日"
+      }
+    },
+    "sidebar": {
+      "header": {
+        "title": "チャット",
+        "count": "{counts} 件の会話"
+      },
+      "roomCreateButton": {
+        "newChat": "新しいチャット",
+        "createGroup": "グループを作成",
+        "addContact": "連絡先を追加"
+      },
+      "roomItem": {
+        "you": "あなた",
+        "createdGroupMessage": "{sender}さんがグループを作成しました"
+      },
+      "emptyRoom": {
+        "title": "会話はまだありません",
+        "desc": "上の<icon></icon>を押して友だちを探し、チャットを始めましょう"
+      },
+      "errorRoom": {
+        "title": "チャットを読み込めませんでした",
+        "desc": "通信状況を確認して、もう一度お試しください。",
+        "retryButton": "再試行"
+      }
+    },
+    "roomPane": {
+      "header": {
+        "backButton": "チャット一覧に戻る"
+      },
+      "chatInput": {
+        "placeholder": "メッセージを入力...",
+        "sendButton": "送信"
+      },
+      "noRoom": {
+        "title": "会話を選択してください",
+        "desc": "左側の一覧からチャットを選択すると、メッセージを表示して返信できます。"
+      },
+      "loadingRoom": {
+        "title": "会話を読み込み中..."
+      },
+      "errorRoom": {
+        "title": "エラーが発生しました",
+        "desc": "このチャットルームの情報を読み込めませんでした。",
+        "retryButton": "再試行"
+      },
+      "emptyMessage": {
+        "title": "まだメッセージはありません",
+        "desc": "メッセージを送信して会話を始めましょう。"
+      },
+      "errorMessage": {
+        "title": "メッセージの読み込みに失敗しました",
+        "desc": "チャットサーバーへの接続中に問題が発生しました。",
+        "retryButton": "もう一度試す"
+      }
+    },
+    "dialog": {
+      "searchUser": {
+        "placeholder": "メールアドレスを入力してユーザーを検索...",
+        "loading": "検索中...",
+        "emptyUser": "ユーザーが見つかりませんでした"
+      },
+      "newChat": {
+        "title": "新しいチャット",
+        "desc": "ユーザーを検索して、1対1のチャットを開始します。",
+        "submitButton": "チャットを開始",
+        "cancelButton": "キャンセル"
+      },
+      "createGroup": {
+        "title": "新しいグループを作成",
+        "desc": "2人以上を選択して、グループチャットを作成します。",
+        "submitButton": "グループを作成",
+        "cancelButton": "キャンセル"
+      }
+    }
+  }
+}

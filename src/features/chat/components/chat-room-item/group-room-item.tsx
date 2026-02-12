@@ -9,6 +9,7 @@ import { useParticipants } from "@/features/chat/hooks/use-participants";
 import type { ChatRoomListItem } from "@/features/chat/types/room.types";
 import { ChatRoomItem } from "@/features/chat/components/chat-room-item/chat-room-item";
 import { useUserInfo } from "@/features/chat/hooks/use-user-info";
+import { useTranslations } from "next-intl";
 
 type GroupRoomItemProps = {
   room: ChatRoomListItem;
@@ -16,6 +17,7 @@ type GroupRoomItemProps = {
 };
 
 export function GroupRoomItem({ room, uid }: GroupRoomItemProps) {
+  const t = useTranslations("chat.sidebar.roomItem");
   const otherParticipantIds = room.participants.filter((id) => id !== uid);
   const { participants } = useParticipants(otherParticipantIds);
   const otherParticipants = toParticipantPreviews(participants);
@@ -24,9 +26,13 @@ export function GroupRoomItem({ room, uid }: GroupRoomItemProps) {
     enabled: !isMe,
   });
 
-  const lastMessagePreview = isMe
-    ? `You${room.lastMessage?.type === "system" ? "" : ":"} ${room.lastMessage?.text}`
-    : `${lastSender?.displayName}${room.lastMessage?.type === "system" ? "" : ":"} ${room.lastMessage?.text}`;
+  const sender = isMe ? t("you") : lastSender?.displayName;
+  const content = room.lastMessage?.text || "";
+  const lastMessagePreview =
+    room.lastMessage?.type === "system" &&
+    room.lastMessage?.text === "created the group"
+      ? t("createdGroupMessage", {sender: sender ?? "Unknown"})
+      : `${sender}: ${content}`;
 
   const title = (
     <p className="truncate text-sm font-medium">

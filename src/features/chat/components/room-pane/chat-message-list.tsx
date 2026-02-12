@@ -9,20 +9,19 @@ import TypingIndicator from "@/features/chat/components//ui/typing-indicator";
 import { ChatMessageItem } from "@/features/chat/components/chat-message-item/chat-message-item";
 import { Timestamp } from "firebase/firestore";
 import { MESSAGE_TIME_GAP_LIMIT } from "@/features/chat/constants/chat.constants";
-import {
-  formatDateSeparator,
-  isSameDay,
-} from "@/features/chat/utils/date.utils";
+import { isSameDay } from "@/features/chat/utils/date.utils";
 import { useTypingIndicator } from "@/features/chat/hooks/use-typing-indicator";
 import { useParticipants } from "@/features/chat/hooks/use-participants";
 import { toParticipantPreviews } from "@/features/chat/utils/room.utils";
 import ErrorMessageList from "@/features/chat/components/chat-message-item/error-message-list";
+import { useChatTimeFormatter } from "@/features/chat/hooks/use-chat-time-formatter";
 
 type ChatMessageListProps = {
   activeRoomId: string | null;
 };
 
 export function ChatMessageList({ activeRoomId }: ChatMessageListProps) {
+  const { formatDateSeparator } = useChatTimeFormatter();
   const { messages, isLoading, error } = useMessages(activeRoomId);
 
   const typingIds = useTypingIndicator(activeRoomId);
@@ -69,7 +68,7 @@ export function ChatMessageList({ activeRoomId }: ChatMessageListProps) {
                 {isFirstOfDate && (
                   <div className="flex justify-center my-6">
                     <span className="bg-muted px-3 py-1 rounded-full text-[11px] font-medium text-muted-foreground tracking-wider">
-                      {formatDateSeparator(message.createdAt)}{" "}
+                      {formatDateSeparator(message.createdAt)}
                     </span>
                   </div>
                 )}

@@ -18,37 +18,43 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
-export function NavMain({
-  items,
-}: {
+export type NavMainProps = {
+  groupKey: string;
   items: {
-    title: string;
+    titleKey: string;
     url: string;
     icon?: LucideIcon;
     isActive?: boolean;
     items?: {
-      title: string;
+      titleKey: string;
       url: string;
     }[];
   }[];
-}) {
+};
+
+export function NavMain({ groupKey, items }: NavMainProps) {
+  const t = useTranslations("common.sidebar");
+  const pathname = usePathname();
+
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Project</SidebarGroupLabel>
+      <SidebarGroupLabel>{t(groupKey)}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
           if (!item.items || item.items.length === 0) {
             return (
-              <SidebarMenuItem key={item.title}>
+              <SidebarMenuItem key={item.titleKey}>
                 <SidebarMenuButton
                   asChild
-                  tooltip={item.title}
-                  isActive={item.isActive}
+                  tooltip={t(item.titleKey)}
+                  isActive={item.url === pathname}
                 >
                   <Link href={item.url}>
                     {item.icon && <item.icon />}
-                    <span>{item.title}</span>
+                    <span>{t(item.titleKey)}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -57,26 +63,29 @@ export function NavMain({
 
           return (
             <Collapsible
-              key={item.title}
+              key={item.titleKey}
               asChild
               defaultOpen={item.isActive}
               className="group/collapsible"
             >
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.title}>
+                  <SidebarMenuButton tooltip={t(item.titleKey)}>
                     {item.icon && <item.icon />}
-                    <span>{item.title}</span>
+                    <span>{t(item.titleKey)}</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
                   <SidebarMenuSub>
                     {item.items?.map((subItem) => (
-                      <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton asChild>
+                      <SidebarMenuSubItem key={subItem.titleKey}>
+                        <SidebarMenuSubButton
+                          asChild
+                          isActive={subItem.url === pathname}
+                        >
                           <Link href={subItem.url}>
-                            <span>{subItem.title}</span>
+                            <span>{t(subItem.titleKey)}</span>
                           </Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>

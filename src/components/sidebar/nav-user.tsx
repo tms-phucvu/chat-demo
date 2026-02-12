@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from "lucide-react";
+import { ChevronsUpDown, LogOut, Sparkles } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -27,13 +20,15 @@ import {
 } from "@/components/ui/sidebar";
 import { useGoogleAuth } from "@/hooks/use-google-auth";
 import { useAuth } from "@/hooks/use-auth";
+import { useTranslations } from "next-intl";
 
 export function NavUser() {
+  const t = useTranslations("common.navUser");
   const { isMobile } = useSidebar();
   const { user } = useAuth();
   const { logout, isLoading } = useGoogleAuth();
 
-  if (!user) return <div>Loading...</div>;
+  if (!user) return <div>{t("loading")}</div>;
 
   return (
     <SidebarMenu>
@@ -47,9 +42,9 @@ export function NavUser() {
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
                   src={user.photoURL ?? "/avatars/shadcn.jpg"}
-                  alt={user.displayName ?? "no name"}
+                  alt={user.displayName ?? "Unknown"}
                 />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">U</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.displayName}</span>
@@ -69,9 +64,9 @@ export function NavUser() {
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
                     src={user.photoURL ?? "/avatars/shadcn.jpg"}
-                    alt={user.displayName ?? "no name"}
+                    alt={user.displayName ?? "Unknown"}
                   />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">U</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">
@@ -85,28 +80,13 @@ export function NavUser() {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
+                {t("upgrade")}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={logout} disabled={isLoading}>
               <LogOut />
-              {isLoading ? "Logging out..." : "Log out"}
+              {isLoading ? t("loggingOut") : t("logOut")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
