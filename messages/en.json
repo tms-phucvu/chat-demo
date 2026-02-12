@@ -17,6 +17,12 @@
     "breadcrumb": {
       "chat": "Chats",
       "dashboard": "Dashboard"
+    },
+    "navUser": {
+      "loading": "Loading...",
+      "upgrade": "Upgrade to Pro",
+      "loggingOut": "Logging out...",
+      "logOut": "Log out"
     }
   },
   "auth": {

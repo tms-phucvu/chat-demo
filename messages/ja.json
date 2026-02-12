@@ -17,6 +17,12 @@
     "breadcrumb": {
       "chat": "チャット",
       "dashboard": "ダッシュボード"
+    },
+    "navUser": {
+      "loading": "読み込み中...",
+      "upgrade": "Proプランにアップグレード",
+      "loggingOut": "ログアウト中...",
+      "logOut": "ログアウト"
     }
   },
   "auth": {
