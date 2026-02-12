@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { BREADCRUMB_KEY_MAP } from "@/constants/sidebar-data";
+import { BREADCRUMB_MAP } from "@/constants/sidebar-data";
 import { usePathname } from "@/i18n/navigation";
 
 export default function DocsBreadcrumb() {
@@ -28,7 +28,7 @@ export default function DocsBreadcrumb() {
         <BreadcrumbList>
           <BreadcrumbItem className="hidden md:block">
             <BreadcrumbLink href="#">
-              {BREADCRUMB_KEY_MAP[pathSegments[0]]}
+              {BREADCRUMB_MAP[pathSegments[0]]}
             </BreadcrumbLink>
           </BreadcrumbItem>
           {pathSegments.length > 1 && (
@@ -36,7 +36,7 @@ export default function DocsBreadcrumb() {
           )}
           <BreadcrumbItem>
             <BreadcrumbPage>
-              {BREADCRUMB_KEY_MAP[pathSegments[1]]}
+              {BREADCRUMB_MAP[pathSegments[1]]}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
