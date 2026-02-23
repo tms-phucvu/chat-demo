@@ -11,7 +11,8 @@ import {
 } from "@/features/chat/services/typing.service";
 import { ChatRoom } from "@/features/chat/types/room.types";
 import { useTranslations } from "next-intl";
-import { ImagePlus, Mic, Send, Smile } from "lucide-react";
+import { ImagePlus, Mic, Send } from "lucide-react";
+import EmojiPickerPopover from "@/features/chat/components/room-pane/emoji-picker-popover";
 
 type ChatInputProps = {
   room: ChatRoom | null;
@@ -61,6 +62,10 @@ export function ChatInput({
     clearTyping(activeRoomId, uid);
   };
 
+  const handleEmojiSelect = (emoji: string) => {
+    setValue((prev) => prev + emoji);
+  };
+
   useEffect(() => {
     return () => {
       if (activeRoomId && uid) {
@@ -84,14 +89,7 @@ export function ChatInput({
         />
 
         <div className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-sm"
-            className="rounded-full hover:bg-gray-300 aspect-square"
-          >
-            <Smile size={18} />
-          </Button>
+          <EmojiPickerPopover onChange={handleEmojiSelect} />
           <Button
             type="button"
             variant="ghost"
