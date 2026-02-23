@@ -80,8 +80,7 @@
         "backButton": "チャット一覧に戻る"
       },
       "chatInput": {
-        "placeholder": "メッセージを入力...",
-        "sendButton": "送信"
+        "placeholder": "メッセージを入力..."
       },
       "noRoom": {
         "title": "会話を選択してください",

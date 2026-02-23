@@ -80,8 +80,7 @@
         "backButton": "Back to chats"
       },
       "chatInput": {
-        "placeholder": "Type a message...",
-        "sendButton": "Send"
+        "placeholder": "Type a message..."
       },
       "noRoom": {
         "title": "Select a conversation to get started",

@@ -11,6 +11,7 @@ import {
 } from "@/features/chat/services/typing.service";
 import { ChatRoom } from "@/features/chat/types/room.types";
 import { useTranslations } from "next-intl";
+import { ImagePlus, Mic, Send, Smile } from "lucide-react";
 
 type ChatInputProps = {
   room: ChatRoom | null;
@@ -73,18 +74,50 @@ export function ChatInput({
       onSubmit={handleSubmit}
       className="border-border bg-background/80 flex items-center gap-2 border-t px-4 py-3"
     >
-      <Input
-        value={value}
-        onChange={handleChange}
-        placeholder={t("placeholder")}
-        disabled={disabled || isSending}
-      />
+      <div className="relative flex-1">
+        <Input
+          value={value}
+          onChange={handleChange}
+          placeholder={t("placeholder")}
+          disabled={disabled || isSending}
+          className="p-5 pr-30"
+        />
+
+        <div className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            className="rounded-full hover:bg-gray-300 aspect-square"
+          >
+            <Smile size={18} />
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            className="rounded-full hover:bg-gray-300"
+          >
+            <ImagePlus size={18} />
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            className="rounded-full hover:bg-gray-300"
+          >
+            <Mic size={18} />
+          </Button>
+        </div>
+      </div>
+
       <Button
         type="submit"
         size="sm"
         disabled={disabled || isSending || !value.trim()}
+        className="py-5 aspect-square"
       >
-        {t("sendButton")}
+        <Send />
       </Button>
     </form>
   );
