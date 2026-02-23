@@ -32,7 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!user && !isPublicPath(pathname)) {
       router.replace("/login");
     } else if (user && pathname === "/login") {
-      router.replace("/dashboard");
+      router.replace("/chat");
     }
   }, [user, loading, pathname, router]);
 

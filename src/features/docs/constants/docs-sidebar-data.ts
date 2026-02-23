@@ -71,7 +71,7 @@ export const DOCS_SIDEBAR = [
     items: [
       {
         title: "Project demo",
-        url: "/dashboard",
+        url: "/chat",
         icon: PackageCheck,
       },
     ],
