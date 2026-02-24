@@ -80,7 +80,11 @@
         "backButton": "チャット一覧に戻る"
       },
       "chatInput": {
-        "placeholder": "メッセージを入力..."
+        "placeholder": "メッセージを入力...",
+        "maxMediaReached": "最大 {max} ファイルまでです。",
+        "invalidFileType": "{fileName}: 画像と動画のみ許可されています",
+        "fileTooLarge": "{fileName} が {limit} の制限を超えています",
+        "uploadFailed": "{fileName} のアップロードに失敗しました。もう一度お試しください。"
       },
       "noRoom": {
         "title": "会話を選択してください",

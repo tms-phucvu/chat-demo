@@ -80,7 +80,11 @@
         "backButton": "Back to chats"
       },
       "chatInput": {
-        "placeholder": "Type a message..."
+        "placeholder": "Type a message...",
+        "maxMediaReached": "Maximum {max} files allowed.",
+        "invalidFileType": "{fileName}: Only images and videos are allowed.",
+        "fileTooLarge": "{fileName} exceeds the {limit} limit.",
+        "uploadFailed": "Failed to upload {fileName}. Please try again."
       },
       "noRoom": {
         "title": "Select a conversation to get started",
