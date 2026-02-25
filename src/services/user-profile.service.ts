@@ -66,6 +66,7 @@ export const syncUserProfile = async (user: User): Promise<UserProfile> => {
     roomId: newChat,
     unreadParticipants: [newUser.uid],
     payload: {
+      type: "text",
       senderId: "XE8HmiEmSPU1xUcjZFf2",
       text: "Welcome to Tomosia! How can we assist you today?",
     },
@@ -80,6 +81,7 @@ export const syncUserProfile = async (user: User): Promise<UserProfile> => {
     roomId: newGroup,
     unreadParticipants: [],
     payload: {
+      type: "text",
       senderId: "3rOuFR1VMyNAJXf6nPY7",
       text: "Hi! This is the Frontend team at Tomosia. Do you have any questions about this chat demo template?",
     },

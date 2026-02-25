@@ -1,12 +1,14 @@
+import { UploadMedia } from "@/types/cloudinary.types";
 import { FieldValue, Timestamp } from "firebase/firestore";
 
-export type MessageType = "text" | "system";
+export type MessageType = "text" | "system" | "media";
 
 export interface LastMessage {
   text: string;
   senderId: string;
   createdAt: Timestamp | FieldValue;
   type: MessageType;
+  attachments?: UploadMedia[];
 }
 
 export interface Message {
@@ -15,12 +17,14 @@ export interface Message {
   text: string;
   type: MessageType;
   createdAt: Timestamp | FieldValue;
+  attachments?: UploadMedia[];
 }
 
 export interface SendMessagePayload {
   text: string;
   senderId: string;
-  type?: MessageType;
+  type: MessageType;
+  attachments?: UploadMedia[];
 }
 
 export type SendMessageBase = {

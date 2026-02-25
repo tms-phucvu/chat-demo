@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSendMessage } from "@/features/chat/hooks/use-send-message";
 import { useAuth } from "@/hooks/use-auth";
-import { useCloudinaryUpload } from "@/features/chat/hooks/use-cloudinary-upload";
 import {
   clearTyping,
   handleTyping,
@@ -15,13 +14,14 @@ import { useTranslations } from "next-intl";
 import { ImagePlus, Mic, Send } from "lucide-react";
 import EmojiPickerPopover from "@/features/chat/components/chat-input/emoji-picker-popover";
 import { MediaPreview } from "@/features/chat/components/chat-input/media-preview";
-import { UploadedMedia } from "@/types/cloudinary.types";
+import { UploadMedia } from "@/types/cloudinary.types";
 import { toast } from "sonner";
 import {
   MAX_ALLOWED,
   MAX_IMG,
   MAX_VID,
 } from "@/features/chat/constants/chat.constants";
+import { useUploadMedia } from "@/features/chat/hooks/use-upload-media";
 
 type ChatInputProps = {
   room: ChatRoom | null;
@@ -42,8 +42,8 @@ export function ChatInput({
 
   const [value, setValue] = useState("");
   const { send, isSending } = useSendMessage();
-  const { upload, isUploading } = useCloudinaryUpload();
-  const [uploadedMedia, setUploadedMedia] = useState<UploadedMedia[]>([]);
+  const { uploadMedia, isUploading } = useUploadMedia();
+  const [uploadedMedia, setUploadedMedia] = useState<UploadMedia[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const unreadParticipants = (room?.participants ?? []).filter(
@@ -64,13 +64,26 @@ export function ChatInput({
     event.preventDefault();
     if (!value.trim() || !activeRoomId || !uid) return;
 
-    await send({
-      roomId: activeRoomId,
-      text: value,
-      senderId: uid,
-      unreadParticipants: unreadParticipants,
-    });
+    if (uploadedMedia.length > 0) {
+      await send({
+        roomId: activeRoomId,
+        type: "media",
+        text: value,
+        senderId: uid,
+        unreadParticipants: unreadParticipants,
+        attachments: uploadedMedia,
+      });
+    } else {
+      await send({
+        roomId: activeRoomId,
+        type: "text",
+        text: value,
+        senderId: uid,
+        unreadParticipants: unreadParticipants,
+      });
+    }
     setValue("");
+    setUploadedMedia([]);
     clearTyping(activeRoomId, uid);
   };
 
@@ -115,7 +128,7 @@ export function ChatInput({
       }
 
       try {
-        const result = await upload(file, activeRoomId);
+        const result = await uploadMedia(file, activeRoomId);
         setUploadedMedia((prev) => [...prev, result]);
       } catch {
         toast.error(t("uploadFailed", { fileName: file.name }));

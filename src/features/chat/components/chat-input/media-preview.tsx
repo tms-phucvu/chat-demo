@@ -5,10 +5,10 @@ import { ImagePlus, Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { UploadedMedia } from "@/types/cloudinary.types";
+import { UploadMedia } from "@/types/cloudinary.types";
 
 interface MediaPreviewProps {
-  mediaItems: UploadedMedia[];
+  mediaItems: UploadMedia[];
   onRemove: (index: number) => void;
   onAddMore: () => void;
   isUploading: boolean;

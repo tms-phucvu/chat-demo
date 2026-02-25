@@ -4,6 +4,9 @@ import {
   CloudinaryBaseResponse,
   CloudinaryImageResponse,
   CloudinaryVideoResponse,
+  UploadImage,
+  UploadVideo,
+  UploadFile,
 } from "@/types/cloudinary.types";
 import { getThumbnailUrl } from "@/features/chat/utils/string.utils";
 
@@ -42,7 +45,10 @@ const uploadRequest = async <T>(
 /**
  * Image Upload
  */
-export const uploadImage = async (file: File, roomId: string) => {
+export const uploadImage = async (
+  file: File,
+  roomId: string,
+): Promise<UploadImage> => {
   const data = await uploadRequest<CloudinaryImageResponse>(
     file,
     "image",
@@ -63,7 +69,10 @@ export const uploadImage = async (file: File, roomId: string) => {
 /**
  * Video Upload
  */
-export const uploadVideo = async (file: File, roomId: string) => {
+export const uploadVideo = async (
+  file: File,
+  roomId: string,
+): Promise<UploadVideo> => {
   const data = await uploadRequest<CloudinaryVideoResponse>(
     file,
     "video",
@@ -86,7 +95,10 @@ export const uploadVideo = async (file: File, roomId: string) => {
 /**
  * Raw / File Upload (audio, pdf, docx...)
  */
-export const uploadFile = async (file: File, roomId: string) => {
+export const uploadFile = async (
+  file: File,
+  roomId: string,
+): Promise<UploadFile> => {
   const data = await uploadRequest<CloudinaryBaseResponse>(
     file,
     "raw",

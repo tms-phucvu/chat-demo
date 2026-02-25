@@ -20,8 +20,32 @@ export interface CloudinaryVideoResponse extends CloudinaryBaseResponse {
   duration: number;
 }
 
-export type UploadedMedia = {
-  type: "image" | "video" | "file";
+export interface UploadImage {
+  type: "image";
   url: string;
-  thumbnail?: string;
-};
+  thumbnail: string;
+  width: number;
+  height: number;
+  size: number;
+}
+
+export interface UploadVideo {
+  type: "video";
+  url: string;
+  thumbnail: string;
+  duration: number;
+  format: string;
+  size: number;
+}
+
+export interface UploadFile {
+  type: "file";
+  url: string;
+  name: string;
+  format: string;
+  size: number;
+}
+
+export type UploadMedia = UploadImage | UploadVideo;
+
+export type UploadResult = UploadImage | UploadVideo | UploadFile;
