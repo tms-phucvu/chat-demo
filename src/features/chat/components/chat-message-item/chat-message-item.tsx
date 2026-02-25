@@ -81,7 +81,8 @@ export function ChatMessageItem({
                   <Image
                     src={media.thumbnail}
                     fill
-                    alt="attachment"
+                    alt={media.thumbnail}
+                    sizes="(max-width: 768px) 100vw, 400px"
                     className="object-cover"
                   />
                   {media.type === "video" && (
