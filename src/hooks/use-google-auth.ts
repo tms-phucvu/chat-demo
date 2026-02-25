@@ -25,7 +25,7 @@ export function useGoogleAuth(): UseGoogleAuthReturn {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       if (result.user) {
-        router.push("/dashboard");
+        router.push("/chat");
       }
     } catch (err) {
       if (err instanceof FirebaseError) {

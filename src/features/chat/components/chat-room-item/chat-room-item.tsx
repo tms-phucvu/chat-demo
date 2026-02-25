@@ -46,16 +46,14 @@ export function ChatRoomItem({
         </div>
 
         <div className="flex items-center justify-between gap-2">
-          {room.lastMessage?.text && (
-            <p
-              className={cn(
-                "mt-0.5 line-clamp-1 text-xs text-muted-foreground",
-                getUnreadCount(room, uid) > 0 && "font-bold text-black",
-              )}
-            >
-              {lastMessagePreview}
-            </p>
-          )}
+          <p
+            className={cn(
+              "mt-0.5 line-clamp-1 text-xs text-muted-foreground",
+              getUnreadCount(room, uid) > 0 && "font-bold text-black",
+            )}
+          >
+            {lastMessagePreview}
+          </p>
 
           {getUnreadCount(room, uid) > 0 && (
             <span className="bg-primary/90 text-primary-foreground inline-flex min-w-6 items-center justify-center rounded-full px-1 text-[10px] font-semibold">

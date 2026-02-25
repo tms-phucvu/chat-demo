@@ -6,7 +6,6 @@
     "sidebar": {
       "projectSection": {
         "title": "プロジェクト",
-        "dashboard": "ダッシュボード",
         "chat": "チャット"
       },
       "docSection": {
@@ -15,8 +14,7 @@
       }
     },
     "breadcrumb": {
-      "chat": "チャット",
-      "dashboard": "ダッシュボード"
+      "chat": "チャット"
     },
     "navUser": {
       "loading": "読み込み中...",
@@ -34,52 +32,6 @@
       "tos": {
         "fullText": "「続行」をクリックすると、<tosLink>利用規約</tosLink>および<privacyLink>プライバシーポリシー</privacyLink>に同意したものとみなされます。"
       }
-    }
-  },
-  "dashboard": {
-    "welcome": "{name}さん、ようこそ！",
-    "keyFeatures": {
-      "title": "主な機能",
-      "messaging": {
-        "title": "リアルタイムメッセージング",
-        "desc": "Firebase Firestore を使用して、メッセージを即時に送受信できます。"
-      },
-      "chats": {
-        "title": "プライベート＆グループチャット",
-        "desc": "1対1の会話や、複数人とのグループチャットを作成できます。"
-      },
-      "presence": {
-        "title": "オンライン状態＆入力表示",
-        "desc": "誰がオンライン中か、誰が入力中かをリアルタイムで確認できます。"
-      },
-      "search": {
-        "title": "スマート検索",
-        "desc": "他のユーザーをすばやく検索して、すぐにチャットを開始できます。"
-      }
-    },
-    "techStack": {
-      "title": "技術スタック",
-      "nextjs": {
-        "title": "Next.js",
-        "desc": "React フレームワーク"
-      },
-      "firebase": {
-        "title": "Firebase",
-        "desc": "バックエンド＆データベース"
-      },
-      "typescript": {
-        "title": "TypeScript",
-        "desc": "型安全"
-      },
-      "tailwind": {
-        "title": "Tailwind CSS",
-        "desc": "スタイリング"
-      }
-    },
-    "cta": {
-      "title": "このテンプレートを初めてお使いですか？",
-      "desc": "アーキテクチャや機能、アプリケーションの使い方については、詳細なドキュメントをご覧ください。",
-      "button": "ドキュメントを読む"
     }
   },
   "chat": {
@@ -111,7 +63,8 @@
       },
       "roomItem": {
         "you": "あなた",
-        "createdGroupMessage": "{sender}さんがグループを作成しました"
+        "createdGroupMessage": "{sender}さんがグループを作成しました",
+        "sentMedia": "{sender} が {count} 件のメディアを送信"
       },
       "emptyRoom": {
         "title": "会話はまだありません",
@@ -129,7 +82,10 @@
       },
       "chatInput": {
         "placeholder": "メッセージを入力...",
-        "sendButton": "送信"
+        "maxMediaReached": "最大 {max} ファイルまでです。",
+        "invalidFileType": "{fileName}: 画像と動画のみ許可されています",
+        "fileTooLarge": "{fileName} が {limit} の制限を超えています",
+        "uploadFailed": "{fileName} のアップロードに失敗しました。もう一度お試しください。"
       },
       "noRoom": {
         "title": "会話を選択してください",

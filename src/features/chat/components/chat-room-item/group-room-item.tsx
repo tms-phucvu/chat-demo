@@ -26,12 +26,16 @@ export function GroupRoomItem({ room, uid }: GroupRoomItemProps) {
     enabled: !isMe,
   });
 
-  const sender = isMe ? t("you") : lastSender?.displayName;
+  const sender = isMe ? t("you") : (lastSender?.displayName ?? "Unknown");
   const content = room.lastMessage?.text || "";
-  const lastMessagePreview =
-    room.lastMessage?.type === "system" &&
-    room.lastMessage?.text === "created the group"
-      ? t("createdGroupMessage", {sender: sender ?? "Unknown"})
+  const lastMessagePreview = room.lastMessage?.attachments
+    ? t("sentMedia", {
+        sender: sender,
+        count: room.lastMessage.attachments.length,
+      })
+    : room.lastMessage?.type === "system" &&
+        room.lastMessage?.text === "created the group"
+      ? t("createdGroupMessage", { sender: sender ?? "Unknown" })
       : `${sender}: ${content}`;
 
   const title = (

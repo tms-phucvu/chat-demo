@@ -1,5 +1,5 @@
 import { NavMainProps } from "@/components/sidebar/nav-main";
-import { BookOpen, LayoutDashboard, MessageCircle } from "lucide-react";
+import { BookOpen, MessageCircle } from "lucide-react";
 
 export const TEAM = {
   name: "TOMOSIA",
@@ -11,11 +11,6 @@ export const NAV_MAIN_GROUPS: NavMainProps[] = [
   {
     groupKey: "projectSection.title",
     items: [
-      {
-        titleKey: "projectSection.dashboard",
-        url: "/dashboard",
-        icon: LayoutDashboard,
-      },
       {
         titleKey: "projectSection.chat",
         url: "/chat",
@@ -38,7 +33,6 @@ export const NAV_MAIN_GROUPS: NavMainProps[] = [
 export const BREADCRUMB_KEY_MAP: Record<string, string> = {
   //project
   chat: "chat",
-  dashboard: "dashboard",
 };
 
 export const BREADCRUMB_MAP: Record<string, string> = {

@@ -47,7 +47,7 @@ export const sendMessage = async ({
   payload,
   unreadParticipants,
 }: SendMessageParams) => {
-  const { text, senderId, type = "text" } = payload;
+  const { text, senderId, type, attachments } = payload;
 
   const batch = writeBatch(db);
 
@@ -60,6 +60,7 @@ export const sendMessage = async ({
     senderId,
     type,
     createdAt: serverTimestamp(),
+    ...(attachments !== undefined && { attachments }),
   };
 
   const lastMessageData: LastMessage = {
@@ -67,6 +68,7 @@ export const sendMessage = async ({
     senderId,
     type,
     createdAt: serverTimestamp(),
+    ...(attachments !== undefined && { attachments }),
   };
 
   const updateData: UpdateData<Pick<ChatRoom, "lastMessage" | "unreadCounts">> =

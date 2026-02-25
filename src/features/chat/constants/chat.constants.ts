@@ -21,3 +21,8 @@ export const DIALOG_MODE_CONFIG = {
     maxUsers: 50,
   },
 } as const;
+
+//Validate media in input chat
+export const MAX_IMG = 300 * 1024; //300KB
+export const MAX_VID = 5 * 1024 * 1024; //5MB
+export const MAX_ALLOWED = 8; //8 items
