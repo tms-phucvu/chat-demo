@@ -63,7 +63,8 @@
       },
       "roomItem": {
         "you": "You",
-        "createdGroupMessage": "{sender} created the group"
+        "createdGroupMessage": "{sender} created the group",
+        "sentMedia": "{sender} sent {count, plural, one {# media file} other {# media files}}"
       },
       "emptyRoom": {
         "title": "No conversations yet",

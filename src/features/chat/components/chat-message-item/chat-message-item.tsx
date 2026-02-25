@@ -1,9 +1,11 @@
 import { cn } from "@/lib/utils";
-import { formatTime } from "@/features/chat/utils/date.utils";
+import { formatDuration, formatTime } from "@/features/chat/utils/date.utils";
 import { Message } from "@/features/chat/types/message.types";
 import { useAuth } from "@/hooks/use-auth";
 import { useUserInfo } from "@/features/chat/hooks/use-user-info";
 import { UserAvatar } from "@/features/chat/components/ui/user-avatar";
+import Image from "next/image";
+import { Play } from "lucide-react";
 
 interface ChatMessageItemProps {
   message: Message;
@@ -49,7 +51,8 @@ export function ChatMessageItem({
 
       <div
         className={cn(
-          "max-w-[60%] space-y-1",
+          "max-w-1/2 space-y-1",
+          message.type === "media" && "w-1/2",
           isMe ? "items-end" : "items-start",
         )}
       >
@@ -62,6 +65,37 @@ export function ChatMessageItem({
           )}
         >
           <p className="whitespace-pre-line wrap-break-word">{message.text}</p>
+          {message.type === "media" && message.attachments && (
+            <div
+              className={cn(
+                "my-2",
+                message.attachments.length > 1 &&
+                  "grid grid-cols-1 sm:grid-cols-2 gap-3",
+              )}
+            >
+              {message.attachments.map((media) => (
+                <div
+                  key={media.url}
+                  className="relative aspect-8/5 overflow-hidden rounded-md"
+                >
+                  <Image
+                    src={media.thumbnail}
+                    fill
+                    alt="attachment"
+                    className="object-cover"
+                  />
+                  {media.type === "video" && (
+                    <>
+                      <div className="absolute top-2 right-4 text-white drop-shadow-md">
+                        {formatDuration(media.duration)}
+                      </div>
+                      <Play className="absolute top-1/2 left-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 text-white drop-shadow-md" />
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         <p
           className={cn(

@@ -62,18 +62,19 @@ export function ChatInput({
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!value.trim() || !activeRoomId || !uid) return;
+    if (!activeRoomId || !uid) return;
 
     if (uploadedMedia.length > 0) {
       await send({
         roomId: activeRoomId,
         type: "media",
-        text: value,
+        text: value.trim() || "",
         senderId: uid,
         unreadParticipants: unreadParticipants,
         attachments: uploadedMedia,
       });
     } else {
+      if (!value.trim()) return;
       await send({
         roomId: activeRoomId,
         type: "text",
@@ -208,7 +209,7 @@ export function ChatInput({
         <Button
           type="submit"
           size="sm"
-          disabled={disabled || isSending || !value.trim()}
+          disabled={disabled || isSending || (!value.trim() && uploadedMedia.length === 0)}
           className="py-5 aspect-square"
         >
           <Send />

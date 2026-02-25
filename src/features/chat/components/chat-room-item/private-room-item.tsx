@@ -27,7 +27,12 @@ export function PrivateRoomItem({
   const isMe = room.lastMessage?.senderId === uid;
 
   const content = room.lastMessage?.text || "";
-  const lastMessagePreview = `${isMe ? t("you") + ": " : ""}${content}`;
+  const lastMessagePreview = room.lastMessage?.attachments
+    ? t("sentMedia", {
+        sender: `${isMe ? t("you") : partner.name}`,
+        count: room.lastMessage.attachments.length,
+      })
+    : `${isMe ? t("you") + ": " : ""}${content}`;
 
   const title = (
     <p className="truncate text-sm font-medium">{partner.name ?? "Unknown"}</p>
