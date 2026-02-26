@@ -6,6 +6,9 @@ import { useUserInfo } from "@/features/chat/hooks/use-user-info";
 import { UserAvatar } from "@/features/chat/components/ui/user-avatar";
 import Image from "next/image";
 import { Play } from "lucide-react";
+import type { UploadMedia } from "@/types/cloudinary.types";
+import { MediaView } from "@/features/chat/components/chat-message-item/media-view";
+import { useState } from "react";
 
 interface ChatMessageItemProps {
   message: Message;
@@ -16,6 +19,8 @@ export function ChatMessageItem({
   message,
   isInsideGroup,
 }: ChatMessageItemProps) {
+  const [activeMedia, setActiveMedia] = useState<UploadMedia | null>(null);
+
   const { user } = useAuth();
   const uid = user?.uid ?? null;
   const isMe = message.senderId === uid;
@@ -76,7 +81,8 @@ export function ChatMessageItem({
               {message.attachments.map((media) => (
                 <div
                   key={media.url}
-                  className="relative aspect-8/5 overflow-hidden rounded-md"
+                  onClick={() => setActiveMedia(media)}
+                  className="relative aspect-8/5 overflow-hidden rounded-md hover:opacity-50 cursor-pointer"
                 >
                   <Image
                     src={media.thumbnail}
@@ -106,6 +112,8 @@ export function ChatMessageItem({
         >
           {formatTime(message.createdAt)}
         </p>
+
+        <MediaView media={activeMedia} onClose={() => setActiveMedia(null)} />
       </div>
     </div>
   );
