@@ -6,8 +6,10 @@ import {
 import { UploadMedia } from "@/types/cloudinary.types";
 
 export const useUploadMedia = () => {
-  const [isUploading, setIsUploading] = useState(false);
+  const [uploadCount, setUploadCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
+
+  const isUploading = uploadCount > 0;
 
   const uploadMedia = async (
     file: File,
@@ -15,8 +17,8 @@ export const useUploadMedia = () => {
   ): Promise<UploadMedia> => {
     if (!roomId) throw new Error("Room ID is required");
 
+    setUploadCount((prev) => prev + 1);
     try {
-      setIsUploading(true);
       setError(null);
       if (file.type.startsWith("image/")) {
         return await uploadImage(file, roomId);
@@ -24,16 +26,13 @@ export const useUploadMedia = () => {
       if (file.type.startsWith("video/")) {
         return await uploadVideo(file, roomId);
       }
-      throw new Error(
-        "Unsupported media type. Please upload an image or video.",
-      );
+      throw new Error("Unsupported media type...");
     } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : "Media upload failed";
+      const message = err instanceof Error ? err.message : "Upload failed";
       setError(message);
       throw err;
     } finally {
-      setIsUploading(false);
+      setUploadCount((prev) => Math.max(0, prev - 1));
     }
   };
 
