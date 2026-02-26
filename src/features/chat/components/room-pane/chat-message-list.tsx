@@ -15,12 +15,19 @@ import { useParticipants } from "@/features/chat/hooks/use-participants";
 import { toParticipantPreviews } from "@/features/chat/utils/room.utils";
 import ErrorMessageList from "@/features/chat/components/chat-message-item/error-message-list";
 import { useChatTimeFormatter } from "@/features/chat/hooks/use-chat-time-formatter";
+import { ID_AMIN_AI } from "@/constants/ai.constant";
 
 type ChatMessageListProps = {
   activeRoomId: string | null;
+  isAI: boolean;
+  isAIThinking: boolean;
 };
 
-export function ChatMessageList({ activeRoomId }: ChatMessageListProps) {
+export function ChatMessageList({
+  activeRoomId,
+  isAI,
+  isAIThinking,
+}: ChatMessageListProps) {
   const { formatDateSeparator } = useChatTimeFormatter();
   const { messages, isLoading, error } = useMessages(activeRoomId);
 
@@ -29,6 +36,9 @@ export function ChatMessageList({ activeRoomId }: ChatMessageListProps) {
 
   const { participants: typingUsers } = useParticipants(typingIds);
   const typingUserPreviews = toParticipantPreviews(typingUsers);
+
+  const { participants: typingAI } = useParticipants(isAI ? [ID_AMIN_AI] : []);
+  const typingAIPreviews = toParticipantPreviews(typingAI);
 
   const { endRef } = useChatScroll([messages.length, isTyping]);
 
@@ -84,6 +94,10 @@ export function ChatMessageList({ activeRoomId }: ChatMessageListProps) {
 
         {isTyping && (
           <TypingIndicator typingUserPreviews={typingUserPreviews} />
+        )}
+
+        {isAIThinking && (
+          <TypingIndicator typingUserPreviews={typingAIPreviews} />
         )}
 
         <div ref={endRef} />
