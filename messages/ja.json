@@ -85,7 +85,11 @@
         "maxMediaReached": "最大 {max} ファイルまでです。",
         "invalidFileType": "{fileName}: 画像と動画のみ許可されています",
         "fileTooLarge": "{fileName} が {limit} の制限を超えています",
-        "uploadFailed": "{fileName} のアップロードに失敗しました。もう一度お試しください。"
+        "uploadFailed": "{fileName} のアップロードに失敗しました。もう一度お試しください。",
+        "ai": {
+          "mediaNotSupported": "AIはメディアメッセージに対応していません。",
+          "responseFailed": "AIの応答の取得に失敗しました。"
+        }
       },
       "noRoom": {
         "title": "会話を選択してください",

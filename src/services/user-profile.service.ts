@@ -14,6 +14,7 @@ import {
   createPrivateChat,
 } from "@/features/chat/services/room.service";
 import { sendMessage } from "@/features/chat/services/messages.service";
+import { ID_AMIN_AI, ID_FRONTEND_AI } from "@/constants/ai.constant";
 
 /**
  * =========================
@@ -61,20 +62,20 @@ export const syncUserProfile = async (user: User): Promise<UserProfile> => {
   if (existing) return existing;
   const newUser = await createUserProfile(user);
 
-  const newChat = await createPrivateChat("XE8HmiEmSPU1xUcjZFf2", newUser.uid);
+  const newChat = await createPrivateChat(ID_AMIN_AI, newUser.uid);
   await sendMessage({
     roomId: newChat,
     unreadParticipants: [newUser.uid],
     payload: {
       type: "text",
-      senderId: "XE8HmiEmSPU1xUcjZFf2",
+      senderId: ID_AMIN_AI,
       text: "Welcome to Tomosia! How can we assist you today?",
     },
   });
 
-  const newGroup = await createGroupChat("XE8HmiEmSPU1xUcjZFf2", [
-    "XE8HmiEmSPU1xUcjZFf2",
-    "3rOuFR1VMyNAJXf6nPY7",
+  const newGroup = await createGroupChat(ID_AMIN_AI, [
+    ID_AMIN_AI,
+    ID_FRONTEND_AI,
     newUser.uid,
   ]);
   await sendMessage({
@@ -82,7 +83,7 @@ export const syncUserProfile = async (user: User): Promise<UserProfile> => {
     unreadParticipants: [],
     payload: {
       type: "text",
-      senderId: "3rOuFR1VMyNAJXf6nPY7",
+      senderId: ID_FRONTEND_AI,
       text: "Hi! This is the Frontend team at Tomosia. Do you have any questions about this chat demo template?",
     },
   });

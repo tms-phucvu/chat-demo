@@ -1,3 +1,4 @@
+"use client";
 import { ChatInput } from "@/features/chat/components/room-pane/chat-input";
 import { ChatMessageList } from "@/features/chat/components/room-pane/chat-message-list";
 import { NoRoomSelected } from "@/features/chat/components/room-pane/no-room-selected";
@@ -5,7 +6,9 @@ import { ChatRoomHeader } from "@/features/chat/components/room-pane/chat-room-h
 import { useRoom } from "@/features/chat/hooks/use-room";
 import { useRoomPresence } from "@/features/chat/hooks/use-room-presence";
 import LoadingRoomSelected from "@/features/chat/components/room-pane/loading-room-selected";
-import ErrorRoomSelected from "../room-pane/error-room-selected";
+import ErrorRoomSelected from "@/features/chat/components/room-pane/error-room-selected";
+import { useCompletion } from "@ai-sdk/react";
+import { ID_AMIN_AI } from "@/constants/ai.constant";
 
 interface ChatRoomPaneProps {
   activeRoomId: string | null;
@@ -13,6 +16,10 @@ interface ChatRoomPaneProps {
 }
 
 export const ChatRoomPane = ({ activeRoomId, onBack }: ChatRoomPaneProps) => {
+  const { complete, isLoading: isAIThinking } = useCompletion({
+    api: "/api/chat",
+    streamProtocol: "text",
+  });
   const { room, isLoading, error } = useRoom(activeRoomId);
   const { usersInRoom } = useRoomPresence({
     roomId: activeRoomId,
@@ -23,17 +30,26 @@ export const ChatRoomPane = ({ activeRoomId, onBack }: ChatRoomPaneProps) => {
 
   if (error) return <ErrorRoomSelected error={error} />;
 
+  const isAI =
+    room.type === "private" && room.participants.includes(ID_AMIN_AI);
+
   return (
     <section className="bg-background/80 flex min-h-0 flex-col rounded-lg border">
       <ChatRoomHeader room={room} onBack={onBack} />
 
-      <ChatMessageList activeRoomId={activeRoomId} />
+      <ChatMessageList
+        activeRoomId={activeRoomId}
+        isAI={isAI}
+        isAIThinking={isAIThinking}
+      />
 
       <ChatInput
         room={room}
         activeRoomId={activeRoomId}
         usersInRoom={usersInRoom}
         disabled={!room}
+        isAI={isAI}
+        sendToAI={complete}
       />
     </section>
   );

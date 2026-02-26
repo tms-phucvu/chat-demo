@@ -22,12 +22,19 @@ import {
   MAX_VID,
 } from "@/features/chat/constants/chat.constants";
 import { useUploadMedia } from "@/features/chat/hooks/use-upload-media";
+import { CompletionRequestOptions } from "ai";
+import { ID_AMIN_AI } from "@/constants/ai.constant";
 
 type ChatInputProps = {
   room: ChatRoom | null;
   activeRoomId: string | null;
   usersInRoom: string[];
   disabled?: boolean;
+  isAI: boolean;
+  sendToAI: (
+    prompt: string,
+    options?: CompletionRequestOptions | undefined,
+  ) => Promise<string | null | undefined>;
 };
 
 export function ChatInput({
@@ -35,6 +42,8 @@ export function ChatInput({
   activeRoomId,
   usersInRoom,
   disabled,
+  isAI,
+  sendToAI,
 }: ChatInputProps) {
   const t = useTranslations("chat.roomPane.chatInput");
   const { user } = useAuth();
@@ -65,6 +74,10 @@ export function ChatInput({
     if (!activeRoomId || !uid) return;
 
     if (uploadedMedia.length > 0) {
+      if (isAI) {
+        toast.info(t("ai.mediaNotSupported"));
+        return;
+      }
       await send({
         roomId: activeRoomId,
         type: "media",
@@ -82,6 +95,20 @@ export function ChatInput({
         senderId: uid,
         unreadParticipants: unreadParticipants,
       });
+      if (isAI) {
+        const result = await sendToAI(value);
+        if (!result) {
+          toast.error(t("ai.responseFailed"));
+          return;
+        }
+        await send({
+          roomId: activeRoomId,
+          type: "text",
+          text: result,
+          senderId: ID_AMIN_AI,
+          unreadParticipants: unreadParticipants,
+        });
+      }
     }
     setValue("");
     setUploadedMedia([]);
@@ -209,7 +236,11 @@ export function ChatInput({
         <Button
           type="submit"
           size="sm"
-          disabled={disabled || isSending || (!value.trim() && uploadedMedia.length === 0)}
+          disabled={
+            disabled ||
+            isSending ||
+            (!value.trim() && uploadedMedia.length === 0)
+          }
           className="py-5 aspect-square"
         >
           <Send />

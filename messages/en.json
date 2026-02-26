@@ -85,7 +85,11 @@
         "maxMediaReached": "Maximum {max} files allowed.",
         "invalidFileType": "{fileName}: Only images and videos are allowed.",
         "fileTooLarge": "{fileName} exceeds the {limit} limit.",
-        "uploadFailed": "Failed to upload {fileName}. Please try again."
+        "uploadFailed": "Failed to upload {fileName}. Please try again.",
+        "ai": {
+          "mediaNotSupported": "AI does not support media messages.",
+          "responseFailed": "Failed to get AI response."
+        }
       },
       "noRoom": {
         "title": "Select a conversation to get started",
