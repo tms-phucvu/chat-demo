@@ -67,7 +67,7 @@ export function ChatInput({
     resumeRecording,
     stopRecording,
   } = useVoiceRecorder();
-  const { uploadRawFile: uploadVoice, isUploading: isUploadingVoice } =
+  const { uploadRawFile: uploadAudio, isUploading: isUploadingAudio } =
     useUploadFile();
 
   const unreadParticipants = (room?.participants ?? []).filter(
@@ -88,7 +88,7 @@ export function ChatInput({
     setValue((prev) => prev + emoji);
   };
 
-  // Handle media
+  // ----- Handle Media -----
   const handleImagePlusClick = () => {
     fileInputRef.current?.click();
   };
@@ -140,8 +140,8 @@ export function ChatInput({
     setUploadedMedia((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // Handle send message
-  const handleSendVoice = async ({
+  // ----- Handle Send Message -----
+  const handleSendAudio = async ({
     uid,
     activeRoomId,
   }: {
@@ -160,10 +160,10 @@ export function ChatInput({
     });
 
     try {
-      const result = await uploadVoice(file, activeRoomId);
+      const result = await uploadAudio(file, activeRoomId);
       await send({
         roomId: activeRoomId,
-        type: "text",
+        type: "audio",
         text: result.url,
         senderId: uid,
         unreadParticipants: unreadParticipants,
@@ -233,7 +233,7 @@ export function ChatInput({
 
     if (isRecording) {
       //Voice message
-      await handleSendVoice({ uid, activeRoomId });
+      await handleSendAudio({ uid, activeRoomId });
     } else if (uploadedMedia.length > 0) {
       //Media message
       await handleSendMedia({ uid, activeRoomId });
@@ -264,7 +264,7 @@ export function ChatInput({
 
       <VoiceRecordingControls
         isRecording={isRecording}
-        isUploading={isUploadingVoice}
+        isUploading={isUploadingAudio}
         seconds={seconds}
         isPaused={isPaused}
         onPause={pauseRecording}

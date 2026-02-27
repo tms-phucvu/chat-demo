@@ -64,7 +64,8 @@
       "roomItem": {
         "you": "あなた",
         "createdGroupMessage": "{sender}さんがグループを作成しました",
-        "sentMedia": "{sender} が {count} 件のメディアを送信"
+        "sentMedia": "{sender} が {count} 件のメディアを送信",
+        "sentAudio": "{sender}が音声メッセージを送信しました"
       },
       "emptyRoom": {
         "title": "会話はまだありません",

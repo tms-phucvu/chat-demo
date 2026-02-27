@@ -26,13 +26,26 @@ export function PrivateRoomItem({
   const status = presences[partnerId]?.status ?? "offline";
   const isMe = room.lastMessage?.senderId === uid;
 
-  const content = room.lastMessage?.text || "";
-  const lastMessagePreview = room.lastMessage?.attachments
-    ? t("sentMedia", {
-        sender: `${isMe ? t("you") : partner.name}`,
-        count: room.lastMessage.attachments.length,
-      })
-    : `${isMe ? t("you") + ": " : ""}${content}`;
+  const getLastMessagePreview = () => {
+    const msg = room.lastMessage;
+    if (!msg) return "";
+    const sender = isMe ? t("you") : (partner.name ?? "Unknown");
+
+    // Audio message
+    if (msg.type === "audio") {
+      return t("sentAudio", { sender });
+    }
+
+    // Media message
+    if (msg.type === "media" && msg.attachments?.length) {
+      return t("sentMedia", { sender, count: msg.attachments.length });
+    }
+
+    // Text or fallback
+    const content = msg.text || "";
+    return isMe ? `${sender}: ${content}` : content;
+  };
+  const lastMessagePreview = getLastMessagePreview();
 
   const title = (
     <p className="truncate text-sm font-medium">{partner.name ?? "Unknown"}</p>
@@ -51,7 +64,7 @@ export function PrivateRoomItem({
       room={room}
       uid={uid}
       avatar={avatar}
-      lastMessagePreview={lastMessagePreview ?? ""}
+      lastMessagePreview={lastMessagePreview}
     >
       {title}
     </ChatRoomItem>

@@ -1,7 +1,7 @@
 import { UploadMedia } from "@/types/cloudinary.types";
 import { FieldValue, Timestamp } from "firebase/firestore";
 
-export type MessageType = "text" | "system" | "media";
+export type MessageType = "text" | "system" | "media" | "audio";
 
 export interface LastMessage {
   text: string;
