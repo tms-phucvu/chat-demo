@@ -26,17 +26,35 @@ export function GroupRoomItem({ room, uid }: GroupRoomItemProps) {
     enabled: !isMe,
   });
 
-  const sender = isMe ? t("you") : (lastSender?.displayName ?? "Unknown");
-  const content = room.lastMessage?.text || "";
-  const lastMessagePreview = room.lastMessage?.attachments
-    ? t("sentMedia", {
-        sender: sender,
-        count: room.lastMessage.attachments.length,
-      })
-    : room.lastMessage?.type === "system" &&
-        room.lastMessage?.text === "created the group"
-      ? t("createdGroupMessage", { sender: sender ?? "Unknown" })
-      : `${sender}: ${content}`;
+  const getLastMessagePreview = () => {
+    const msg = room.lastMessage;
+    if (!msg) return "";
+    const sender = isMe ? t("you") : (lastSender?.displayName ?? "Unknown");
+
+    // Audio message
+    if (msg.type === "audio") {
+      return t("sentAudio", { sender });
+    }
+
+    // Media message
+    if (msg.attachments?.length) {
+      return t("sentMedia", {
+        sender,
+        count: msg.attachments.length,
+      });
+    }
+
+    // 3. System message
+    if (msg.type === "system" && msg.text === "created the group") {
+      return t("createdGroupMessage", { sender });
+    }
+
+    // 4. Text or fallback
+    const content = msg.text || "";
+    return `${sender}: ${content}`;
+  };
+
+  const lastMessagePreview = getLastMessagePreview();
 
   const title = (
     <p className="truncate text-sm font-medium">

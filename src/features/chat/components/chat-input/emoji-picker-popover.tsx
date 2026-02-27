@@ -22,10 +22,12 @@ const Picker = dynamic(() => import("@emoji-mart/react"), {
 });
 
 interface EmojiPickerPopoverProps {
+  disabled: boolean;
   onChange: (emoji: string) => void;
 }
 
 export default function EmojiPickerPopover({
+  disabled,
   onChange,
 }: EmojiPickerPopoverProps) {
   const locale = useLocale();
@@ -42,6 +44,7 @@ export default function EmojiPickerPopover({
           variant="ghost"
           size="icon"
           className="rounded-full hover:bg-gray-200 aspect-square"
+          disabled={disabled}
         >
           <SmilePlus size={20} />
         </Button>

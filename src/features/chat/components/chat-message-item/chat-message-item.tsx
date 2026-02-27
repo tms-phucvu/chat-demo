@@ -58,6 +58,7 @@ export function ChatMessageItem({
         className={cn(
           "max-w-1/2 space-y-1",
           message.type === "media" && "w-1/2",
+          message.type === "audio" && "max-w-4/5",
           isMe ? "items-end" : "items-start",
         )}
       >
@@ -69,7 +70,11 @@ export function ChatMessageItem({
               : "bg-muted text-foreground rounded-bl-sm",
           )}
         >
-          <p className="whitespace-pre-line wrap-break-word">{message.text}</p>
+          {message.type === "audio" ? (
+            <audio controls src={message.text} className=" rounded-lg"></audio>
+          ) : (
+            <p className="whitespace-pre-line wrap-anywhere">{message.text}</p>
+          )}
           {message.type === "media" && message.attachments && (
             <div
               className={cn(

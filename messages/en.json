@@ -64,7 +64,8 @@
       "roomItem": {
         "you": "You",
         "createdGroupMessage": "{sender} created the group",
-        "sentMedia": "{sender} sent {count, plural, one {# media file} other {# media files}}"
+        "sentMedia": "{sender} sent {count, plural, one {# media file} other {# media files}}",
+        "sentAudio": "{sender} sent an audio message"
       },
       "emptyRoom": {
         "title": "No conversations yet",
@@ -88,6 +89,7 @@
         "uploadFailed": "Failed to upload {fileName}. Please try again.",
         "ai": {
           "mediaNotSupported": "AI does not support media messages.",
+          "voiceNotSupported": "AI does not support voice messages.",
           "responseFailed": "Failed to get AI response."
         }
       },
