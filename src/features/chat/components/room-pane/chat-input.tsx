@@ -24,6 +24,9 @@ import {
 import { useUploadMedia } from "@/features/chat/hooks/use-upload-media";
 import { CompletionRequestOptions } from "ai";
 import { ID_AMIN_AI } from "@/constants/ai.constant";
+import { useVoiceRecorder } from "@/features/chat/hooks/use-voice-recorder";
+import { VoiceRecordingControls } from "@/features/chat/components/chat-input/voice-recording-controls";
+import { useUploadFile } from "@/features/chat/hooks/use-upload-file";
 
 type ChatInputProps = {
   room: ChatRoom | null;
@@ -51,9 +54,21 @@ export function ChatInput({
 
   const [value, setValue] = useState("");
   const { send, isSending } = useSendMessage();
-  const { uploadMedia, isUploading } = useUploadMedia();
+  const { uploadMedia, isUploadingMedia } = useUploadMedia();
   const [uploadedMedia, setUploadedMedia] = useState<UploadMedia[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const {
+    isRecording,
+    isPaused,
+    seconds,
+    startRecording,
+    pauseRecording,
+    resumeRecording,
+    stopRecording,
+  } = useVoiceRecorder();
+  const { uploadRawFile: uploadVoice, isUploading: isUploadingVoice } =
+    useUploadFile();
 
   const unreadParticipants = (room?.participants ?? []).filter(
     (participantId) =>
@@ -69,56 +84,11 @@ export function ChatInput({
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!activeRoomId || !uid) return;
-
-    if (uploadedMedia.length > 0) {
-      if (isAI) {
-        toast.info(t("ai.mediaNotSupported"));
-        return;
-      }
-      await send({
-        roomId: activeRoomId,
-        type: "media",
-        text: value.trim() || "",
-        senderId: uid,
-        unreadParticipants: unreadParticipants,
-        attachments: uploadedMedia,
-      });
-    } else {
-      if (!value.trim()) return;
-      await send({
-        roomId: activeRoomId,
-        type: "text",
-        text: value,
-        senderId: uid,
-        unreadParticipants: unreadParticipants,
-      });
-      if (isAI) {
-        const result = await sendToAI(value);
-        if (!result) {
-          toast.error(t("ai.responseFailed"));
-          return;
-        }
-        await send({
-          roomId: activeRoomId,
-          type: "text",
-          text: result,
-          senderId: ID_AMIN_AI,
-          unreadParticipants: unreadParticipants,
-        });
-      }
-    }
-    setValue("");
-    setUploadedMedia([]);
-    clearTyping(activeRoomId, uid);
-  };
-
   const handleEmojiSelect = (emoji: string) => {
     setValue((prev) => prev + emoji);
   };
 
+  // Handle media
   const handleImagePlusClick = () => {
     fileInputRef.current?.click();
   };
@@ -170,6 +140,110 @@ export function ChatInput({
     setUploadedMedia((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // Handle send message
+  const handleSendVoice = async ({
+    uid,
+    activeRoomId,
+  }: {
+    uid: string;
+    activeRoomId: string;
+  }) => {
+    if (isAI) {
+      toast.info(t("ai.voiceNotSupported"));
+      return;
+    }
+    const blob = await stopRecording();
+    if (!blob) return;
+
+    const file = new File([blob], "voice-message.webm", {
+      type: "audio/webm",
+    });
+
+    try {
+      const result = await uploadVoice(file, activeRoomId);
+      await send({
+        roomId: activeRoomId,
+        type: "text",
+        text: result.url,
+        senderId: uid,
+        unreadParticipants: unreadParticipants,
+      });
+    } catch {
+      toast.error("Upload audio failed");
+    }
+  };
+
+  const handleSendMedia = async ({
+    uid,
+    activeRoomId,
+  }: {
+    uid: string;
+    activeRoomId: string;
+  }) => {
+    if (isAI) {
+      toast.info(t("ai.mediaNotSupported"));
+      return;
+    }
+    await send({
+      roomId: activeRoomId,
+      type: "media",
+      text: value.trim() || "",
+      senderId: uid,
+      unreadParticipants: unreadParticipants,
+      attachments: uploadedMedia,
+    });
+    setUploadedMedia([]);
+  };
+
+  const handleSendText = async ({
+    uid,
+    activeRoomId,
+  }: {
+    uid: string;
+    activeRoomId: string;
+  }) => {
+    if (!value.trim()) return;
+    await send({
+      roomId: activeRoomId,
+      type: "text",
+      text: value,
+      senderId: uid,
+      unreadParticipants: unreadParticipants,
+    });
+    setValue("");
+    if (isAI) {
+      const result = await sendToAI(value);
+      if (!result) {
+        toast.error(t("ai.responseFailed"));
+        return;
+      }
+      await send({
+        roomId: activeRoomId,
+        type: "text",
+        text: result,
+        senderId: ID_AMIN_AI,
+        unreadParticipants: unreadParticipants,
+      });
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!activeRoomId || !uid) return;
+
+    if (isRecording) {
+      //Voice message
+      await handleSendVoice({ uid, activeRoomId });
+    } else if (uploadedMedia.length > 0) {
+      //Media message
+      await handleSendMedia({ uid, activeRoomId });
+    } else {
+      //Text message
+      await handleSendText({ uid, activeRoomId });
+    }
+    clearTyping(activeRoomId, uid);
+  };
+
   useEffect(() => {
     return () => {
       if (activeRoomId && uid) {
@@ -184,8 +258,21 @@ export function ChatInput({
         mediaItems={uploadedMedia}
         onRemove={removeMedia}
         onAddMore={handleImagePlusClick}
-        isUploading={isUploading}
+        isUploading={isUploadingMedia}
         maxItems={MAX_ALLOWED}
+      />
+
+      <VoiceRecordingControls
+        isRecording={isRecording}
+        isUploading={isUploadingVoice}
+        seconds={seconds}
+        isPaused={isPaused}
+        onPause={pauseRecording}
+        onResume={resumeRecording}
+        onStop={async () => {
+          const blob = await stopRecording();
+          if (!blob) return;
+        }}
       />
 
       <form
@@ -197,19 +284,22 @@ export function ChatInput({
             value={value}
             onChange={handleChange}
             placeholder={t("placeholder")}
-            disabled={disabled || isSending}
+            disabled={disabled || isSending || isRecording}
             className="p-5 pr-30"
           />
 
           <div className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center">
-            <EmojiPickerPopover onChange={handleEmojiSelect} />
+            <EmojiPickerPopover
+              disabled={isRecording}
+              onChange={handleEmojiSelect}
+            />
             <Button
               type="button"
               variant="ghost"
               size="icon-sm"
               className="rounded-full hover:bg-gray-300"
               onClick={handleImagePlusClick}
-              disabled={isUploading}
+              disabled={isUploadingMedia || isRecording}
             >
               <ImagePlus size={18} />
             </Button>
@@ -218,6 +308,12 @@ export function ChatInput({
               variant="ghost"
               size="icon-sm"
               className="rounded-full hover:bg-gray-300"
+              onClick={async () => {
+                await startRecording();
+              }}
+              disabled={
+                isRecording || isUploadingMedia || uploadedMedia.length > 0
+              }
             >
               <Mic size={18} />
             </Button>
@@ -239,7 +335,7 @@ export function ChatInput({
           disabled={
             disabled ||
             isSending ||
-            (!value.trim() && uploadedMedia.length === 0)
+            (!value.trim() && uploadedMedia.length === 0 && !isRecording)
           }
           className="py-5 aspect-square"
         >

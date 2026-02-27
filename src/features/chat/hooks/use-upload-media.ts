@@ -9,7 +9,7 @@ export const useUploadMedia = () => {
   const [uploadCount, setUploadCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
-  const isUploading = uploadCount > 0;
+  const isUploadingMedia = uploadCount > 0;
 
   const uploadMedia = async (
     file: File,
@@ -36,5 +36,5 @@ export const useUploadMedia = () => {
     }
   };
 
-  return { uploadMedia, isUploading, error };
+  return { uploadMedia, isUploadingMedia, error };
 };

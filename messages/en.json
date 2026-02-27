@@ -88,6 +88,7 @@
         "uploadFailed": "Failed to upload {fileName}. Please try again.",
         "ai": {
           "mediaNotSupported": "AI does not support media messages.",
+          "voiceNotSupported": "AI does not support voice messages.",
           "responseFailed": "Failed to get AI response."
         }
       },

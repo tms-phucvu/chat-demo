@@ -88,6 +88,7 @@
         "uploadFailed": "{fileName} のアップロードに失敗しました。もう一度お試しください。",
         "ai": {
           "mediaNotSupported": "AIはメディアメッセージに対応していません。",
+          "voiceNotSupported": "AIは音声メッセージに対応していません。",
           "responseFailed": "AIの応答の取得に失敗しました。"
         }
       },

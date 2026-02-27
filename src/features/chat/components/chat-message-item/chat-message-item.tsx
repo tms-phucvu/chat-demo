@@ -69,7 +69,7 @@ export function ChatMessageItem({
               : "bg-muted text-foreground rounded-bl-sm",
           )}
         >
-          <p className="whitespace-pre-line wrap-break-word">{message.text}</p>
+          <p className="whitespace-pre-line wrap-anywhere">{message.text}</p>
           {message.type === "media" && message.attachments && (
             <div
               className={cn(
