@@ -18,6 +18,14 @@ export const DOCS_SIDEBAR = [
             title: "Firebase Setup",
             url: "/docs/firebase",
           },
+          {
+            title: "Cloudinary Setup",
+            url: "/docs/cloudinary",
+          },
+          {
+            title: "AI Setup (Groq)",
+            url: "/docs/ai-groq",
+          },
         ],
       },
       {
