@@ -40,6 +40,8 @@ export const BREADCRUMB_MAP: Record<string, string> = {
   docs: "Docs",
   introduction: "Introduction",
   firebase: "Firebase Setup",
+  cloudinary: "Cloudinary Setup",
+  "ai-groq": "AI Setup (Groq)",
   "system-design": "System Design",
   "data-models": "Data Models",
   "chat-rooms": "Chat Rooms",
