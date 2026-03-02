@@ -36,6 +36,9 @@ export default function DocsPage() {
               <li>Online presence & in-room presence</li>
               <li>Typing indicators per room</li>
               <li>User search and invite flow</li>
+              <li>Media messages (images, video, audio) via Cloudinary</li>
+              <li>Emoji support in input using emoji-mart</li>
+              <li>AI assistant integration (Vercel <code className="rounded bg-muted px-1 py-0.5">groq</code> model)</li>
             </ul>
           </div>
         </section>
@@ -87,12 +90,28 @@ npm run dev`}</code>
 
           <p className="text-xs text-muted-foreground">
             For a detailed explanation of each step and how to setup Firebase,
-            see{" "}
-            <span className="font-medium">
-              Getting Started → Firebase Setup
-            </span>{" "}
-            in the sidebar.
+            see <span className="font-medium">Getting Started → Firebase Setup</span> in the sidebar.
+            For convenience, here is a consolidated example <code className="rounded bg-muted px-1 py-0.5">.env.local</code> that includes
+            Firebase, Cloudinary and GROQ API variables used by this template:
           </p>
+          <pre className="mt-2 overflow-x-auto rounded-lg bg-muted p-3 text-xs">
+            <code>
+              {`NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project-id.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project-id.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=xxxxxxxxxxxx
+NEXT_PUBLIC_FIREBASE_APP_ID=1:xxxxxxxxxxxx:web:xxxxxxxxxxxxxxxxxxxxxx
+NEXT_PUBLIC_FIREBASE_DATABASE_URL=https://your-project-id-default-rtdb.region.firebasedatabase.app
+
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
+NEXT_PUBLIC_CLOUDINARY_IMAGE_PRESET=unsigned_image_preset
+NEXT_PUBLIC_CLOUDINARY_VIDEO_PRESET=unsigned_video_preset
+NEXT_PUBLIC_CLOUDINARY_FILE_PRESET=unsigned_file_preset
+
+GROQ_API_KEY=your_groq_api_key`}
+            </code>
+          </pre>
         </section>
 
         <section className="space-y-3">
